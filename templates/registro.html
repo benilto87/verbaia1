@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>📝 Registrar - Verba IA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo1.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      width: 320px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2ECC40;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #27ae3f;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .link a {
+      color: #0074D9;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <form method="POST">
+    <h2>📝 Criar nova conta</h2>
+    
+    <label>Usuário:</label>
+    <input type="text" name="usuario" required>
+
+    <label>Senha:</label>
+    <input type="password" name="senha" required>
+
+    <label>Confirmar senha:</label>
+    <input type="password" name="confirmar_senha" required>
+
+    <button type="submit">Registrar</button>
+
+    <div class="link">
+      🔙 <a href="{{ url_for('login') }}">Voltar para o login</a>
+    </div>
+  </form>
+
+</body>
+</html>
+

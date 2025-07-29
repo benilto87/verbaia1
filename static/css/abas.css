@@ -1,0 +1,59 @@
+/* 🎨 ESTILO DOS BOTÕES DAS ABAS */
+.tab-button {
+  padding: 6px 12px;
+  margin: 0;
+  background-color: #f8f8f8;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.tab-button:hover {
+  background-color: #e0f7ff;
+  border-color: #88d2f0;
+}
+
+.tab-button.active {
+  background-color: #d0f0ff;
+  border-color: #1da1f2;
+  font-weight: bold;
+  color: #0c4a6e;
+}
+
+/* ➕ ESTILO DO BOTÃO DE NOVA ABA */
+#abas-container button:last-child {
+  background-color: #f0f0f0;
+  color: #444;
+  border: 2px dashed #aaa;
+}
+
+#abas-container button:last-child:hover {
+  background-color: #d0f0d0;
+  border-color: #66cc66;
+}
+
+/* ❌ ESTILO X DA ABA */
+
+.tab-button {
+  position: relative;
+  padding-right: 14px;
+}
+
+.tab-button .fechar-x {
+  position: absolute;
+  right: 6px;
+  top: 2px;
+  color: #444;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.tab-button .fechar-x:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
