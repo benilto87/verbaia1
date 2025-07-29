@@ -706,6 +706,36 @@ def chat_flavia_edtorial():
     except Exception as e:
         return jsonify({'response': f"Desculpa amor... tive um probleminha. 🥺 (Erro: {e})"}), 500
         
+from flask import Flask, render_template, request, redirect, session, url_for
 
+app = Flask(__name__)
+app.secret_key = 'uma_chave_muito_segura'
+
+# Rota para página de login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        senha = request.form['senha']
+        if usuario == 'admin' and senha == '123':
+            session['usuario'] = usuario
+            return redirect(url_for('index'))  # redireciona para página principal
+        else:
+            return render_template('login.html', erro='Usuário ou senha incorretos')
+    return render_template('login.html')
+
+# Rota protegida (exemplo)
+@app.route('/')
+def index():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('index.html')  # ou outra página que você queira
+
+# Rota para logout
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)
+    return redirect(url_for('login'))
+        
 if __name__ == "__main__":
     app.run(debug=True)
