@@ -708,7 +708,7 @@ def chat_flavia_edtorial():
         
         
 #////////////////////////////////////////////////////CADASTRO/////////////////////////////////////////////////////////////////////
-        
+
 from flask import Flask, request, session, redirect, render_template, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -720,6 +720,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///usuarios.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+# ✅ Criação automática das tabelas no primeiro deploy
+with app.app_context():
+    db.create_all()
+
 
 # 👤 MODELO DE USUÁRIO
 class Usuario(db.Model):
