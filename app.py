@@ -721,11 +721,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# ✅ Criação automática das tabelas no primeiro deploy
-with app.app_context():
-    db.create_all()
-
-
 # 👤 MODELO DE USUÁRIO
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -737,6 +732,10 @@ class Usuario(db.Model):
 
     def verificar_senha(self, senha):
         return check_password_hash(self.senha_hash, senha)
+
+# ✅ Criação automática das tabelas — FUNCIONA no Render
+with app.app_context():
+    db.create_all()
 
 # 🏠 ROTA PRINCIPAL
 @app.route("/")
