@@ -3,8 +3,8 @@
 
 #chat-panel {
   position: fixed;
-  bottom: 37px;
-  right: 52px;
+  bottom: 52px;
+  right: 16px;
   width: 452px;
   max-height: 820px;
   background: rgba(26, 26, 27, 0.96);

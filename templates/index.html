@@ -14,6 +14,11 @@
     <button type="submit" class="botao-sair">Sair 🚪</button>
 </form>
 
+<div id="busca-local" style="display:none;">
+  <input type="text" id="inputBusca" placeholder="Buscar..." oninput="destacarBusca()" style="padding:4px;">
+  <button onclick="fecharBusca()">✖</button>
+</div>
+
    <h1>👁‍🗨 VERBA IA...</h1>
 
     <div id="toolbar">
@@ -55,6 +60,7 @@
   <input type="file" id="fileInput" accept=".txt" onchange="loadFromFile(event)" style="display: none;">
   <button class="toolbar-button" onclick="undo()" title="Desfazer">↺</button>
   <button class="toolbar-button" onclick="redo()" title="Refazer">↻</button>
+  <button class="toolbar-button" onclick="abrirBusca()" title="Busca interna">🔍</button>
   <button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="copyText()" title="Copiar Texto">📋</button> 
   <button class="toolbar-button botao-modificavel" onclick="cleanSymbols()" title="Limpar Símbolos">🧹</button>
 </div>

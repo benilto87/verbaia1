@@ -309,7 +309,7 @@ h1 {
   padding: 0;
 }
 
-/* BOTÃO SAIR ********************************************************************************* */
+/* BOTÃO SAIR ********************* BOTÃO SAIR ***************************** BOTÃO SAIR ******************************* */
 .botao-sair {
 	position: fixed;
     bottom: 10px;
@@ -327,6 +327,56 @@ h1 {
 .botao-sair:hover {
     background-color: #e60000;
 }
+
+/* 🔍  BOTÃO BUSCA 🔍  ******************************** 🔍  BOTÃO BUSCA 🔍 ************************************************ */
+#busca-local {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f5f5f5;
+  padding: 6px 10px; /* TAMANHO DA JANELA */
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#inputBusca {
+  padding: 1px 1px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  width: 180px;
+  background-color: #f8f8f8;
+  color: #222;
+  box-shadow: inset 0 0 0 0px #111;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+#inputBusca:focus {
+  box-shadow: inset 0 0 0 0px #f5f5f5; /* COR BORDA DO IMPUT */
+  outline: none;
+}
+
+#busca-local button {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  padding: 1px;
+  color: #555;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
+}
+
+#busca-local button:hover {
+  background: #e0e0e0;
+}
+
 
 
 

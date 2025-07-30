@@ -162,12 +162,11 @@ function aumentarFonte() {
   const selectedText = range.toString();
   if (!selectedText.trim()) return;
 
-  // Cria span com estilo maior
   const span = document.createElement("span");
   span.style.fontSize = "1.4em";
+  span.style.lineHeight = "1.4em"; // Reduz impacto visual
   span.textContent = selectedText;
 
-  // Substitui conteúdo selecionado
   range.deleteContents();
   range.insertNode(span);
 
@@ -179,29 +178,75 @@ function aumentarFonte() {
 }
 
 // DIMINUIR TAMANHO DA FONTE "A-" ***************************************************************************************************
-function diminuirFonte() {
+function diminuirFonte()  {
   const selection = window.getSelection();
   if (!selection.rangeCount) return;
 
   const range = selection.getRangeAt(0);
-  const selectedText = range.toString();
-  if (!selectedText.trim()) return;
+  const container = range.startContainer;
 
-  // Cria um span e aplica tamanho padrão menor
-  const span = document.createElement("span");
-  span.textContent = selectedText;
-  span.style.fontSize = "0.8em"; // ou "smaller" se preferir efeito relativo
+  let span = container.nodeType === 3 ? container.parentNode : container; // 3 = Text Node
 
-  // Substitui conteúdo da seleção pelo span
-  range.deleteContents();
-  range.insertNode(span);
+  // Verifica se é um <span> com estilo de fonte aplicado
+  if (span.tagName === "SPAN" && span.style.fontSize) {
+    const texto = span.textContent;
+    const textNode = document.createTextNode(texto);
+    span.replaceWith(textNode);
 
-  // Mantém a seleção ativa
-  const novaSelecao = document.createRange();
-  novaSelecao.selectNodeContents(span);
-  selection.removeAllRanges();
-  selection.addRange(novaSelecao);
+    // Restaura a seleção
+    const novaSelecao = document.createRange();
+    novaSelecao.selectNodeContents(textNode);
+    selection.removeAllRanges();
+    selection.addRange(novaSelecao);
+  } else {
+    console.log("⚠️ Nenhum span com fonte detectado.");
+  }
 }
+
+/* 🔍  BOTÃO BUSCA 🔍  ******************************** 🔍  BOTÃO BUSCA 🔍 ************************************************ */
+
+function abrirBusca() {
+  document.getElementById("busca-local").style.display = "block";
+  document.getElementById("inputBusca").focus();
+}
+
+function fecharBusca() {
+  document.getElementById("busca-local").style.display = "none";
+  limparDestaques();
+}
+
+function destacarBusca() {
+  const termo = document.getElementById("inputBusca").value;
+  const editor = document.getElementById("editor");
+
+  limparDestaques();
+
+  if (termo.length >= 1) {
+    const regex = new RegExp(`(${termo})`, "gi");
+    editor.innerHTML = editor.innerHTML.replace(regex, `<mark>$1</mark>`);
+  }
+}
+
+function limparDestaques() {
+  const editor = document.getElementById("editor");
+  editor.innerHTML = editor.innerHTML.replace(/<mark>(.*?)<\/mark>/gi, "$1");
+}
+
+// 🔍 Atalhos de teclado
+document.addEventListener("keydown", function (e) {
+  // Ctrl + L → abrir busca
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
+    e.preventDefault(); // evita conflito com o navegador
+    abrirBusca();
+  }
+
+  // Esc → fechar busca
+  if (e.key === "Escape") {
+    fecharBusca();
+  }
+});
+
+// 🔍 ***************************************************************************************************************
 
 // ✅ Carrega a primeira aba automaticamente ao abrir
 document.addEventListener("DOMContentLoaded", () => {
@@ -289,11 +334,63 @@ function loadFromFile(event) {
 }
 
  // ADIANTAR E VOLTAR 📋 *****************************************************************************************************
+ // ADIANTAR E VOLTAR 📋 *****************************************************************************************************
+let undoStack = [];
+let redoStack = [];
+let ultimoSalvo = "";
+let tempoEspera;
+const editor = document.getElementById('editor');
+
+// Estado inicial
+window.addEventListener('load', () => {
+  ultimoSalvo = editor.innerHTML;
+  undoStack.push(ultimoSalvo);
+});
+
+// Salva após pausa ou caractere-chave
+editor.addEventListener('input', () => {
+  clearTimeout(tempoEspera);
+  const atual = editor.innerHTML;
+
+  // Se digitar ponto, enter ou travessão, salva imediatamente
+  if (atual.endsWith('.') || atual.endsWith('!') || atual.endsWith('?') || atual.includes('<div>') || atual.includes('—')) {
+    salvarEstado(atual);
+  } else {
+    // Senão, aguarda 1.5 segundos antes de salvar
+    tempoEspera = setTimeout(() => salvarEstado(atual), 700);
+  }
+});
+
+function salvarEstado(conteudo) {
+  if (conteudo !== ultimoSalvo) {
+    undoStack.push(conteudo);
+    if (undoStack.length > 50) undoStack.shift();  // Limita a 50
+    redoStack = [];
+    ultimoSalvo = conteudo;
+  }
+}
+
+function undo() {
+  if (undoStack.length > 1) {
+    const atual = undoStack.pop();
+    redoStack.push(atual);
+    const anterior = undoStack[undoStack.length - 1];
+    editor.innerHTML = anterior;
+    ultimoSalvo = anterior;
+  }
+}
+
+function redo() {
+  if (redoStack.length > 0) {
+    const estado = redoStack.pop();
+    undoStack.push(estado);
+    editor.innerHTML = estado;
+    ultimoSalvo = estado;
+  }
+}
 
 
-
-
-    // COPIAR TEXTO 📋 *****************************************************************************************************
+// COPIAR TEXTO 📋 *****************************************************************************************************
 // COPIAR TEXTO 📋 *****************************************************************************************************
 function copyText() {
   const editor = document.getElementById("editor");
