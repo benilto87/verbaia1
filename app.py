@@ -4,7 +4,7 @@ import os
 load_dotenv()
 
 print("CHAVE LIDA:", os.getenv("OPENAI_API_KEY"))
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, session, url_for
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -26,9 +26,35 @@ flavia_persona = load_persona('prompts/flavia.txt')
 
 
 app = Flask(__name__)
+app.secret_key = 'uma_chave_muito_segura'  # Necessário para uso de sessão
+
+from datetime import timedelta
+app.permanent_session_lifetime = timedelta(minutes=1)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    erro = None
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        senha = request.form['senha']
+        if usuario == 'admin' and senha == '123':
+            if usuario == 'admin' and senha == '123':
+                session.permanent = True  # Sessão terá tempo de expiração
+                session['logado'] = True
+                return redirect(url_for('index'))
+        else:
+            erro = 'Usuário ou senha inválidos'
+    return render_template('login.html', erro=erro)
+
+@app.route('/logout')
+def logout():
+    session.pop('logado', None)
+    return redirect(url_for('login'))
 
 @app.route('/')
 def index():
+    if not session.get('logado'):
+        return redirect(url_for('login'))
     return render_template('index.html')
 
 @app.route('/numberprocess', methods=['POST'])

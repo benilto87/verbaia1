@@ -19,9 +19,11 @@ body {
 
 h1 {
     font-size: 2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     color: var(--primary);
 }
+
+/* BOTÕES DO SISTEMA ************************************************** */
 
 #toolbar {
     display: flex;
@@ -306,6 +308,26 @@ h1 {
   background: transparent;
   padding: 0;
 }
+
+/* BOTÃO SAIR ********************************************************************************* */
+.botao-sair {
+	position: fixed;
+    bottom: 10px;
+    left: 12px;
+    color: black;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease;
+}
+
+.botao-sair:hover {
+    background-color: #e60000;
+}
+
 
 
 
