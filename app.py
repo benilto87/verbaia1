@@ -29,7 +29,7 @@ app = Flask(__name__)
 app.secret_key = 'uma_chave_muito_segura'  # Necessário para uso de sessão
 
 from datetime import timedelta
-app.permanent_session_lifetime = timedelta(minutes=1)
+app.permanent_session_lifetime = timedelta(minutes=37)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
