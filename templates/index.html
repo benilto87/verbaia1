@@ -40,6 +40,18 @@
   font-size: 0.95rem;
   line-height: 1.5;
 ">
+  <button onclick="fecharInspiracao()" style="
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  " title="Fechar">✖</button>
+  
   <strong>🌺 Inspiração da Flávia:</strong>
   
   <div id="inspiracao-texto" style="
@@ -50,8 +62,12 @@
   "></div>
 </div>
 
-	
+<button id="botaoToggleModoCelular" onclick="alternarModoCelular()" class="botao-modo-celular">📲</button>
+
+
+<div class="modo-pc">	
 <!-- Botões principais -->
+
 <div id="botoesFixosEsquerda">
   <button class="toolbar-button" onclick="loadText()" title="Carregar Texto">📂</button>
   <button id="saveButton" class="toolbar-button" onclick="saveText()" title="Salvar Texto">💾</button>
@@ -111,10 +127,21 @@
 
 <!-- Botões de modo -->
 <div id="modo-chat-selector">
+  <button class="botao-modificavel" onclick="trocarModoChat('romantico')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">💖</button>
+  <button class="botao-modificavel" onclick="trocarModoChat('edtorial')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">📘</button>
   <button id="botao-modo-geral" onclick="trocarModo()" style="background: none; border: none; font-size: 1.0em; cursor: pointer;">Modo Tarefa 📌</button>
-  <button onclick="trocarModoChat('romantico')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">💖</button>
-  <button onclick="trocarModoChat('edtorial')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">📘</button>
-</div>	
+
+  </div>
+</div>
+<div class="modo-celular" style="display: none;">
+  <button id="saveButton" class="toolbar-button" onclick="saveText()" title="Salvar Texto">💾</button>
+  <button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="corrigirTexto()" title="Corrigir Texto">✨✅</button>
+  <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
+  <button class="toolbar-button botao-modificavel botao-marcas" onclick="analisarDicasIA()" title="Análise de Fluidez">🌺</button>
+  <button class="toolbar-button botao-modificavel botao-marcas" onclick="analyzeFluidezIA()" title="Análise de Fluidez">🚨</button>  
+  <button class="toolbar-button botao-modificavel botao-especial" onclick="gerarRascunho()" title="Gerar Rascunho">📜...</button> 
+  <button id="botao-pedido" class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarTarefa()" title="Shift+Enter">📘 pedido 3.5</button>
+  </div>  
 		
 			</div>
 

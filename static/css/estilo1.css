@@ -328,6 +328,38 @@ h1 {
     background-color: #e60000;
 }
 
+/* MODO CELULAR ********************* MODO CELULAR ***************************** MODO CELULAR ******************************* */
+
+.botao-modo-celular {
+	position: fixed;
+    bottom: 10px;
+    left: 100px;
+    color: black;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease;
+
+.botao-modo-celular:hover {
+    background-color: #e60000;
+}
+
+.botao-modo-tarefa {
+  position: fixed;
+  top: 10px;
+  right: 60px;
+  background: none;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  z-index: 999;
+}
+
+
+
 /* 🔍  BOTÃO BUSCA 🔍  ******************************** 🔍  BOTÃO BUSCA 🔍 ************************************************ */
 #busca-local {
   display: none;

@@ -87,7 +87,7 @@
 
 #chat-log p {
   margin-bottom: 10px;
-  background: none !important;       /* 🔥 remove o fundo marrom */
+  background: rgba(255, 255, 255, 0.0);       /* 🔥 remove o fundo marrom ou > background: none !important; > para voltar ao efeito vidro no romantico */
   color: #e0e0e0;                    /* cor clara padrão */
   font-weight: 400;                  /* leveza */
 }
