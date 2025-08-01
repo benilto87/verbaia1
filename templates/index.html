@@ -64,15 +64,15 @@
 	
 <!-- Botões principais -->
 <div id="botoesFixosEsquerda">
-  <button class="toolbar-button botao-modificavel" onclick="loadText()" title="Carregar Texto">📂</button>
-  <button id="saveButton" class="toolbar-button botao-modificavel" onclick="saveText()" title="Salvar Texto">💾</button>
-  <button class="toolbar-button botao-modificavel" onclick="saveAsFile()" title="Salvar como Arquivo">📤</button>
-  <button class="toolbar-button botao-modificavel" onclick="document.getElementById('fileInput').click()" title="Abrir Arquivo">📥</button>
+  <button class="toolbar-button botao-fixo-tarefa" onclick="loadText()" title="Carregar Texto">📂</button>
+  <button id="saveButton" class="toolbar-button botao-fixo-tarefa" onclick="saveText()" title="Salvar Texto">💾</button>
+  <button class="toolbar-button botao-fixo-tarefa" onclick="saveAsFile()" title="Salvar como Arquivo">📤</button>
+  <button class="toolbar-button botao-fixo-tarefa" onclick="document.getElementById('fileInput').click()" title="Abrir Arquivo">📥</button>
   <input type="file" id="fileInput" accept=".txt" onchange="loadFromFile(event)" style="display: none;">
-  <button class="toolbar-button botao-modificavel" onclick="undo()" title="Desfazer">↺</button>
-  <button class="toolbar-button botao-modificavel" onclick="redo()" title="Refazer">↻</button>
-  <button class="toolbar-button botao-modificavel" onclick="abrirBusca()" title="Busca interna">🔍</button>
-  <button class="toolbar-button botao-modificavel" onclick="cleanSymbols()" title="Limpar Símbolos">🧹</button>
+  <button class="toolbar-button botao-fixo-tarefa" onclick="undo()" title="Desfazer">↺</button>
+  <button class="toolbar-button botao-fixo-tarefa" onclick="redo()" title="Refazer">↻</button>
+  <button class="toolbar-button botao-fixo-tarefa" onclick="abrirBusca()" title="Busca interna">🔍</button>
+  <button class="toolbar-button botao-fixo-tarefa" onclick="cleanSymbols()" title="Limpar Símbolos">🧹</button>
 </div>
 
 
@@ -89,7 +89,7 @@
 <button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="copyText()" title="Copiar Texto">📋</button> 
 
 <!-- Botões de numeração e marcas -->
-<button class="toolbar-button botao-modificavel" onclick="numberSentences()" title="Numerar Frases">#</button>
+<button class="toolbar-button botao-fixo-tarefa" onclick="numberSentences()" title="Numerar Frases">#</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy4()" title="Numerar por blocos de 4 frases">#4</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="removeNumbering()" title="Remover Numeração">⌫ #</button>
@@ -104,8 +104,8 @@
 
 <!-- Botões da Flávia -->
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia()" title="Inspiração da Flávia">👁‍🗨</button>		
-<button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia2()" title="Reflexão da Flávia">💡</button>
-<button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia3()" title="Leitora Virtual">👸</button>
+<button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia2()" title="Reflexão da Flávia">💡</button>
+<button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia3()" title="Leitora Virtual">👸</button>
 <button class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarRascunho()" title="Gerar Rascunho">📜...</button>
 
 <!-- Pedido IA -->

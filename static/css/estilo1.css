@@ -145,7 +145,6 @@ h1 {
     max-height: 580px;
     overflow-y: auto;
     position: relative;
-    /* Adicionado para transições de altura suave */
     transition: max-height 0.3s ease-out; 
 }
 
@@ -159,15 +158,13 @@ h1 {
 
 /* SENTENCE / COMENTÁRIOS  ******************************************************************************************* */
 
-/* REFAZENDO O LAYOUT COM FLEXBOX PARA MAIOR RESPONSIVIDADE */
 .sentence-group {
     margin-bottom: 1rem;
     padding: 0.5rem;
     transition: background-color 0.2s ease;
     border-radius: 6px;
-    /* NOVO: Usa Flexbox para um alinhamento mais flexível */
     display: flex; 
-    align-items: flex-start; /* Alinha o número no topo da linha */
+    align-items: flex-start;
 }
 
 .sentence-group:hover {
@@ -180,21 +177,19 @@ h1 {
     margin-right: 1rem;
     border-right: 2px solid var(--border-color);
     padding-right: 1rem;
-    /* Removido o float e a largura fixa para flexibilidade */
-    flex-shrink: 0; /* Impede que o número diminua */
-    width: 3rem; /* Tamanho em 'rem' para ser mais consistente com o tamanho da fonte */
+    flex-shrink: 0;
+    width: 3rem;
     text-align: right;
     line-height: 1.7;
     user-select: none;
 }
 
 .text-group {
-    /* Ocupa o restante do espaço disponível */
     flex-grow: 1; 
     min-height: 1.7em;
     outline: none;
     line-height: 1.7;
-    padding-left: 5px; /* Pequeno ajuste */
+    padding-left: 5px;
 }
 
 .scene-marker,
@@ -211,8 +206,6 @@ h1 {
     margin-right: 8px;
     vertical-align: middle;
 }
-/* Removido `clear: both;` pois não é necessário com Flexbox */
-
 
 .scene-marker {
     color: var(--accent);
@@ -235,7 +228,6 @@ h1 {
     border-left: 3px solid var(--highlight);
 }
 
-
 #loading-simbol {
     text-align: center;
     font-style: italic;
@@ -252,7 +244,6 @@ h1 {
 
 /* CHAT BOTÕES E POSICIONAMENTO ********************************************************************************************** */
 
-/* Posicionamento adaptável para desktops */
 #modo-chat-selector {
   position: fixed;
   top: 10px;
@@ -377,14 +368,14 @@ h1 {
     }
 
     .toolbar-button {
-        flex-grow: 1; /* Faz com que os botões se expandam para preencher o espaço */
+        flex-grow: 1;
         font-size: 0.75rem;
         padding: 0.5rem 0.8rem;
     }
 
     /* Otimizando o contêiner do editor para celulares */
     .editor-container {
-        max-height: 40vh; /* Altura ajustada para não ocupar toda a tela */
+        max-height: 40vh;
         min-height: 200px;
         padding: 0.8rem;
     }
@@ -413,23 +404,24 @@ h1 {
         display: none;
     }
     #botoesFixosEsquerda {
-        -ms-overflow-style: none; /* IE e Edge */
-        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 
     /* Ocultando botões extras se necessário em telas menores */
     .toolbar-button.hide-on-mobile {
         display: none;
     }
-    
+  
+/* TIRE ESSA PARTE PARA VOLTAR COM OS BOTÕES SELEÇÃO DE MODO NA VERSÃO DE CELULAR */
+  
     /* Reposicionando o seletor de chat para evitar sobreposição */
     #modo-chat-selector {
-        top: 1rem;
-        right: 1rem;
-        display: flex;
-        gap: 0.5rem;
+        display: none;
     }
     
+/* TIRE ESSA PARTE PARA VOLTAR COM OS BOTÕES SELEÇÃO DE MODO NA VERSÃO DE CELULAR */	
+	
     /* Ajustes para o botão de busca */
     #busca-local {
         top: 1rem;
@@ -442,15 +434,13 @@ h1 {
         width: 100%;
     }
 
-    /* Ocultando o botão de sair no canto inferior esquerdo para melhor aproveitamento da tela */
+    /* --- NOVO: OCULTA O BOTÃO SAIR NA VERSÃO MOBILE --- */
     .botao-sair {
-        position: static;
-        margin-top: 1rem;
-        width: 100%;
-        text-align: center;
+        display: none;
+    }
+    
+    /* NOVO: Oculta o chat na versão mobile */
+    .chat-panel {
+      display: none;
     }
 }
-
-
-
-
