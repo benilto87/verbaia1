@@ -1,3 +1,10 @@
+/*
+ * Versão atualizada do CSS com melhorias de responsividade.
+ * O layout foi otimizado para funcionar bem em desktops e celulares.
+ * As principais mudanças estão no uso de media queries e na refatoração
+ * do layout dos blocos de texto para usar Flexbox, que é mais robusto.
+ */
+
 :root {
     --bg: #fdfdfd;
     --primary: #2c3e50; /* Cor primária */
@@ -56,78 +63,74 @@ h1 {
     transform: scale(0.98);
 }
 
-/* BOTÃO AMARELO ******************************************************************************************* */
+/* CLASSES DE BOTÕES ESPECÍFICAS (sem alterações) */
 .botao-amarelo {
-  background-color: #8FBC8F;      /* dourado mais fechado */
-  color: #xxff99;                 /* marrom-dourado escuro elegante */
-  border: 1px solid #c7a94e;      /* borda mais terrosa */
+  background-color: #8FBC8F;
+  color: #xxff99;
+  border: 1px solid #c7a94e;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3); /* sombra mais escura */
+  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
 }
 
 .botao-amarelo:hover {
-  background-color: #e6c678;      /* dourado mais vibrante no hover */
-  color: #3a2400;                 /* marrom quase preto */
+  background-color: #e6c678;
+  color: #3a2400;
   border-color: #b8942f;
 }
 
-/* BOTÃO MARCAÇÕES ******************************************************************************************* */
 .botao-marcas {
-  background-color: #20B2AA;      /* dourado mais fechado */
-  color: #4a2f00;                 /* marrom-dourado escuro elegante */
-  border: 1px solid #c7a94e;      /* borda mais terrosa */
+  background-color: #20B2AA;
+  color: #4a2f00;
+  border: 1px solid #c7a94e;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3); /* sombra mais escura */
+  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
 }
 
 .botao-marcas:hover {
-  background-color: #e6c678;      /* dourado mais vibrante no hover */
-  color: #3a2400;                 /* marrom quase preto */
+  background-color: #e6c678;
+  color: #3a2400;
   border-color: #b8942f;
 }
 
-/* BOTÃO ESPECIAL ******************************************************************************************* */
 .botao-especial {
-  background-color: #F08080;      /* dourado mais fechado */
-  color: #4a2f00;                 /* marrom-dourado escuro elegante */
-  border: 1px solid #c7a94e;      /* borda mais terrosa */
+  background-color: #F08080;
+  color: #4a2f00;
+  border: 1px solid #c7a94e;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3); /* sombra mais escura */
+  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
 }
 
 .botao-especial:hover {
-  background-color: #e6c678;      /* dourado mais vibrante no hover */
-  color: #3a2400;                 /* marrom quase preto */
+  background-color: #e6c678;
+  color: #3a2400;
   border-color: #b8942f;
 }
 
-/* BOTÃO TURQUESA ******************************************************************************************* */
 .botao-turquesa {
-  background-color: #00DED1;      /* dourado mais fechado */
-  color: #4a2f00;                 /* marrom-dourado escuro elegante */
-  border: 1px solid #c7a94e;      /* borda mais terrosa */
+  background-color: #00DED1;
+  color: #4a2f00;
+  border: 1px solid #c7a94e;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3); /* sombra mais escura */
+  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
 }
 
 .botao-turquesa:hover {
-  background-color: #e6c678;      /* dourado mais vibrante no hover */
-  color: #3a2400;                 /* marrom quase preto */
+  background-color: #e6c678;
+  color: #3a2400;
   border-color: #b8942f;
 }
 
-/* BOTÃO DOURADO ******************************************************************************************* */
 .botao-dourado {
-  background-color: #f2db9c;      /* dourado mais fechado */
-  color: #4a2f00;                 /* marrom-dourado escuro elegante */
-  border: 1px solid #c7a94e;      /* borda mais terrosa */
+  background-color: #f2db9c;
+  color: #4a2f00;
+  border: 1px solid #c7a94e;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3); /* sombra mais escura */
+  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
 }
 
 .botao-dourado:hover {
-  background-color: #e6c678;      /* dourado mais vibrante no hover */
-  color: #3a2400;                 /* marrom quase preto */
+  background-color: #e6c678;
+  color: #3a2400;
   border-color: #b8942f;
 }
 
@@ -139,31 +142,29 @@ h1 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.04);
     padding: 1rem;
     min-height: 300px;
-    max-height: 580px; /* Tamanho fixo da área */
-    overflow-y: auto; /* Habilita a rolagem vertical */
-    position: relative; /* Para o resize handle */
+    max-height: 580px;
+    overflow-y: auto;
+    position: relative;
+    transition: max-height 0.3s ease-out; 
 }
 
 #editor {
     width: 100%;
-    height: 100%; /* Ocupa a altura total do editor-container */
+    height: 100%;
     font-size: 1rem;
     line-height: 1.7;
-    outline: none; /* Remove outline padrão */
+    outline: none;
 }
 
-*/ SENTENCE / COMENTÁRIOS  ******************************************************************************************* */
+/* SENTENCE / COMENTÁRIOS  ******************************************************************************************* */
 
-/* O PRÓPRIO .sentence-group PRECISA ENVOLVER TUDO para as marcações funcionarem */
 .sentence-group {
     margin-bottom: 1rem;
     padding: 0.5rem;
     transition: background-color 0.2s ease;
     border-radius: 6px;
-    /* Usa float para o número e overflow:hidden para o text-group */
-    /* ou display: flex para a versão mais moderna, mas você não queria JS */
-    /* Vamos tentar com float e ver se funciona com seu JS existente */
-    display: flow-root; /* Limpa floats internos, evita precisar de um clearfix extra */
+    display: flex; 
+    align-items: flex-start;
 }
 
 .sentence-group:hover {
@@ -176,41 +177,34 @@ h1 {
     margin-right: 1rem;
     border-right: 2px solid var(--border-color);
     padding-right: 1rem;
-    display: block; /* Mudei para block para poder definir width */
-    float: left; /* Flutua o número para a esquerda */
-    width: 50px; /* Largura fixa para o número */
+    flex-shrink: 0;
+    width: 3rem;
     text-align: right;
-    line-height: 1.7; /* Para alinhar com o line-height do texto */
-    user-select: none; /* Impede que o número seja selecionado ao arrastar */
+    line-height: 1.7;
+    user-select: none;
 }
 
 .text-group {
-    /* Este elemento agora conterá tanto o texto editável quanto as anotações */
-    /* Se o .number-marker flutua, este contêiner precisa se ajustar */
-    overflow: hidden; /* Isso fará com que o .text-group crie um novo BFC e contenha o float */
-    min-height: 1.7em; /* Garante altura mínima para ser clicável/editável */
-    outline: none; /* Remove outline padrão */
-    line-height: 1.7; /* Mantém a altura da linha consistente */
-    padding-left: 5px; /* Pequeno ajuste para o início do texto */
+    flex-grow: 1; 
+    min-height: 1.7em;
+    outline: none;
+    line-height: 1.7;
+    padding-left: 5px;
 }
 
-/* As anotações devem ser filhos diretos de .text-group (se seu JS as coloca lá) */
-/* e precisam ser display: block para ficarem em sua própria linha ou display: flex para lado a lado */
 .scene-marker,
 .processed-symbol,
 .processed-comment {
-    display: inline-flex; /* Permite que o conteúdo interno (ícone + texto) se alinhe */
-    align-items: center; /* Alinha verticalmente ícone e texto */
-    gap: 4px; /* Espaço entre ícone e texto */
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     padding: 4px 8px;
     border-radius: 4px;
     font-weight: 500;
     font-size: 0.85rem;
-    margin-top: 8px; /* Espaço acima das anotações */
-    margin-right: 8px; /* Espaço entre as anotações quando wrappam */
-    vertical-align: middle; /* Para garantir alinhamento se for inline-flex */
-    /* Adicionei isso para garantir que fiquem abaixo do texto, mas dentro do text-group */
-    clear: both; /* Assegura que inicie em nova linha após qualquer float no .text-group */
+    margin-top: 8px;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 .scene-marker {
@@ -222,19 +216,17 @@ h1 {
 }
 
 .processed-symbol {
-    color: var(--error-color); /* Vermelho para símbolos de 'problema' */
-    background: #fff5f5; /* Fundo vermelho claro */
+    color: var(--error-color);
+    background: #fff5f5;
     border-left: 3px solid var(--error-color);
 }
 
 .processed-comment {
-    color: var(--highlight); /* Verde para comentários/dicas */
-    background: #f0fff4; /* Fundo verde claro */
+    color: var(--highlight);
+    background: #f0fff4;
     font-style: italic;
     border-left: 3px solid var(--highlight);
 }
-
-/* ******************************************************************************************************** */
 
 #loading-simbol {
     text-align: center;
@@ -248,24 +240,6 @@ h1 {
     color: var(--error-color);
     font-style: italic;
     margin-top: 5px;
-}
-
-/* GERAR RASCUNHO********************************************************************************************** */
-
-.sentence-group {
-  margin-bottom: 12px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 16px;
-  line-height: 1.6;
-  color: #222;
-}
-
-.number-marker {
-  color: #ff4d6d;
-  font-weight: bold;
-  margin-right: 8px;
 }
 
 /* CHAT BOTÕES E POSICIONAMENTO ********************************************************************************************** */
@@ -290,13 +264,11 @@ h1 {
   transition: all 0.1s ease-in-out;
 }
 
-/* Efeito de "afundar" ao clicar */
 #modo-chat-selector button:active {
   transform: scale(0.95) translateY(1px);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Botões fixos no canto superior esquerdo */
 #botoesFixosEsquerda {
   position: fixed;
   top: 10px;
@@ -309,9 +281,9 @@ h1 {
   padding: 0;
 }
 
-/* BOTÃO SAIR ********************* BOTÃO SAIR ***************************** BOTÃO SAIR ******************************* */
+/* BOTÃO SAIR */
 .botao-sair {
-	position: fixed;
+    position: fixed;
     bottom: 10px;
     left: 12px;
     color: black;
@@ -328,15 +300,14 @@ h1 {
     background-color: #e60000;
 }
 
-/* 🔍  BOTÃO BUSCA 🔍  ******************************** 🔍  BOTÃO BUSCA 🔍 ************************************************ */
+/* BOTÃO BUSCA */
 #busca-local {
-  display: none;
   position: fixed;
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
   background: #f5f5f5;
-  padding: 6px 10px; /* TAMANHO DA JANELA */
+  padding: 6px 10px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   z-index: 999;
@@ -358,7 +329,7 @@ h1 {
 }
 
 #inputBusca:focus {
-  box-shadow: inset 0 0 0 0px #f5f5f5; /* COR BORDA DO IMPUT */
+  box-shadow: inset 0 0 0 0px #f5f5f5;
   outline: none;
 }
 
@@ -377,15 +348,95 @@ h1 {
   background: #e0e0e0;
 }
 
+/* ========================================================= */
+/* --- MEDIA QUERY PARA CELULARES (TELA PEQUENA) --- */
+/* ========================================================= */
+@media (max-width: 768px) {
+    /* Ajustes no corpo para telas menores */
+    body {
+        max-width: 100%;
+        margin: 1rem 0.5rem;
+        padding: 0;
+    }
 
-.modo-celular {
-  display: none;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 10px;
+    /* Ajustes na barra de ferramentas para melhor uso do espaço */
+    #toolbar {
+        flex-direction: row;
+        gap: 0.2rem;
+        margin-bottom: 1rem;
+        justify-content: center;
+    }
+
+    .toolbar-button {
+        flex-grow: 1;
+        font-size: 0.75rem;
+        padding: 0.5rem 0.8rem;
+    }
+
+    /* Otimizando o contêiner do editor para celulares */
+    .editor-container {
+        max-height: 40vh;
+        min-height: 200px;
+        padding: 0.8rem;
+    }
+
+    #editor {
+        font-size: 0.9rem;
+    }
+    
+    /* Layout dos botões fixos no canto superior esquerdo */
+    #botoesFixosEsquerda {
+        top: auto;
+        left: 0;
+        bottom: 1rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Escondendo a barra de rolagem dos botões fixos */
+    #botoesFixosEsquerda::-webkit-scrollbar {
+        display: none;
+    }
+    #botoesFixosEsquerda {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Ocultando botões extras se necessário em telas menores */
+    .toolbar-button.hide-on-mobile {
+        display: none;
+    }
+    
+    /* Reposicionando o seletor de chat para evitar sobreposição */
+    #modo-chat-selector {
+        display: none;
+    }
+    
+    /* Ajustes para o botão de busca */
+    #busca-local {
+        top: 1rem;
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+    }
+    #inputBusca {
+        width: 100%;
+    }
+
+    /* --- NOVO: OCULTA O BOTÃO SAIR NA VERSÃO MOBILE --- */
+    .botao-sair {
+        display: none;
+    }
+    
+    /* NOVO: Oculta o chat na versão mobile */
+    .chat-panel {
+      display: none;
+    }
 }
-
-
-
-
