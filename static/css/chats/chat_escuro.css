@@ -1,4 +1,4 @@
-
+/* <<<⚠ LINHA (COM CÓDIGO) IMEDIATAMENTE ANTERIOR AO NOVO >>> */
 /**********************************************CHAT ESCURO*****************************************/
 
 #chat-panel {
@@ -156,11 +156,4 @@
 }
 #chat-log::-webkit-scrollbar-thumb:hover {
   background-color: #666;
-}
-
-@media (max-width: 768px) {
-    /* CORREÇÃO: Usando o ID #chat-panel */
-    #chat-panel {
-      display: none;
-    }
 }

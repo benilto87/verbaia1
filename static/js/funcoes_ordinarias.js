@@ -816,7 +816,7 @@ function trocarModoChat(modo) {
       botaoModo.innerHTML = 'Modo Escritor ✍';
     } else {
       botoesModificaveis.forEach(btn => btn.style.display = 'inline-block');
-      botaoModo.innerHTML = 'Modo Tarefa 📲';
+      botaoModo.innerHTML = 'Modo Tarefa 📌';
     }
 
     modoTarefaAtivo = !modoTarefaAtivo;
