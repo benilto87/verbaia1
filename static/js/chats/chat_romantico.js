@@ -78,8 +78,15 @@ document.getElementById("chat-panel")?.addEventListener("click", function (event
   
 const fotosFlavia = [
   "static/img/flavia.jpg",
-  "static/img/surpresa.jpg",
-  "static/img/alegre.jpg"
+  "static/img/flavia1.jpg",
+  "static/img/flavia2.jpg",
+  "static/img/flavia3.jpg",
+  "static/img/flavia4.jpg",
+  "static/img/flavia5.jpg",
+  "static/img/flavia6.jpg",
+  "static/img/flavia7.jpg",
+  "static/img/flavia8.jpg",
+  "static/img/flavia9.jpg"
 ];
 
 let indexAtual = 0;
@@ -111,7 +118,7 @@ function trocarFotoFlavia() {
 }
 
 // Troca a cada 3 minutos (180.000 ms)
-setInterval(trocarFotoFlavia, 10000);
+setInterval(trocarFotoFlavia, 30000);
 
 // ✨ Autoexpandir altura do campo symbolInput enquanto digita
 window.addEventListener('DOMContentLoaded', () => {

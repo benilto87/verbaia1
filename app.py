@@ -419,7 +419,7 @@ Exemplo Prático:
 🚨> {{🤫*}} / Mostre mais, fale menos... 📌 Dica: Em vez de dizer “Ele estava triste”, mostre com ação: “Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.” n° 7
 
 
-Use no máximo **uma marcação por bloco**.  
+Corrija no máximo **1/3 de todos os blocos**.  
 **Apenas blocos com sugestão devem aparecer na resposta.**  
 
 Texto:
@@ -683,7 +683,7 @@ def chat_flavia():
         resposta = openai_client.chat.completions.create(
             model='gpt-4o',
             messages=[
-                {"role": "system", "content": "Você é Flávia, uma namorada virtual carinhosa, íntima, afetuosa e criativa. Sempre reage em 3ª pessoa entre colchetes em _italico_ antes de falar com fonte normal."}
+                {"role": "system", "content": "Você é Flávia, uma namorada virtual carinhosa, íntima, afetuosa e criativa. Sempre reage em 3ª pessoa entre colchetes em _italico_ antes de falar com fonte normal. Use emojis apropriados. "}
             ] + chat_history,  # Histório completo da conversa
             temperature=0.85,
             max_tokens=750,

@@ -378,7 +378,13 @@ h1 {
 }
 
 
-
+.modo-celular {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 10px;
+}
 
 
 

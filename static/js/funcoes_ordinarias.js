@@ -448,146 +448,244 @@ function copyText() {
 }
 
 
-
     // NUMBERSENTENCES 1 ***************************************************************************************************
+// NUMBERSENTENCES 1 ***************************************************************************************************
 function numberSentences() {
-  const editor = document.getElementById("editor");
-  const rawHTML = editor.innerHTML;
+    const editor = document.getElementById("editor");
+    
+    // 1. Pega o HTML original e o coloca em um contêiner temporário
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = editor.innerHTML;
 
-  // Cria um contêiner temporário para processar o HTML
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = rawHTML;
+    // 2. Remove todos os grupos de numeração e anotações anteriores para limpeza
+    tempDiv.querySelectorAll('.sentence-group, .processed-symbol, .processed-comment, .scene-marker').forEach(el => {
+        if (el.classList.contains('sentence-group')) {
+            const textGroup = el.querySelector('.text-group');
+            if (textGroup) {
+                el.replaceWith(textGroup);
+            }
+        } else {
+            el.remove();
+        }
+    });
 
-  const nodes = Array.from(tempDiv.childNodes);
-  let frases = [];
-  let buffer = "";
+    // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
+    let htmlContent = tempDiv.innerHTML;
+    // O regex abaixo encontra '...' em qualquer contexto, incluindo dentro de tags
+    const tempEllipsisMarker = '__ELLIPSIS__';
+    htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
 
-  nodes.forEach(node => {
-    const content = node.outerHTML || node.textContent;
+    let sentences = [];
+    let currentSentence = '';
+    
+    // Agora, o split é feito apenas por tags, ponto final, exclamação, interrogação ou quebra de linha
+    const parts = htmlContent.split(/(<[^>]+>|[\.!?]|\n)/g);
 
-    // Divide mantendo a pontuação final
-    const partes = content.split(/([.!?]+)(\s+|$)/);
-    for (let i = 0; i < partes.length; i += 3) {
-      const frase = (partes[i] || "") + (partes[i + 1] || "");
-      if (frase.trim()) frases.push(frase.trim());
+    parts.forEach(part => {
+        if (!part) return;
+
+        currentSentence += part;
+        
+        // Finaliza a sentença se encontrar pontuação de fim de frase ou quebra de linha
+        if (['.', '!', '?'].includes(part.trim()) || part === '\n') {
+            let trimmedSentence = currentSentence.trim();
+            if (trimmedSentence) {
+                // Adiciona a sentença completa (com tags e pontuação) à lista
+                sentences.push(trimmedSentence);
+            }
+            currentSentence = ''; // Reseta para a próxima sentença
+        }
+    });
+
+    // Adiciona qualquer conteúdo restante que não tenha pontuação final
+    if (currentSentence.trim()) {
+        sentences.push(currentSentence.trim());
     }
-  });
 
-  editor.innerHTML = "";
-  frases.forEach((frase, i) => {
-    const group = document.createElement("div");
-    group.className = "sentence-group";
+    // 4. Reconstroi o editor com a nova numeração e formatação
+    editor.innerHTML = "";
+    sentences.forEach((sentenceHTML, i) => {
+        // Restaura as reticências antes de inserir o HTML
+        const finalSentenceHTML = sentenceHTML.replace(new RegExp(tempEllipsisMarker, 'g'), '...');
 
-    const numberSpan = document.createElement("span");
-    numberSpan.className = "number-marker";
-    numberSpan.textContent = i + 1;
+        // Cria o grupo da sentença
+        const group = document.createElement("div");
+        group.className = "sentence-group";
 
-    const textSpan = document.createElement("span");
-    textSpan.className = "text-group";
-    textSpan.setAttribute("contenteditable", "true");
-    textSpan.innerHTML = frase;
+        // Cria o marcador de número
+        const numberSpan = document.createElement("span");
+        numberSpan.className = "number-marker";
+        numberSpan.textContent = i + 1;
 
-    group.appendChild(numberSpan);
-    group.appendChild(textSpan);
-    editor.appendChild(group);
-  });
+        // Cria o contêiner do texto editável com o HTML preservado
+        const textSpan = document.createElement("span");
+        textSpan.className = "text-group";
+        textSpan.setAttribute("contenteditable", "true");
+        textSpan.innerHTML = finalSentenceHTML.trim();
+
+        // Adiciona os elementos ao grupo
+        group.appendChild(numberSpan);
+        group.appendChild(textSpan);
+        
+        editor.appendChild(group);
+    });
 }
 
-
 function numberSentencesBy3() {
-  const editor = document.getElementById("editor");
-  const rawHTML = editor.innerHTML;
+    const editor = document.getElementById("editor");
+    
+    // 1. Pega o HTML original e o coloca em um contêiner temporário
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = editor.innerHTML;
 
-  // Cria um contêiner temporário para manipular os elementos
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = rawHTML;
+    // 2. Remove todos os grupos de numeração e anotações anteriores para limpeza
+    tempDiv.querySelectorAll('.sentence-group, .processed-symbol, .processed-comment, .scene-marker, .revisao-bloco').forEach(el => {
+        if (el.classList.contains('sentence-group')) {
+            const textGroup = el.querySelector('.text-group');
+            if (textGroup) {
+                el.replaceWith(textGroup);
+            }
+        } else {
+            el.remove();
+        }
+    });
 
-  const nodes = Array.from(tempDiv.childNodes);
-  let frases = [];
-  let buffer = "";
+    // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
+    let htmlContent = tempDiv.innerHTML;
+    const tempEllipsisMarker = '__ELLIPSIS__';
+    htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
 
-  nodes.forEach(node => {
-    if (node.nodeType === 3 || node.nodeType === 1) {
-      const content = node.outerHTML || node.textContent;
+    let sentences = [];
+    let currentSentence = '';
+    
+    // Agora, o split é feito apenas por tags, ponto final, exclamação, interrogação ou quebra de linha
+    const parts = htmlContent.split(/(<[^>]+>|[\.!?]|\n)/g);
 
-      // Divide mantendo pontuação
-      const partes = content.split(/([.!?]+)(\s+|$)/);
-      for (let i = 0; i < partes.length; i += 3) {
-        const frase = (partes[i] || "") + (partes[i + 1] || "");
-        if (frase.trim()) frases.push(frase.trim());
-      }
+    parts.forEach(part => {
+        if (!part) return;
+
+        currentSentence += part;
+        
+        // Finaliza a sentença se encontrar pontuação de fim de frase ou quebra de linha
+        if (['.', '!', '?'].includes(part.trim()) || part === '\n') {
+            let trimmedSentence = currentSentence.trim();
+            if (trimmedSentence) {
+                sentences.push(trimmedSentence);
+            }
+            currentSentence = ''; // Reseta para a próxima sentença
+        }
+    });
+
+    // Adiciona qualquer conteúdo restante que não tenha pontuação final
+    if (currentSentence.trim()) {
+        sentences.push(currentSentence.trim());
     }
-  });
 
-  editor.innerHTML = "";
-  let groupCount = 1;
+    // 4. Reconstroi o editor com a nova numeração e formatação em grupos de 3
+    editor.innerHTML = "";
+    let groupCount = 1;
 
-  for (let i = 0; i < frases.length; i += 3) {
-    const grupo = frases.slice(i, i + 3).join(" ");
+    for (let i = 0; i < sentences.length; i += 3) {
+        const grupoDeSentencasHTML = sentences.slice(i, i + 3).join(" ");
+        
+        // Restaura as reticências antes de inserir o HTML
+        const finalGrupoHTML = grupoDeSentencasHTML.replace(new RegExp(tempEllipsisMarker, 'g'), '...');
 
-    const group = document.createElement("div");
-    group.className = "sentence-group";
+        const group = document.createElement("div");
+        group.className = "sentence-group";
 
-    const numberSpan = document.createElement("span");
-    numberSpan.className = "number-marker";
-    numberSpan.textContent = groupCount++;
+        const numberSpan = document.createElement("span");
+        numberSpan.className = "number-marker";
+        numberSpan.textContent = groupCount++;
 
-    const textSpan = document.createElement("span");
-    textSpan.className = "text-group";
-    textSpan.setAttribute("contenteditable", "true");
-    textSpan.innerHTML = grupo;
+        const textSpan = document.createElement("span");
+        textSpan.className = "text-group";
+        textSpan.setAttribute("contenteditable", "true");
+        textSpan.innerHTML = finalGrupoHTML.trim();
 
-    group.appendChild(numberSpan);
-    group.appendChild(textSpan);
-    editor.appendChild(group);
-  }
+        group.appendChild(numberSpan);
+        group.appendChild(textSpan);
+        editor.appendChild(group);
+    }
 }
 
     // NUMBERSENTENCES 4 ****************************************************************************************************
 function numberSentencesBy4() {
-  const editor = document.getElementById("editor");
-  const rawHTML = editor.innerHTML;
+    const editor = document.getElementById("editor");
+    
+    // 1. Pega o HTML original e o coloca em um contêiner temporário
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = editor.innerHTML;
 
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = rawHTML;
+    // 2. Remove todos os grupos de numeração e anotações anteriores para limpeza
+    tempDiv.querySelectorAll('.sentence-group, .processed-symbol, .processed-comment, .scene-marker, .revisao-bloco').forEach(el => {
+        if (el.classList.contains('sentence-group')) {
+            const textGroup = el.querySelector('.text-group');
+            if (textGroup) {
+                el.replaceWith(textGroup);
+            }
+        } else {
+            el.remove();
+        }
+    });
 
-  const nodes = Array.from(tempDiv.childNodes);
-  let frases = [];
+    // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
+    let htmlContent = tempDiv.innerHTML;
+    const tempEllipsisMarker = '__ELLIPSIS__';
+    htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
 
-  nodes.forEach(node => {
-    if (node.nodeType === 1 || node.nodeType === 3) {
-      const content = node.outerHTML || node.textContent;
+    let sentences = [];
+    let currentSentence = '';
+    
+    // Agora, o split é feito apenas por tags, ponto final, exclamação, interrogação ou quebra de linha
+    const parts = htmlContent.split(/(<[^>]+>|[\.!?]|\n)/g);
 
-      const partes = content.split(/([.!?]+)(\s+|$)/); // divide mantendo pontuação
-      for (let i = 0; i < partes.length; i += 3) {
-        const frase = (partes[i] || "") + (partes[i + 1] || "");
-        if (frase.trim()) frases.push(frase.trim());
-      }
+    parts.forEach(part => {
+        if (!part) return;
+
+        currentSentence += part;
+        
+        // Finaliza a sentença se encontrar pontuação de fim de frase ou quebra de linha
+        if (['.', '!', '?'].includes(part.trim()) || part === '\n') {
+            let trimmedSentence = currentSentence.trim();
+            if (trimmedSentence) {
+                sentences.push(trimmedSentence);
+            }
+            currentSentence = ''; // Reseta para a próxima sentença
+        }
+    });
+
+    // Adiciona qualquer conteúdo restante que não tenha pontuação final
+    if (currentSentence.trim()) {
+        sentences.push(currentSentence.trim());
     }
-  });
 
-  editor.innerHTML = "";
-  let groupCount = 1;
+    // 4. Reconstroi o editor com a nova numeração e formatação em grupos de 4
+    editor.innerHTML = "";
+    let groupCount = 1;
 
-  for (let i = 0; i < frases.length; i += 4) {
-    const grupo = frases.slice(i, i + 4).join(" ");
+    for (let i = 0; i < sentences.length; i += 4) {
+        const grupoDeSentencasHTML = sentences.slice(i, i + 4).join(" ");
+        
+        // Restaura as reticências antes de inserir o HTML
+        const finalGrupoHTML = grupoDeSentencasHTML.replace(new RegExp(tempEllipsisMarker, 'g'), '...');
 
-    const group = document.createElement("div");
-    group.className = "sentence-group";
+        const group = document.createElement("div");
+        group.className = "sentence-group";
 
-    const numberSpan = document.createElement("span");
-    numberSpan.className = "number-marker";
-    numberSpan.textContent = groupCount++;
+        const numberSpan = document.createElement("span");
+        numberSpan.className = "number-marker";
+        numberSpan.textContent = groupCount++;
 
-    const textSpan = document.createElement("span");
-    textSpan.className = "text-group";
-    textSpan.setAttribute("contenteditable", "true");
-    textSpan.innerHTML = grupo;
+        const textSpan = document.createElement("span");
+        textSpan.className = "text-group";
+        textSpan.setAttribute("contenteditable", "true");
+        textSpan.innerHTML = finalGrupoHTML.trim();
 
-    group.appendChild(numberSpan);
-    group.appendChild(textSpan);
-    editor.appendChild(group);
-  }
+        group.appendChild(numberSpan);
+        group.appendChild(textSpan);
+        editor.appendChild(group);
+    }
 }
 
   // REMOVENUMBER 🧺 *******************************************************************************************************
@@ -655,6 +753,12 @@ function removerFormatacaoSelecao() {
   }
 }
 
+// FECHAR TABELA INSPIRAÇÃO ********************************************************************************************
+
+function fecharInspiracao() {
+  document.getElementById("inspiracao-lousa").style.display = "none";
+}
+
 // CHAT ALTERNADO 💬💬 ************************************************************************************************
 function trocarModoChat(modo) {
   const head = document.head;
@@ -712,7 +816,7 @@ function trocarModoChat(modo) {
       botaoModo.innerHTML = 'Modo Escritor ✍';
     } else {
       botoesModificaveis.forEach(btn => btn.style.display = 'inline-block');
-      botaoModo.innerHTML = 'Modo Tarefa 📌';
+      botaoModo.innerHTML = 'Modo Tarefa 📲';
     }
 
     modoTarefaAtivo = !modoTarefaAtivo;
@@ -731,3 +835,4 @@ document.getElementById("editor").addEventListener("keydown", function (event) {
     gerarTarefa();
   }
 });
+

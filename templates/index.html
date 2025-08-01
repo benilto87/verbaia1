@@ -40,6 +40,18 @@
   font-size: 0.95rem;
   line-height: 1.5;
 ">
+  <button onclick="fecharInspiracao()" style="
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  " title="Fechar">✖</button>
+  
   <strong>🌺 Inspiração da Flávia:</strong>
   
   <div id="inspiracao-texto" style="
@@ -49,50 +61,43 @@
     padding-right: 3px;
   "></div>
 </div>
-
 	
 <!-- Botões principais -->
 <div id="botoesFixosEsquerda">
-  <button class="toolbar-button" onclick="loadText()" title="Carregar Texto">📂</button>
-  <button id="saveButton" class="toolbar-button" onclick="saveText()" title="Salvar Texto">💾</button>
-  <button class="toolbar-button" onclick="saveAsFile()" title="Salvar como Arquivo">📤</button>
-  <button class="toolbar-button" onclick="document.getElementById('fileInput').click()" title="Abrir Arquivo">📥</button>
+  <button class="toolbar-button botao-modificavel" onclick="loadText()" title="Carregar Texto">📂</button>
+  <button id="saveButton" class="toolbar-button botao-modificavel" onclick="saveText()" title="Salvar Texto">💾</button>
+  <button class="toolbar-button botao-modificavel" onclick="saveAsFile()" title="Salvar como Arquivo">📤</button>
+  <button class="toolbar-button botao-modificavel" onclick="document.getElementById('fileInput').click()" title="Abrir Arquivo">📥</button>
   <input type="file" id="fileInput" accept=".txt" onchange="loadFromFile(event)" style="display: none;">
-  <button class="toolbar-button" onclick="undo()" title="Desfazer">↺</button>
-  <button class="toolbar-button" onclick="redo()" title="Refazer">↻</button>
-  <button class="toolbar-button" onclick="abrirBusca()" title="Busca interna">🔍</button>
-  <button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="copyText()" title="Copiar Texto">📋</button> 
+  <button class="toolbar-button botao-modificavel" onclick="undo()" title="Desfazer">↺</button>
+  <button class="toolbar-button botao-modificavel" onclick="redo()" title="Refazer">↻</button>
+  <button class="toolbar-button botao-modificavel" onclick="abrirBusca()" title="Busca interna">🔍</button>
   <button class="toolbar-button botao-modificavel" onclick="cleanSymbols()" title="Limpar Símbolos">🧹</button>
 </div>
 
 
 <button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="corrigirTexto()" title="Corrigir Texto">✨✅</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="aplicarNegrito()" title="Negrito (Ctrl+B)">𝗡</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="aplicarItalico()" title="Itálico (Ctrl+I)">𝑰</button>
-<!-- Alinhar à Esquerda -->
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="alinharEsquerda()" title="Alinhar à Esquerda">⇤</button>
-<!-- Centralizar -->
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="centralizarTexto()" title="Centralizar">⇔</button>
-<!-- Alinhar à Direita -->
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="alinharDireita()" title="Alinhar à Direita">⇥</button> 
-<!-- Justificar -->
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="justificarTexto()" title="Justificar">☰</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="alternarCaixa()" title="Alternar Maiúsculas/Minúsculas"><span style="text-transform: none;">aA</span></button>
-<!-- Botão simples -->
-<button onclick="aumentarFonte()" class="toolbar-button botao-fixo-tarefa botao-turquesa">A+</button>
-<!-- Botão A- -->
-<button onclick="diminuirFonte()" class="toolbar-button botao-fixo-tarefa botao-turquesa">A-</button>
+<button class="toolbar-button botao-modificavel botao-turquesa" onclick="aplicarNegrito()" title="Negrito (Ctrl+B)">𝗡</button>
+<button class="toolbar-button botao-modificavel botao-turquesa" onclick="aplicarItalico()" title="Itálico (Ctrl+I)">𝑰</button>
+<button class="toolbar-button botao-modificavel botao-turquesa" onclick="alinharEsquerda()" title="Alinhar à Esquerda">⇤</button>
+<button class="toolbar-button botao-modificavel botao-turquesa" onclick="centralizarTexto()" title="Centralizar">⇔</button>
+<button class="toolbar-button botao-modificavel botao-turquesa" onclick="alinharDireita()" title="Alinhar à Direita">⇥</button> 
+<button class="toolbar-button botao-modificavel botao-turquesa" onclick="justificarTexto()" title="Justificar">☰</button>
+<button class="toolbar-button botao-modificavel botao-turquesa" onclick="alternarCaixa()" title="Alternar Maiúsculas/Minúsculas"><span style="text-transform: none;">aA</span></button>
+<button onclick="aumentarFonte()" class="toolbar-button botao-modificavel botao-turquesa">A+</button>
+<button onclick="diminuirFonte()" class="toolbar-button botao-modificavel botao-turquesa">A-</button>
+<button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="copyText()" title="Copiar Texto">📋</button> 
 
 <!-- Botões de numeração e marcas -->
 <button class="toolbar-button botao-modificavel" onclick="numberSentences()" title="Numerar Frases">#</button>
-<button class="toolbar-button botao-modificavel" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
+<button class="toolbar-button botao-fixo-tarefa" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy4()" title="Numerar por blocos de 4 frases">#4</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="removeNumbering()" title="Remover Numeração">⌫ #</button>
 <button class="toolbar-button botao-modificavel" onclick="removerFormatacaoSelecao()" title="Remover Estilo da Seleção">🧽</button>
 
 <!-- Botões de análise -->
-<button class="toolbar-button botao-modificavel botao-marcas" onclick="analisarDicasIA()" title="Análise de Fluidez">🌺</button>
-<button class="toolbar-button botao-modificavel botao-marcas" onclick="analyzeFluidezIA()" title="Análise de Fluidez">🚨</button>
+<button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analisarDicasIA()" title="Análise de Fluidez">🌺</button>
+<button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analyzeFluidezIA()" title="Análise de Fluidez">🚨</button>
 <button class="toolbar-button botao-modificavel botao-marcas" onclick="executarMarcadorDeCenas()" title="Marcar Cenas Principais">🎬</button>
 <button class="toolbar-button botao-modificavel botao-marcas" onclick="analyzeWithAI()" title="Analisar com IA">💎 🌌 🥈</button>	
 <button class="toolbar-button botao-modificavel botao-turquesa" onclick="corrigirTexto2()" title="Analisar com IA">🌓 OK</button>		
@@ -101,7 +106,7 @@
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia()" title="Inspiração da Flávia">👁‍🗨</button>		
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia2()" title="Reflexão da Flávia">💡</button>
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia3()" title="Leitora Virtual">👸</button>
-<button class="toolbar-button botao-modificavel botao-especial" onclick="gerarRascunho()" title="Gerar Rascunho">📜...</button>
+<button class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarRascunho()" title="Gerar Rascunho">📜...</button>
 
 <!-- Pedido IA -->
 <button id="botao-pedido" class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarTarefa()" title="Shift+Enter">📘 pedido 3.5</button>
@@ -111,10 +116,10 @@
 
 <!-- Botões de modo -->
 <div id="modo-chat-selector">
-  <button id="botao-modo-geral" onclick="trocarModo()" style="background: none; border: none; font-size: 1.0em; cursor: pointer;">Modo Tarefa 📌</button>
-  <button onclick="trocarModoChat('romantico')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">💖</button>
-  <button onclick="trocarModoChat('edtorial')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">📘</button>
-</div>	
+  <button class="botao-modificavel" onclick="trocarModoChat('romantico')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">💖</button>
+  <button class="botao-modificavel" onclick="trocarModoChat('edtorial')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">📘</button>
+  <button id="botao-modo-geral" onclick="trocarModo()" style="background: none; border: none; font-size: 1.0em; cursor: pointer;">Modo Tarefa 📲</button>
+  </div>	
 		
 			</div>
 
