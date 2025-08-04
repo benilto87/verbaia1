@@ -804,41 +804,67 @@ function fecharInspiracao() {
 }
 
 function minimizarInspiracao() {
+  const lousa = document.getElementById("inspiracao-lousa");
   const conteudo = document.getElementById("inspiracao-texto");
-  const titulo = document.querySelector("#inspiracao-lousa strong");
+  const titulo = lousa.querySelector("strong");
 
-  if (conteudo.style.display === "none") {
+  const estaMinimizado = conteudo.style.display === "none";
+
+  if (estaMinimizado) {
     conteudo.style.display = "block";
     titulo.innerHTML = "🌺 Inspiração da Flávia:";
+    lousa.classList.remove("minimizado");
   } else {
     conteudo.style.display = "none";
     titulo.innerHTML = "🌺 (minimizado)";
+    lousa.classList.add("minimizado");
   }
 }
 
 
-function permitirArrastarInspiracao(event) {
+function permitirArrastarInspiracao() {
   const lousa = document.getElementById("inspiracao-lousa");
-  if (!lousa || lousa.dataset.minimizado !== "true") return; // Só permite arrastar se estiver minimizado
+  let isDragging = false;
+  let offsetX, offsetY;
 
-  event.preventDefault();
+  function startDrag(e) {
+    isDragging = true;
+    const rect = lousa.getBoundingClientRect();
+    const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
 
-  let deslocX = event.clientX - lousa.getBoundingClientRect().left;
-  let deslocY = event.clientY - lousa.getBoundingClientRect().top;
-
-  function mover(eventoMove) {
-    lousa.style.left = `${eventoMove.clientX - deslocX}px`;
-    lousa.style.top = `${eventoMove.clientY - deslocY}px`;
+    document.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", stopDrag);
+    document.addEventListener("touchmove", drag, { passive: false });
+    document.addEventListener("touchend", stopDrag);
   }
 
-  function soltar() {
-    document.removeEventListener("mousemove", mover);
-    document.removeEventListener("mouseup", soltar);
+  function drag(e) {
+    if (!isDragging) return;
+
+    e.preventDefault();
+    const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+
+    lousa.style.left = `${clientX - offsetX}px`;
+    lousa.style.top = `${clientY - offsetY}px`;
   }
 
-  document.addEventListener("mousemove", mover);
-  document.addEventListener("mouseup", soltar);
+  function stopDrag() {
+    isDragging = false;
+    document.removeEventListener("mousemove", drag);
+    document.removeEventListener("mouseup", stopDrag);
+    document.removeEventListener("touchmove", drag);
+    document.removeEventListener("touchend", stopDrag);
+  }
+
+  lousa.addEventListener("mousedown", startDrag);
+  lousa.addEventListener("touchstart", startDrag);
 }
+
+document.addEventListener("DOMContentLoaded", permitirArrastarInspiracao);
 
 
 // CHAT ALTERNADO **********************************************************************************************************

@@ -537,6 +537,10 @@ h1 {
     }
 }
 
+#inspiracao-lousa {
+  touch-action: none; /* Impede interferência de gestos nativos do navegador */
+}
+
 
 
 
