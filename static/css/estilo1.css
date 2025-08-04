@@ -27,6 +27,8 @@ h1 {
     font-size: 2rem;
     margin-bottom: 1.2rem;
     color: var(--primary);
+    text-align: right; /* 👈 Alinha à direita */
+    padding-right: 1rem; /* 👈 Dá espaço da borda */
 }
 
 /* BOTÕES DO SISTEMA ************************************************** */

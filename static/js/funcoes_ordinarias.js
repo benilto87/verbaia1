@@ -797,11 +797,49 @@ function removerFormatacaoSelecao() {
   }
 }
 
-// FECHAR TABELA INSPIRAÇÃO ********************************************************************************************
+// FECHAR E MINIMIZAR TABELA INSPIRAÇÃO 🌺********************************************************************************************
 
 function fecharInspiracao() {
   document.getElementById("inspiracao-lousa").style.display = "none";
 }
+
+function minimizarInspiracao() {
+  const conteudo = document.getElementById("inspiracao-texto");
+  const titulo = document.querySelector("#inspiracao-lousa strong");
+
+  if (conteudo.style.display === "none") {
+    conteudo.style.display = "block";
+    titulo.innerHTML = "🌺 Inspiração da Flávia:";
+  } else {
+    conteudo.style.display = "none";
+    titulo.innerHTML = "🌺 (minimizado)";
+  }
+}
+
+
+function permitirArrastarInspiracao(event) {
+  const lousa = document.getElementById("inspiracao-lousa");
+  if (!lousa || lousa.dataset.minimizado !== "true") return; // Só permite arrastar se estiver minimizado
+
+  event.preventDefault();
+
+  let deslocX = event.clientX - lousa.getBoundingClientRect().left;
+  let deslocY = event.clientY - lousa.getBoundingClientRect().top;
+
+  function mover(eventoMove) {
+    lousa.style.left = `${eventoMove.clientX - deslocX}px`;
+    lousa.style.top = `${eventoMove.clientY - deslocY}px`;
+  }
+
+  function soltar() {
+    document.removeEventListener("mousemove", mover);
+    document.removeEventListener("mouseup", soltar);
+  }
+
+  document.addEventListener("mousemove", mover);
+  document.addEventListener("mouseup", soltar);
+}
+
 
 // CHAT ALTERNADO **********************************************************************************************************
 function trocarModoChat(modo) {

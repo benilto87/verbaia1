@@ -37,7 +37,11 @@ function analyzeWithAI() {
 
     // ✅ NÃO remove outras marcações (como 🎬 ou 🎯)
     // Só remove as marcações deste botão: 💎, 🌀, 🥈
-    document.querySelectorAll(".processed-symbol").forEach(el => el.remove());
+    document.querySelectorAll(".processed-symbol").forEach(el => {
+  if (el.innerText.includes("💎") || el.innerText.includes("🌀") || el.innerText.includes("🥈")) {
+    el.remove();
+  }
+});
 
     // 🔁 Aplica as novas marcações apenas de símbolos (💎, 🌀, 🥈)
     sentenceGroups.forEach((group, i) => {
