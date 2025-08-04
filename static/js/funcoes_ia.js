@@ -46,30 +46,48 @@ function analyzeWithAI() {
       const lines = resposta.split('\n');
 
       lines.forEach(line => {
-        if (line.includes("🥈")) {
-          const match = line.match(/“([^”]+)”/);
-          if (match && textBlock && textBlock.includes(match[1])) {
-            const span = document.createElement("div");
-            span.innerHTML = `<span class="processed-symbol">${line}</span>`;
-            group.appendChild(span);
-          }
-        }
+  const matchAspas = line.match(/“([^”]+)”/);
+  const blocoTemTexto = textBlock && matchAspas && textBlock.includes(matchAspas[1]);
 
-        if (line.includes("🌀") && line.includes(`[${numero}]`)) {
-          const span = document.createElement("div");
-          span.innerHTML = `<span class="processed-symbol">${line}</span>`;
-          group.appendChild(span);
-        }
+  // 🥈 POTENCIAL DESPERDIÇADO
+  if (line.includes("🥈") && blocoTemTexto) {
+    const idMarcacao = `marcacao-${Date.now()}-${numero}-🥈`;
+    const span = document.createElement("div");
+    span.innerHTML = `
+      <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
+        ${line}
+        <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+      </span>
+    `;
+    group.appendChild(span);
+  }
 
-        if (line.includes("💎")) {
-          const match = line.match(/“([^”]+)”/);
-          if (match && textBlock && textBlock.includes(match[1])) {
-            const span = document.createElement("div");
-            span.innerHTML = `<span class="processed-symbol">${line}</span>`;
-            group.appendChild(span);
-          }
-        }
-      });
+  // 🌀 DISPERSIVO
+  if (line.includes("🌀") && line.includes(`[${numero}]`)) {
+    const idMarcacao = `marcacao-${Date.now()}-${numero}-🌀`;
+    const span = document.createElement("div");
+    span.innerHTML = `
+      <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
+        ${line}
+        <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+      </span>
+    `;
+    group.appendChild(span);
+  }
+
+  // 💎 JÓIA LITERÁRIA
+  if (line.includes("💎") && blocoTemTexto) {
+    const idMarcacao = `marcacao-${Date.now()}-${numero}-💎`;
+    const span = document.createElement("div");
+    span.innerHTML = `
+      <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
+        ${line}
+        <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+      </span>
+    `;
+    group.appendChild(span);
+  }
+});
     });
 
     // ✅ Feedback final por 2 segundos
@@ -634,12 +652,12 @@ function executarMarcadorDeCenas() {
   const sentenceGroups = document.querySelectorAll(".sentence-group");
   const textArray = [];
 
-// 🔁 Mostra carregando com alma viva
+  // 🔁 Mostra carregando com alma viva
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
     feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Gerando cenas... 🎥</span>';
   }
-  
+
   sentenceGroups.forEach(group => {
     const number = group.querySelector(".number-marker")?.innerText.trim();
     const text = group.querySelector(".text-group")?.innerText.trim();
@@ -660,16 +678,25 @@ function executarMarcadorDeCenas() {
       const cenasStr = data.cenas || '';
       const linhas = cenasStr.split('\n');
 
-      linhas.forEach(linha => {
+      // 🧽 Remove apenas marcações anteriores de cena
+      document.querySelectorAll(".scene-marker").forEach(el => el.remove());
+
+      linhas.forEach((linha, i) => {
         const match = linha.match(/\{🎬 #\d+ (.*?)\} \/ (\d+)/);
         if (match) {
           const titulo = match[0];
           const blocoNum = parseInt(match[2]);
+          const idCena = `cena-${Date.now() + i}`;
 
           const targetGroup = Array.from(document.querySelectorAll('.sentence-group'))[blocoNum - 1];
           if (targetGroup) {
             const cenaDiv = document.createElement('div');
-            cenaDiv.innerHTML = `<span class="scene-marker">${titulo}</span>`;
+            cenaDiv.innerHTML = `
+              <span class="scene-marker marcacao-com-fechar" id="${idCena}">
+                ${titulo}
+                <button class="marcacao-fechar" onclick="removerMarcacao('${idCena}')">✖</button>
+              </span>
+            `;
             targetGroup.appendChild(cenaDiv);
           }
         }
@@ -680,7 +707,7 @@ function executarMarcadorDeCenas() {
         feedbackDiv.innerHTML = '<span style="color:green;">✔️ Cenas aplicadas!</span>';
         setTimeout(() => {
           feedbackDiv.innerHTML = '';
-        }, 1000); // ⏱️ Limpa após 2 segundos
+        }, 1000);
       }
     })
     .catch(err => {
@@ -742,10 +769,20 @@ function analyzeFluidezIA() {
       const sugestao = sugestoes[numero];
 
       if (sugestao) {
-        const span = document.createElement("div");
-        span.innerHTML = `<span class="processed-symbol">${sugestao}</span>`;
-        group.appendChild(span);
-      }
+        const idMarcacao = `marcacao-${Date.now()}`;
+        const span = document.createElement("span");
+        span.innerHTML = `
+        <span class="processed-comment marcacao-com-fechar" id="${idMarcacao}">
+      ${sugestao}
+      <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+    </span>
+  `;
+
+        const textGroup = group.querySelector(".text-group");
+        if (textGroup) {
+    textGroup.appendChild(span);
+  }
+}
     });
 
     // ✅ Finaliza com mensagem visual temporária
@@ -815,10 +852,20 @@ function analisarDicasIA() {
       const sugestao = sugestoes[numero];
 
       if (sugestao) {
-        const span = document.createElement("div");
-        span.innerHTML = `<span class="processed-comment">${sugestao}</span>`;
-        group.appendChild(span);
-      }
+        const idMarcacao = `marcacao-${Date.now()}`;
+        const span = document.createElement("span");
+        span.innerHTML = `
+        <span class="processed-comment marcacao-com-fechar" id="${idMarcacao}">
+      ${sugestao}
+      <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+    </span>
+  `;
+
+        const textGroup = group.querySelector(".text-group");
+        if (textGroup) {
+    textGroup.appendChild(span);
+  }
+}
     });
 
     // ✅ Feedback final

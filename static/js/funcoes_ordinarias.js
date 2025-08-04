@@ -82,6 +82,50 @@ function carregarConteudoAtual() {
   }
 }
 
+// INSERIR E REMOVER MARCAÇÕES ❌ *****************************************************************************************************************************
+
+function inserirMarcacaoNoBloco(numero, textoIA) {
+  const sentenceGroups = document.querySelectorAll(".sentence-group");
+
+  // Encontrar o grupo correspondente ao número
+  const grupo = sentenceGroups[numero - 1];
+  if (!grupo) {
+    console.warn("❌ Bloco não encontrado:", numero);
+    return;
+  }
+
+  const textGroup = grupo.querySelector(".text-group");
+  if (!textGroup) {
+    console.warn("❌ text-group não encontrado no bloco:", numero);
+    return;
+  }
+
+  // Criar o id único da marcação
+  const idMarcacao = `marcacao-${Date.now()}`;
+
+  // Criar o elemento da marcação com botão de fechar
+  const span = document.createElement("span");
+  span.className = "processed-comment marcacao-com-fechar";
+  span.id = idMarcacao;
+  span.innerHTML = `
+    ${textoIA}
+    <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+  `;
+
+  // Inserir dentro do .text-group
+  textGroup.appendChild(span);
+  salvarConteudoAtual();
+}
+
+function removerMarcacao(id) {
+  const elemento = document.getElementById(id);
+  if (elemento) {
+    elemento.remove();
+  }
+}
+
+
+
 // NEGRITO E ITALICO N&I E ALINHAMENTOS 📍************************************************************************************************
 
 function aplicarNegrito() {
