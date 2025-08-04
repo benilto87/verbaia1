@@ -954,8 +954,11 @@ function preventDesktopSelection(textSelector) {
     });
 }
 
-// PREVINE SELEÇÃO DA NUMERAÇÃO COM O TEXTO **************************************************************
-
+/**
+ * Funcao exclusiva para dispositivos moveis (eventos de toque).
+ *
+ * @param {string} textSelector O seletor CSS para o elemento de texto (ex: '.text-group').
+ */
 function preventMobileSelection(textSelector) {
     // Seleciona o container pai de todas as sentenças
     const editor = document.getElementById('editor');
@@ -967,7 +970,13 @@ function preventMobileSelection(textSelector) {
 
     let isMobileSelectionInProgress = false;
 
+    // Adiciona uma nova regra: previne a seleção se o toque inicial for em um elemento não-selecionável.
     editor.addEventListener('touchstart', (e) => {
+        const target = e.target.closest('.number-marker, .processed-comment, .processed-symbol');
+        if (target) {
+            e.preventDefault();
+            return;
+        }
         isMobileSelectionInProgress = true;
     });
 
