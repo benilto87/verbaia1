@@ -772,7 +772,7 @@ function analyzeFluidezIA() {
         const idMarcacao = `marcacao-${Date.now()}`;
         const span = document.createElement("span");
         span.innerHTML = `
-        <span class="processed-comment marcacao-com-fechar" id="${idMarcacao}">
+        <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
       ${sugestao}
       <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
     </span>

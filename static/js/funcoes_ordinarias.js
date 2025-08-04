@@ -880,3 +880,87 @@ document.getElementById("editor").addEventListener("keydown", function (event) {
   }
 });
 
+// PREVINE SELEÇÃO DA NUMERAÇÃO COM O TEXTO **************************************************************
+
+function preventNumberSelection(textSelector) {
+    // Seleciona o container pai de todas as sentenças
+    const editor = document.getElementById('editor');
+
+    if (!editor) {
+        console.error("Editor não encontrado.");
+        return;
+    }
+
+    // Adiciona um ouvinte de evento para quando a seleção do mouse terminar
+    editor.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+
+        // Verifica se a seleção existe e se a seleção contém o texto
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const parentSentence = range.commonAncestorContainer.closest('.sentence-group');
+            
+            if (!parentSentence) {
+                return;
+            }
+
+            // Seleciona todos os elementos que não devem ser selecionados
+            const unselectableElements = parentSentence.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
+            
+            let selectionIncludesUnselectable = false;
+            unselectableElements.forEach(element => {
+                if (range.intersectsNode(element)) {
+                    selectionIncludesUnselectable = true;
+                }
+            });
+
+            // Se a seleção for inválida, a limpamos...
+            if (selectionIncludesUnselectable) {
+                selection.removeAllRanges();
+
+                // ... e restauramos a seleção para incluir apenas a primeira palavra do text-group
+                const textGroup = parentSentence.querySelector(textSelector);
+                if (textGroup) {
+                    const newRange = document.createRange();
+                    
+                    // Encontra a primeira palavra do texto
+                    const textContent = textGroup.textContent.trim();
+                    const firstWordEnd = textContent.indexOf(' ');
+                    const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
+                    
+                    newRange.setStart(textGroup.firstChild, 0);
+                    newRange.setEnd(textGroup.firstChild, firstWord.length);
+                    selection.addRange(newRange);
+                }
+            } else {
+                // Nova verificação para garantir que a seleção não ultrapasse a linha atual
+                const startContainer = range.startContainer.closest(textSelector);
+                const endContainer = range.endContainer.closest(textSelector);
+
+                if (startContainer !== endContainer) {
+                    // Se a seleção ultrapassou a linha, a corrigimos para a primeira palavra do text-group inicial
+                    selection.removeAllRanges();
+                    if (startContainer) {
+                        const newRange = document.createRange();
+                        const textContent = startContainer.textContent.trim();
+                        const firstWordEnd = textContent.indexOf(' ');
+                        const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
+                        
+                        newRange.setStart(startContainer.firstChild, 0);
+                        newRange.setEnd(startContainer.firstChild, firstWord.length);
+                        selection.addRange(newRange);
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Exemplo de como usar a função:
+// Chame esta função depois que o DOM estiver pronto
+window.addEventListener('DOMContentLoaded', () => {
+   // A sua lógica que cria e adiciona as sentenças ao DOM...
+   
+   // A chamada agora só precisa do seletor para o texto
+   preventNumberSelection('.text-group');
+});
