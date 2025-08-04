@@ -890,12 +890,10 @@ function preventNumberSelection(textSelector) {
         console.error("Editor não encontrado.");
         return;
     }
-
-    // Adiciona um ouvinte de evento para quando a seleção do mouse terminar
-    editor.addEventListener('mouseup', () => {
+    
+    // Define a função de correção de seleção
+    const correctSelection = () => {
         const selection = window.getSelection();
-
-        // Verifica se a seleção existe e se a seleção contém o texto
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
             const parentSentence = range.commonAncestorContainer.closest('.sentence-group');
@@ -904,7 +902,6 @@ function preventNumberSelection(textSelector) {
                 return;
             }
 
-            // Seleciona todos os elementos que não devem ser selecionados
             const unselectableElements = parentSentence.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
             
             let selectionIncludesUnselectable = false;
@@ -914,16 +911,13 @@ function preventNumberSelection(textSelector) {
                 }
             });
 
-            // Se a seleção for inválida, a limpamos...
             if (selectionIncludesUnselectable) {
                 selection.removeAllRanges();
 
-                // ... e restauramos a seleção para incluir apenas a primeira palavra do text-group
                 const textGroup = parentSentence.querySelector(textSelector);
                 if (textGroup) {
                     const newRange = document.createRange();
                     
-                    // Encontra a primeira palavra do texto
                     const textContent = textGroup.textContent.trim();
                     const firstWordEnd = textContent.indexOf(' ');
                     const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
@@ -933,12 +927,10 @@ function preventNumberSelection(textSelector) {
                     selection.addRange(newRange);
                 }
             } else {
-                // Nova verificação para garantir que a seleção não ultrapasse a linha atual
                 const startContainer = range.startContainer.closest(textSelector);
                 const endContainer = range.endContainer.closest(textSelector);
 
                 if (startContainer !== endContainer) {
-                    // Se a seleção ultrapassou a linha, a corrigimos para a primeira palavra do text-group inicial
                     selection.removeAllRanges();
                     if (startContainer) {
                         const newRange = document.createRange();
@@ -953,6 +945,17 @@ function preventNumberSelection(textSelector) {
                 }
             }
         }
+    };
+    
+    // Adiciona ouvintes de evento para desktop e mobile
+    editor.addEventListener('mouseup', correctSelection);
+    editor.addEventListener('touchend', correctSelection);
+    
+    // Previne a seleção nos elementos não-selecionáveis para ser mais robusto em ambos os dispositivos
+    const unselectableElementsAll = document.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
+    unselectableElementsAll.forEach(element => {
+      element.addEventListener('mousedown', e => e.preventDefault());
+      element.addEventListener('touchstart', e => e.preventDefault());
     });
 }
 
