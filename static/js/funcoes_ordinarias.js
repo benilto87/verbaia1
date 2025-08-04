@@ -803,44 +803,37 @@ function fecharInspiracao() {
   document.getElementById("inspiracao-lousa").style.display = "none";
 }
 
-// CHAT ALTERNADO 💬💬 ************************************************************************************************
+// CHAT ALTERNADO **********************************************************************************************************
 function trocarModoChat(modo) {
+  // Remove estilos e scripts antigos
   const head = document.head;
 
-  // Remove CSS e JS anteriores se existirem
+  // Remove CSS anterior se existir
   const cssAnterior = document.getElementById('chat-css');
   if (cssAnterior) cssAnterior.remove();
 
+  // Remove JS anterior se existir
   const jsAnterior = document.getElementById('chat-js');
   if (jsAnterior) jsAnterior.remove();
 
-  // Cria novo CSS e JS
+  // Cria novo <link> para CSS
   const novoCss = document.createElement('link');
   novoCss.rel = 'stylesheet';
   novoCss.id = 'chat-css';
 
+  // Cria novo <script> para JS
   const novoJs = document.createElement('script');
   novoJs.id = 'chat-js';
 
   if (modo === 'romantico') {
     novoCss.href = "/static/css/chats/chat_romantico.css";
     novoJs.src  = "/static/js/chats/chat_romantico.js";
-
-    // 🌸 Aplica imagem inicial de fundo direto no painel
-    const chatPanel = document.getElementById("chat-panel");
-    if (chatPanel) {
-      chatPanel.style.backgroundImage = `
-        linear-gradient(180deg, rgba(255, 192, 203, 0.15), rgba(138, 43, 226, 0.15)),
-        url('/static/img/flavia.jpg')`;
-      chatPanel.style.opacity = '1';
-    }
-
   } else if (modo === 'edtorial') {
     novoCss.href = "/static/css/chats/chat_escuro.css";
     novoJs.src  = "/static/js/chats/chat_edtorial.js";
   }
 
-  // Aplica no <head>
+  // Adiciona ao <head>
   head.appendChild(novoCss);
   head.appendChild(novoJs);
 }
@@ -882,7 +875,7 @@ document.getElementById("editor").addEventListener("keydown", function (event) {
 
 // PREVINE SELEÇÃO DA NUMERAÇÃO COM O TEXTO **************************************************************
 
-function preventNumberSelection(textSelector) {
+function preventDesktopSelection(textSelector) {
     // Seleciona o container pai de todas as sentenças
     const editor = document.getElementById('editor');
 
@@ -890,10 +883,92 @@ function preventNumberSelection(textSelector) {
         console.error("Editor não encontrado.");
         return;
     }
-    
-    // Define a função de correção de seleção
-    const correctSelection = () => {
+
+    // Adiciona um ouvinte de evento para quando a seleção do mouse terminar
+    editor.addEventListener('mouseup', () => {
         const selection = window.getSelection();
+
+        // Verifica se a seleção existe e se a seleção contém o texto
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const parentSentence = range.commonAncestorContainer.closest('.sentence-group');
+            
+            if (!parentSentence) {
+                return;
+            }
+
+            // Seleciona todos os elementos que não devem ser selecionados
+            const unselectableElements = parentSentence.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
+            
+            let selectionIncludesUnselectable = false;
+            unselectableElements.forEach(element => {
+                if (range.intersectsNode(element)) {
+                    selectionIncludesUnselectable = true;
+                }
+            });
+
+            // Se a seleção for inválida, a limpamos...
+            if (selectionIncludesUnselectable) {
+                selection.removeAllRanges();
+
+                // ... e restauramos a seleção para incluir apenas a primeira palavra do text-group
+                const textGroup = parentSentence.querySelector(textSelector);
+                if (textGroup) {
+                    const newRange = document.createRange();
+                    
+                    const textContent = textGroup.textContent.trim();
+                    const firstWordEnd = textContent.indexOf(' ');
+                    const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
+                    
+                    newRange.setStart(textGroup.firstChild, 0);
+                    newRange.setEnd(textGroup.firstChild, firstWord.length);
+                    selection.addRange(newRange);
+                }
+            } else {
+                // Nova verificação para garantir que a seleção não ultrapasse a linha atual
+                const startContainer = range.startContainer.closest(textSelector);
+                const endContainer = range.endContainer.closest(textSelector);
+
+                if (startContainer !== endContainer) {
+                    // Se a seleção ultrapassou a linha, a corrigimos para a primeira palavra do text-group inicial
+                    selection.removeAllRanges();
+                    if (startContainer) {
+                        const newRange = document.createRange();
+                        const textContent = startContainer.textContent.trim();
+                        const firstWordEnd = textContent.indexOf(' ');
+                        const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
+                        
+                        newRange.setStart(startContainer.firstChild, 0);
+                        newRange.setEnd(startContainer.firstChild, firstWord.length);
+                        selection.addRange(newRange);
+                    }
+                }
+            }
+        }
+    });
+
+    // Previne a seleção nos elementos não-selecionáveis para ser mais robusto
+    const unselectableElementsAll = document.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
+    unselectableElementsAll.forEach(element => {
+      element.addEventListener('mousedown', e => e.preventDefault());
+    });
+}
+
+// PREVINE SELEÇÃO DA NUMERAÇÃO COM O TEXTO **************************************************************
+
+function preventMobileSelection(textSelector) {
+    // Seleciona o container pai de todas as sentenças
+    const editor = document.getElementById('editor');
+
+    if (!editor) {
+        console.error("Editor não encontrado.");
+        return;
+    }
+
+    // Adiciona um ouvinte de evento para quando a seleção do toque terminar
+    editor.addEventListener('touchend', () => {
+        const selection = window.getSelection();
+
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
             const parentSentence = range.commonAncestorContainer.closest('.sentence-group');
@@ -926,44 +1001,23 @@ function preventNumberSelection(textSelector) {
                     newRange.setEnd(textGroup.firstChild, firstWord.length);
                     selection.addRange(newRange);
                 }
-            } else {
-                const startContainer = range.startContainer.closest(textSelector);
-                const endContainer = range.endContainer.closest(textSelector);
-
-                if (startContainer !== endContainer) {
-                    selection.removeAllRanges();
-                    if (startContainer) {
-                        const newRange = document.createRange();
-                        const textContent = startContainer.textContent.trim();
-                        const firstWordEnd = textContent.indexOf(' ');
-                        const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
-                        
-                        newRange.setStart(startContainer.firstChild, 0);
-                        newRange.setEnd(startContainer.firstChild, firstWord.length);
-                        selection.addRange(newRange);
-                    }
-                }
             }
         }
-    };
+    });
     
-    // Adiciona ouvintes de evento para desktop e mobile
-    editor.addEventListener('mouseup', correctSelection);
-    editor.addEventListener('touchend', correctSelection);
-    
-    // Previne a seleção nos elementos não-selecionáveis para ser mais robusto em ambos os dispositivos
+    // Previne a seleção nos elementos não-selecionáveis para ser mais robusto
     const unselectableElementsAll = document.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
     unselectableElementsAll.forEach(element => {
-      element.addEventListener('mousedown', e => e.preventDefault());
       element.addEventListener('touchstart', e => e.preventDefault());
     });
 }
 
-// Exemplo de como usar a função:
-// Chame esta função depois que o DOM estiver pronto
+// Exemplo de como usar as funções:
+// Chame estas funções depois que o DOM estiver pronto
 window.addEventListener('DOMContentLoaded', () => {
    // A sua lógica que cria e adiciona as sentenças ao DOM...
    
    // A chamada agora só precisa do seletor para o texto
-   preventNumberSelection('.text-group');
+   preventDesktopSelection('.text-group');
+   preventMobileSelection('.text-group');
 });

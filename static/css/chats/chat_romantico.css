@@ -156,3 +156,10 @@
 #botao-toggle-modelo.girado {
   transform: rotate(180deg);
 }
+
+@media (max-width: 768px) {
+    /* CORREÇÃO: Usando o ID #chat-panel */
+    #chat-panel {
+      display: none;
+    }
+}
