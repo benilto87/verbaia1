@@ -965,8 +965,27 @@ function preventMobileSelection(textSelector) {
         return;
     }
 
-    // Adiciona um ouvinte de evento para quando a seleção do toque terminar
+    let isMobileSelectionInProgress = false;
+
+    editor.addEventListener('touchstart', (e) => {
+        isMobileSelectionInProgress = true;
+    });
+
     editor.addEventListener('touchend', () => {
+        isMobileSelectionInProgress = false;
+        setTimeout(() => {
+          correctSelection();
+        }, 100);
+    });
+
+    editor.addEventListener('touchmove', () => {
+        // Se a seleção estiver em andamento, verificamos em cada movimento
+        if (isMobileSelectionInProgress) {
+            correctSelection();
+        }
+    });
+
+    const correctSelection = () => {
         const selection = window.getSelection();
 
         if (selection.rangeCount > 0) {
@@ -1003,7 +1022,7 @@ function preventMobileSelection(textSelector) {
                 }
             }
         }
-    });
+    };
     
     // Previne a seleção nos elementos não-selecionáveis para ser mais robusto
     const unselectableElementsAll = document.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
