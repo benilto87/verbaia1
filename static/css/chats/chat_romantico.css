@@ -168,7 +168,7 @@
     overflow: hidden;
     position: fixed;
     bottom: 52px;
-    right: 8px;
+    right: 16px;
     background-color: white;
     z-index: 999;
     box-shadow: 0 0 8px rgba(0,0,0,0.2);
