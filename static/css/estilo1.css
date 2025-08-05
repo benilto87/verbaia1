@@ -27,6 +27,8 @@ h1 {
     font-size: 2rem;
     margin-bottom: 1.2rem;
     color: var(--primary);
+    text-align: right; /* 👈 Alinha à direita */
+    padding-right: 1rem; /* 👈 Dá espaço da borda */
 }
 
 /* BOTÕES DO SISTEMA ************************************************** */
@@ -175,20 +177,31 @@ h1 {
     margin-right: 1rem;
     border-right: 2px solid var(--border-color);
     padding-right: 1rem;
-    display: block; 
-    float: left; 
-    width: 50px; 
+    display: block;
+    float: left;
+    width: 50px;
     text-align: right;
-    line-height: 1.7; 
-    user-select: none; 
+    line-height: 1.7;
+    /* A propriedade user-select: none já está aqui */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    
+    /* Esta nova linha impede qualquer interação com o mouse,
+     * o que finalmente resolve o problema de seleção.
+     */
+    pointer-events: none;
 }
 
+/* * Removemos a regra para .text-group::before que causou problemas de layout.
+ */
 .text-group {
-    overflow: hidden; 
-    min-height: 1.7em; 
-    outline: none; 
-    line-height: 1.7; 
-    padding-left: 5px; 
+    overflow: hidden;
+    min-height: 1.7em;
+    outline: none;
+    line-height: 1.7;
+    padding-left: 5px;
 }
 
 .scene-marker,
@@ -210,15 +223,19 @@ h1 {
 .scene-marker {
     color: var(--accent);
     background: #eef6fb;
+	position: relative;
+    display: block;              /* ocupa linha inteira */
     border-left: 3px solid var(--accent);
     font-weight: bold;
     font-size: 0.95rem;
 }
 
 .processed-symbol {
-    color: var(--error-color); 
-    background: #fff5f5; 
-    border-left: 3px solid var(--error-color);
+  color: var(--error-color);	
+  position: relative;
+  display: block;              /* ocupa linha inteira */
+  background: #fff5f5; 
+  border-left: 3px solid var(--error-color);
 }
 
 .processed-comment {
@@ -228,8 +245,60 @@ h1 {
     border-left: 3px solid var(--highlight);
 }
 
-/* ******************************************************************************************************** */
+/* ******************************************************************************************************* */
 
+.processed-comment.marcacao-com-fechar {
+  position: relative;
+  display: inline-block;
+  padding-right: 28px;
+}
+
+.marcacao-fechar {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 14px;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.marcacao-fechar:hover {
+  color: red;
+  opacity: 1;
+}
+
+.separador {
+  display: inline-block;
+  margin: 0 4px;
+  color: #c7a94e;
+  font-weight: normal;
+}
+
+/* INSPIRAÇÃO ******************************************************************************************************** */
+
+#inspiracao-lousa {
+  touch-action: none; /* Impede interferência de gestos nativos do navegador */
+}
+
+#inspiracao-lousa.minimizado {
+  width: auto;
+  height: auto;
+  min-height: 15px;
+  max-height: 20px;
+  padding: 4px 8px;
+  font-size: 13px;
+  min-width: 120px;
+  max-width: 200px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* STATUS CARREGAMENTO ****************************************************************************************** */
 #loading-simbol {
     text-align: center;
     font-style: italic;
@@ -405,12 +474,18 @@ h1 {
 /* --- MEDIA QUERY PARA CELULARES (TELA PEQUENA) --- */
 /* ========================================================= */
 @media (max-width: 768px) {
-    /* Ajustes no corpo para telas menores */
+	/* Ajustes no corpo para telas menores */
     body {
         max-width: 100%;
-        margin: 1rem 0.5rem;
+        margin: 0.0rem 0.5rem;
         padding: 0;
     }
+	
+	    h1 {
+    margin-top: 0.5rem; /* Ajusta a margem superior do h1 para 0.5rem */
+    margin-bottom: 0.4rem; /* Mantém a margem inferior para espaçamento */
+    font-size: 2.0rem; /* Opcional: diminui o tamanho da fonte para mobile */
+}
 
     /* Ajustes na barra de ferramentas para melhor uso do espaço */
     #toolbar {
@@ -429,7 +504,7 @@ h1 {
     /* Otimizando o contêiner do editor para celulares */
     .editor-container {
         max-height: 40vh;
-        min-height: 500px;
+        min-height: 450px;
         padding: 0.8rem;
     }
 
@@ -481,13 +556,10 @@ h1 {
         display: none;
     }
     
-    /* Oculta o chat na versão mobile */
-    .chat-panel {
-      display: none;
-    }
-}
 
 
 
 
+    
+  
 
