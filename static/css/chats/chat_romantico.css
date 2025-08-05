@@ -2,10 +2,10 @@
 
 #chat-panel {
   position: fixed;
-  bottom: 37px;
+  bottom: 52px;
   right: 52px;
   width: 452px;
-  max-height: 820px;
+  max-height: 670px;
 
   background: 
     linear-gradient(180deg, rgba(255, 192, 203, 0.15), rgba(138, 43, 226, 0.15)),
@@ -24,9 +24,22 @@
 }
 
 #chat-panel.minimized {
+  width: 64px;
   height: 64px;
   max-height: 64px;
+  max-width: 64px;
   overflow: hidden;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 64px;
+  right: 32px;
+  z-index: 999;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  background-size: 140%;
+  background-position: 50% 30%;
 }
 
 /* TOPO: imagem redonda e nome delicado */
@@ -158,27 +171,13 @@
 }
 
 @media (max-width: 768px) {
-    
-
-  #chat-panel.minimized {
-    display: block !important;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    overflow: hidden;
-    position: fixed;
-    bottom: 65px;
-    right: 32px;
-    background-color: white;
-    z-index: 999;
-    box-shadow: 0 0 8px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
+  #chat-panel:not(.minimized) {
+    width: 90vw !important;      /* até 90% da tela */
+    max-width: 450px !important; /* nunca ultrapassa 400px */
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
   }
+}
 
-  #chat-panel.minimized img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
 }
