@@ -277,8 +277,28 @@ h1 {
   font-weight: normal;
 }
 
-/* ******************************************************************************************************** */
+/* INSPIRAÇÃO ******************************************************************************************************** */
 
+#inspiracao-lousa {
+  touch-action: none; /* Impede interferência de gestos nativos do navegador */
+}
+
+#inspiracao-lousa.minimizado {
+  width: auto;
+  height: auto;
+  min-height: 15px;
+  max-height: 20px;
+  padding: 4px 8px;
+  font-size: 13px;
+  min-width: 120px;
+  max-width: 200px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* STATUS CARREGAMENTO ****************************************************************************************** */
 #loading-simbol {
     text-align: center;
     font-style: italic;
@@ -536,31 +556,10 @@ h1 {
         display: none;
     }
     
-    /* Oculta o chat na versão mobile */
-    .chat-panel {
-      display: none;
-    }
-}
-
-#inspiracao-lousa {
-  touch-action: none; /* Impede interferência de gestos nativos do navegador */
-}
-
-#inspiracao-lousa.minimizado {
-  width: auto;
-  height: auto;
-  min-height: 15px;
-  max-height: 20px;
-  padding: 4px 8px;
-  font-size: 13px;
-  min-width: 120px;
-  max-width: 200px;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
 
 
 
+
+    
+  
 

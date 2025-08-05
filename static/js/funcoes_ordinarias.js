@@ -937,3 +937,10 @@ document.getElementById("editor").addEventListener("keydown", function (event) {
   }
 });
 
+// CHAT MINIMIZADO VERSÃO MOBILE
+window.addEventListener("load", () => {
+  const panel = document.getElementById("chat-panel");
+  if (window.innerWidth <= 768) {
+    panel.classList.add("minimized");
+  }
+});
