@@ -559,7 +559,7 @@ function numberSentences() {
         // Cria o marcador de número
         const numberSpan = document.createElement("span");
         numberSpan.className = "number-marker";
-        numberSpan.textContent = i + 1;
+        numberSpan.innerHTML = `${i + 1}<span class="separador">°</span>`;
 
         // Cria o contêiner do texto editável com o HTML preservado
         const textSpan = document.createElement("span");
@@ -640,7 +640,7 @@ function numberSentencesBy3() {
 
         const numberSpan = document.createElement("span");
         numberSpan.className = "number-marker";
-        numberSpan.textContent = groupCount++;
+        numberSpan.innerHTML = `${groupCount++}<span class="separador">°</span>`;
 
         const textSpan = document.createElement("span");
         textSpan.className = "text-group";
@@ -719,7 +719,7 @@ function numberSentencesBy4() {
 
         const numberSpan = document.createElement("span");
         numberSpan.className = "number-marker";
-        numberSpan.textContent = groupCount++;
+        numberSpan.innerHTML = `${groupCount++}<span class="separador">°</span>`;
 
         const textSpan = document.createElement("span");
         textSpan.className = "text-group";
@@ -937,179 +937,3 @@ document.getElementById("editor").addEventListener("keydown", function (event) {
   }
 });
 
-// PREVINE SELEÇÃO DA NUMERAÇÃO COM O TEXTO **************************************************************
-
-function preventDesktopSelection(textSelector) {
-    // Seleciona o container pai de todas as sentenças
-    const editor = document.getElementById('editor');
-
-    if (!editor) {
-        console.error("Editor não encontrado.");
-        return;
-    }
-
-    // Adiciona um ouvinte de evento para quando a seleção do mouse terminar
-    editor.addEventListener('mouseup', () => {
-        const selection = window.getSelection();
-
-        // Verifica se a seleção existe e se a seleção contém o texto
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            const parentSentence = range.commonAncestorContainer.closest('.sentence-group');
-            
-            if (!parentSentence) {
-                return;
-            }
-
-            // Seleciona todos os elementos que não devem ser selecionados
-            const unselectableElements = parentSentence.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
-            
-            let selectionIncludesUnselectable = false;
-            unselectableElements.forEach(element => {
-                if (range.intersectsNode(element)) {
-                    selectionIncludesUnselectable = true;
-                }
-            });
-
-            // Se a seleção for inválida, a limpamos...
-            if (selectionIncludesUnselectable) {
-                selection.removeAllRanges();
-
-                // ... e restauramos a seleção para incluir apenas a primeira palavra do text-group
-                const textGroup = parentSentence.querySelector(textSelector);
-                if (textGroup) {
-                    const newRange = document.createRange();
-                    
-                    const textContent = textGroup.textContent.trim();
-                    const firstWordEnd = textContent.indexOf(' ');
-                    const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
-                    
-                    newRange.setStart(textGroup.firstChild, 0);
-                    newRange.setEnd(textGroup.firstChild, firstWord.length);
-                    selection.addRange(newRange);
-                }
-            } else {
-                // Nova verificação para garantir que a seleção não ultrapasse a linha atual
-                const startContainer = range.startContainer.closest(textSelector);
-                const endContainer = range.endContainer.closest(textSelector);
-
-                if (startContainer !== endContainer) {
-                    // Se a seleção ultrapassou a linha, a corrigimos para a primeira palavra do text-group inicial
-                    selection.removeAllRanges();
-                    if (startContainer) {
-                        const newRange = document.createRange();
-                        const textContent = startContainer.textContent.trim();
-                        const firstWordEnd = textContent.indexOf(' ');
-                        const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
-                        
-                        newRange.setStart(startContainer.firstChild, 0);
-                        newRange.setEnd(startContainer.firstChild, firstWord.length);
-                        selection.addRange(newRange);
-                    }
-                }
-            }
-        }
-    });
-
-    // Previne a seleção nos elementos não-selecionáveis para ser mais robusto
-    const unselectableElementsAll = document.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
-    unselectableElementsAll.forEach(element => {
-      element.addEventListener('mousedown', e => e.preventDefault());
-    });
-}
-
-/**
- * Funcao exclusiva para dispositivos moveis (eventos de toque).
- *
- * @param {string} textSelector O seletor CSS para o elemento de texto (ex: '.text-group').
- */
-function preventMobileSelection(textSelector) {
-    // Seleciona o container pai de todas as sentenças
-    const editor = document.getElementById('editor');
-
-    if (!editor) {
-        console.error("Editor não encontrado.");
-        return;
-    }
-
-    let isMobileSelectionInProgress = false;
-
-    // Adiciona uma nova regra: previne a seleção se o toque inicial for em um elemento não-selecionável.
-    editor.addEventListener('touchstart', (e) => {
-        const target = e.target.closest('.number-marker, .processed-comment, .processed-symbol');
-        if (target) {
-            e.preventDefault();
-            return;
-        }
-        isMobileSelectionInProgress = true;
-    });
-
-    editor.addEventListener('touchend', () => {
-        isMobileSelectionInProgress = false;
-        setTimeout(() => {
-          correctSelection();
-        }, 100);
-    });
-
-    editor.addEventListener('touchmove', () => {
-        // Se a seleção estiver em andamento, verificamos em cada movimento
-        if (isMobileSelectionInProgress) {
-            correctSelection();
-        }
-    });
-
-    const correctSelection = () => {
-        const selection = window.getSelection();
-
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            const parentSentence = range.commonAncestorContainer.closest('.sentence-group');
-            
-            if (!parentSentence) {
-                return;
-            }
-
-            const unselectableElements = parentSentence.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
-            
-            let selectionIncludesUnselectable = false;
-            unselectableElements.forEach(element => {
-                if (range.intersectsNode(element)) {
-                    selectionIncludesUnselectable = true;
-                }
-            });
-
-            if (selectionIncludesUnselectable) {
-                selection.removeAllRanges();
-
-                const textGroup = parentSentence.querySelector(textSelector);
-                if (textGroup) {
-                    const newRange = document.createRange();
-                    
-                    const textContent = textGroup.textContent.trim();
-                    const firstWordEnd = textContent.indexOf(' ');
-                    const firstWord = firstWordEnd !== -1 ? textContent.substring(0, firstWordEnd) : textContent;
-                    
-                    newRange.setStart(textGroup.firstChild, 0);
-                    newRange.setEnd(textGroup.firstChild, firstWord.length);
-                    selection.addRange(newRange);
-                }
-            }
-        }
-    };
-    
-    // Previne a seleção nos elementos não-selecionáveis para ser mais robusto
-    const unselectableElementsAll = document.querySelectorAll('.number-marker, .processed-comment, .processed-symbol');
-    unselectableElementsAll.forEach(element => {
-      element.addEventListener('touchstart', e => e.preventDefault());
-    });
-}
-
-// Exemplo de como usar as funções:
-// Chame estas funções depois que o DOM estiver pronto
-window.addEventListener('DOMContentLoaded', () => {
-   // A sua lógica que cria e adiciona as sentenças ao DOM...
-   
-   // A chamada agora só precisa do seletor para o texto
-   preventDesktopSelection('.text-group');
-   preventMobileSelection('.text-group');
-});

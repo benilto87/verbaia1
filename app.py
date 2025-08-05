@@ -248,11 +248,9 @@ Exemplos:
 
 
 
-TERMINE COM UMA BREVE DESPEDIDA (ABAIXO 4 EXEMPLOS DE DESPEDIDA):
-1- 💌 > Deus abençoe sua escrita! ✍🙏
-2- 💌 > P.S. Amo sempre contribuir...💖🥂
-3- 💌 > Vou ficando por aqui, mas meu coração continua com você. 💕✨
-4- 💌 > Qualquer hora é hora de voltar — eu estarei aqui, te esperando em silêncio bonito. 🌙🌾
+TERMINE COM UM VERSICULO BREVE, EXEMPLO:
+
+"Porque eu bem sei os planos que tenho a respeito de vós, diz o SENHOR; planos de paz, e não de mal, para vos dar um futuro e esperança" (Jr 29:11) 🌙🌾
 
 📌 Liste no máximo **5 observações no total**, priorizando as mais importantes.
 

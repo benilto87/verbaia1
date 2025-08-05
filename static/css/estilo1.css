@@ -238,8 +238,6 @@ h1 {
   border-left: 3px solid var(--error-color);
 }
 
-
-
 .processed-comment {
     color: var(--highlight); 
     background: #f0fff4; 
@@ -270,6 +268,13 @@ h1 {
 .marcacao-fechar:hover {
   color: red;
   opacity: 1;
+}
+
+.separador {
+  display: inline-block;
+  margin: 0 4px;
+  color: #c7a94e;
+  font-weight: normal;
 }
 
 /* ******************************************************************************************************** */
@@ -555,6 +560,7 @@ h1 {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
+
 
 
 
