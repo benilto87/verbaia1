@@ -81,80 +81,74 @@ def numberprocess():
 
     return jsonify({'result': '\n\n'.join(resultado)})
 
-# PROCESSIMBOL 🎯 
+# 🌾 SIMBOLPROCESS 🌾 **********************************************************************
 @app.route('/simbolprocess', methods=['POST'])
 def simbol_process():
-    text = request.json.get('text', '')
-    if not text.strip():
-        return jsonify({'modified': '', 'comentarios': {}})
+    data = request.get_json()
+    texto = data.get('text', '').strip()
+
+    if not texto:
+        return jsonify({'result': '⚠️ Texto vazio.'})
 
     prompt = f"""
 {flavia_persona}
 
 Aqui está um texto dividido em blocos numerados:
 
-{text}
+{texto}
 
-Para cada bloco, faça o seguinte:
+Para cada bloco que mereça intervenção, siga EXTRITAMENTE este formato (SEM COMENTÁRIOS EXTRAS):
 
-- Se encontrar uma parte especifica do texto que possa melhorar em estilo, clareza ou impacto, sugira uma dica breve e prática, seguida por um exemplo de reescrita.
+🌾 [n°] [Título simbólico]  
+Frase original:  
+“...”]  
+Sugestão ✍:  
+“...”  
+📌 Justificativa: ...
 
-- Formate sua resposta assim, para cada bloco com sugestões:
+- Exemplo de texto de entrada:
 
-NUMERO (🌺 DICA:[sua dica aqui] 🎯 REESCREVA ✍: [exemplo]) /
+E, enquanto solava de um modo encantador, era como se você solasse junto com ele.
 
+- Exemplo de Saída ESPERADO:
 
-- Se não tiver sugestões para um bloco, não o mencione.
-- Comente no máximo *uma frase por bloco**.
+🌾 42° [Integração simbólica no dueto silencioso]
+Frase original:
+“E, enquanto solava de um modo encantador, era como se você solasse junto com ele.”] 
+Sugestão ✍:
+“E, enquanto ele solava de um modo encantador, era como se sua alma estivesse em uníssono com a dele, num canto que só os dois ouviam.”
+📌 Justificativa: A sugestão reforça o simbolismo da fusão espiritual pela música.
 
-
-Comece sua análise:
+🔒 Só sugira se houver ganho real. Preserve o estilo do autor.
 """
 
     try:
         completion = openai_client.chat.completions.create(
             model='gpt-4o',
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.6,
-            max_tokens=600,
+            temperature=0.65,
+            max_tokens=900,
         )
 
         resposta = completion.choices[0].message.content.strip()
-
-        # Tratamento especial para resposta vazia ou neutra
-        if not resposta or resposta.lower().startswith("nenhuma sugestao"):
-            return jsonify({
-                'modified': text,  # devolve o texto original
-                'comentarios': {}
-            })
-
-        # Padrão da sugestão: 1 (DICA 🌺: ... 🎯 REESCREVA ✍: ...) /
-        import re
-        sugestoes = {}
-        padrao = re.compile(r'(\d+)\s*\((.*?)\) /', re.DOTALL)
-
-        for match in padrao.finditer(resposta):
-            num = int(match.group(1))
-            conteudo = match.group(2).strip()
-            sugestoes[num] = conteudo
-
-        linhas = text.split('\n\n')
-        resultado_modificado = []
-
-        for i, bloco in enumerate(linhas, 1):
-            resultado_modificado.append(bloco.rstrip())
-
-        return jsonify({
-            'modified': '\n\n'.join(resultado_modificado),
-            'comentarios': sugestoes
-        })
+        return jsonify({'result': resposta})
 
     except Exception as e:
-        return jsonify({
-            'modified': text,
-            'comentarios': {},
-            'erro': str(e)
-        }), 500
+        return jsonify({'result': f"Erro ao processar: {e}"})
+
+    try:
+        completion = openai_client.chat.completions.create(
+            model='gpt-4o',
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.65,
+            max_tokens=900,
+        )
+
+        resposta = completion.choices[0].message.content.strip()
+        return jsonify({'result': resposta})
+
+    except Exception as e:
+        return jsonify({'result': f"Erro ao processar: {e}"})
 
 #ANALISE INICIAL ✨
 @app.route('/analisar', methods=['POST'])

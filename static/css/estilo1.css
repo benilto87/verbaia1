@@ -206,7 +206,10 @@ h1 {
 
 .scene-marker,
 .processed-symbol,
-.processed-comment {
+.processed-comment,
+.processed-comment1,
+.processed-comment-scriptus,
+.processed-comment-scriptus.papiro {
     display: inline-flex; 
     align-items: center; 
     gap: 4px; 
@@ -245,9 +248,34 @@ h1 {
     border-left: 3px solid var(--highlight);
 }
 
+.processed-comment1 {
+    color: var(--highlight); 
+    background: #f6ecd2; 
+    font-style: italic;
+    border-left: 3px solid var(--highlight);
+}
+
+.processed-comment-scriptus {
+  background: #fdf6e3; /* bege suave */
+  color: #5a3e1b;      /* marrom escuro */
+  font-style: italic;
+  border-left: 3px solid #d2b48c; /* bege tostado */
+  padding: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  font-family: 'Georgia', 'Garamond', serif;
+}
+
 /* ******************************************************************************************************* */
 
 .processed-comment.marcacao-com-fechar {
+  position: relative;
+  display: inline-block;
+  padding-right: 28px;
+}
+
+.processed-comment-scriptus.marcacao-com-fechar {
   position: relative;
   display: inline-block;
   padding-right: 28px;

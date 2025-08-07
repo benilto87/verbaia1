@@ -523,22 +523,22 @@ async function gerarTarefa() {
   }
 }
 
-// ✍ PROCESSIMBOL ✍ *****************************************************************************************************
+// 🌾 SIMBOLPROCESS 🌾 **********************************************************************
 function executarSimbolProcess() {
-  const sentenceGroups = document.querySelectorAll(".sentence-group");
+  const editor = document.getElementById("editor");
+  const sentenceGroups = editor.querySelectorAll(".sentence-group");
   const textArray = [];
 
-  // Mostra carregando
-  const loadingDiv = document.getElementById("loading-simbol");
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (loadingDiv) loadingDiv.style.display = 'block';
-  if (feedbackDiv) feedbackDiv.textContent = '';
+  if (feedbackDiv) {
+    feedbackDiv.innerHTML = '<span style="color:#884488;">⏳ Gerando sugestões simbólicas... 🌾</span>';
+  }
 
   sentenceGroups.forEach(group => {
-    const number = group.querySelector(".number-marker")?.innerText.trim();
-    const text = group.querySelector(".text-group")?.innerText.trim();
-    if (number && text) {
-      textArray.push(`${number}\n${text}`);
+    const numero = group.querySelector(".number-marker")?.innerText.trim().match(/\d+/)?.[0];
+    const texto = group.querySelector(".text-group")?.innerText.trim();
+    if (numero && texto) {
+      textArray.push(`${numero}\n${texto}`);
     }
   });
 
@@ -551,103 +551,55 @@ function executarSimbolProcess() {
   })
   .then(res => res.json())
   .then(data => {
-    if (loadingDiv) loadingDiv.style.display = 'none';
-
-    const modifiedText = data.modified || '';
-    const comentarios = data.comentarios || {};
-
-    if (!modifiedText.trim()) {
-      if (feedbackDiv) feedbackDiv.textContent = "🛑 Nenhuma resposta da IA ou sem sugestões.";
+    const resposta = data.result || '';
+    if (!resposta.trim()) {
+      alert("⚠️ Nenhuma sugestão simbólica recebida.");
       return;
     }
 
-    const blocks = modifiedText.split("\n\n");
-    const editor = document.getElementById("editor");
+    const blocos = resposta.split(/(?=🌾\s*\d+\s*\[)/g);
+    const sugestoes = {};
 
-    // 🔐 Armazena comentários, cenas e símbolos já existentes
-    const comentariosAtuais = {};
-    const cenasAtuais = {};
-    const simbolosAtuais = {}; // <--- NOVO
-
-    document.querySelectorAll('.sentence-group').forEach(group => {
-      const numero = parseInt(group.querySelector('.number-marker')?.innerText.trim());
-
-      // Comentários existentes
-      const comentarioExistente = group.querySelector('.processed-comment');
-      if (numero && comentarioExistente) {
-        comentariosAtuais[numero] = comentarioExistente.innerHTML.trim();
-      }
-
-      // Marcação de cena existente
-      const cenaExistente = group.querySelector('.scene-marker');
-      if (numero && cenaExistente) {
-        cenasAtuais[numero] = cenaExistente.outerHTML;
-      }
-
-      // ✨ NOVO: Marcação de símbolo existente (💎, 🌀, 🚨 etc)
-      const simbolosExistentes = group.querySelectorAll('.processed-symbol');
-      if (numero && simbolosExistentes.length > 0) {
-        simbolosAtuais[numero] = Array.from(simbolosExistentes).map(el => el.outerHTML);
+    blocos.forEach(bloco => {
+      try {
+        const numeroMatch = bloco.match(/🌾\s*(\d+)/);
+        const numero = numeroMatch ? parseInt(numeroMatch[1]) : null;
+        if (numero) sugestoes[numero] = bloco.trim();
+      } catch (e) {
+        console.warn("Erro ao processar bloco simbólico:", bloco, e);
       }
     });
 
-    // Limpa o editor
-    editor.innerHTML = '';
+    sentenceGroups.forEach(group => {
+      const numeroTexto = group.querySelector(".number-marker")?.innerText.trim().match(/\d+/)?.[0];
+      const numero = parseInt(numeroTexto);
+      const sugestao = sugestoes[numero];
 
-    blocks.forEach((block, i) => {
-      const parts = block.split('\n');
-      const num = parts[0]?.trim();
-      const frase = parts[1]?.trim();
-      const blocoNumero = parseInt(num);
+      if (sugestao) {
+        const idMarcacao = `marcacao-${Date.now()}-${numero}`;
+        const span = document.createElement("span");
+        span.innerHTML = `
+          <span class="processed-comment-scriptus marcacao-com-fechar" id="${idMarcacao}">
+            ${sugestao.replace(/\n/g, "<br>")}
+            <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+          </span>
+        `;
 
-      const group = document.createElement('div');
-      group.className = 'sentence-group';
-
-      const numSpan = document.createElement('span');
-      numSpan.className = 'number-marker';
-      numSpan.textContent = num;
-
-      const textSpan = document.createElement('span');
-      textSpan.className = 'text-group';
-      textSpan.setAttribute('contenteditable', 'true');
-      textSpan.textContent = frase;
-
-      group.appendChild(numSpan);
-      group.appendChild(textSpan);
-
-      // Comentário novo ou já existente
-      const comentarioFinal = comentarios[blocoNumero] || comentariosAtuais[blocoNumero];
-      if (comentarioFinal) {
-        const comment = document.createElement("div");
-        comment.innerHTML = `<span class="processed-comment">${comentarioFinal}</span>`;
-        group.appendChild(comment);
+        const textGroup = group.querySelector(".text-group");
+        if (textGroup) {
+          textGroup.appendChild(span);
+        }
       }
-
-      // Cena já existente
-      if (cenasAtuais[blocoNumero]) {
-        const cenaDiv = document.createElement("div");
-        cenaDiv.innerHTML = cenasAtuais[blocoNumero];
-        group.appendChild(cenaDiv);
-      }
-
-      // ✨ Reinsere os símbolos salvos (💎, 🌀, 🚨 etc)
-      if (simbolosAtuais[blocoNumero]) {
-        simbolosAtuais[blocoNumero].forEach(html => {
-          const simboloDiv = document.createElement("div");
-          simboloDiv.innerHTML = html;
-          group.appendChild(simboloDiv);
-        });
-      }
-
-      editor.appendChild(group);
     });
 
-    editor.scrollTop = editor.scrollHeight;
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Sugestões simbólicas aplicadas!</span>';
+      setTimeout(() => feedbackDiv.innerHTML = '', 2500);
+    }
   })
   .catch(err => {
-    if (loadingDiv) loadingDiv.style.display = 'none';
-    if (feedbackDiv) feedbackDiv.textContent = "⚠️ Erro ao se conectar com a IA.";
-    alert("Erro na IA: " + err);
+    if (feedbackDiv) feedbackDiv.innerHTML = '❌ Erro ao buscar sugestões.';
+    alert("Erro ao buscar sugestões: " + err);
   });
 }
 
