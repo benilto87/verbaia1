@@ -34,7 +34,7 @@
   border: 2px solid #ccc;
   border-radius: 8px;
   max-width: 350px;
-  max-height: 730px;
+  max-height: 1000px;
   box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
   font-style: italic;
   font-size: 0.95rem;
@@ -68,8 +68,8 @@
   
   <div id="inspiracao-texto" style="
     margin-top: 6px;
-    overflow-y: visible;
-    max-height: none;
+    max-height: 1000px;
+    overflow-y: auto;
     padding-right: 3px;
 "></div>
 </div>
@@ -102,7 +102,7 @@
 
 <!-- Botões de numeração e marcas -->
 <button class="toolbar-button botao-fixo-tarefa" onclick="numberSentences()" title="Numerar Frases">#</button>
-<button class="toolbar-button botao-fixo-tarefa" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
+<button class="toolbar-button botao-modificavel" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy4()" title="Numerar por blocos de 4 frases">#4</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="removeNumbering()" title="Remover Numeração">⌫ #</button>
 <button class="toolbar-button botao-modificavel" onclick="removerFormatacaoSelecao()" title="Remover Estilo da Seleção">🧽</button>
