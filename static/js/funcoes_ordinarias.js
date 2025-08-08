@@ -260,20 +260,26 @@ function fecharBusca() {
 }
 
 function destacarBusca() {
-  const termo = document.getElementById("inputBusca").value;
-  const editor = document.getElementById("editor");
+  const termo = document.getElementById("inputBusca").value.trim();
+  if (termo.length < 1) return;
 
   limparDestaques();
 
-  if (termo.length >= 1) {
-    const regex = new RegExp(`(${termo})`, "gi");
-    editor.innerHTML = editor.innerHTML.replace(regex, `<mark>$1</mark>`);
-  }
+  const grupos = document.querySelectorAll("#editor .text-group");
+  const regex = new RegExp(`(${termo})`, "gi");
+
+  grupos.forEach(group => {
+    const originalText = group.textContent;
+    const highlightedHTML = originalText.replace(regex, "<mark>$1</mark>");
+    group.innerHTML = highlightedHTML;
+  });
 }
 
 function limparDestaques() {
-  const editor = document.getElementById("editor");
-  editor.innerHTML = editor.innerHTML.replace(/<mark>(.*?)<\/mark>/gi, "$1");
+  const grupos = document.querySelectorAll("#editor .text-group");
+  grupos.forEach(group => {
+    group.innerHTML = group.textContent; // Remove <mark> sem quebrar a estrutura
+  });
 }
 
 // 🔍 Atalhos de teclado
