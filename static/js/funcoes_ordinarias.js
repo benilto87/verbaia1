@@ -828,18 +828,22 @@ function permitirArrastarInspiracao() {
   let offsetX, offsetY;
 
   function startDrag(e) {
-    isDragging = true;
-    const rect = lousa.getBoundingClientRect();
-    const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-    const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-    offsetX = clientX - rect.left;
-    offsetY = clientY - rect.top;
+  // Só permite arrastar se a lousa estiver minimizada
+  if (!lousa.classList.contains("minimizado")) return;
 
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("mouseup", stopDrag);
-    document.addEventListener("touchmove", drag, { passive: false });
-    document.addEventListener("touchend", stopDrag);
-  }
+  isDragging = true;
+  const rect = lousa.getBoundingClientRect();
+  const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+  const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+  offsetX = clientX - rect.left;
+  offsetY = clientY - rect.top;
+
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("mouseup", stopDrag);
+  document.addEventListener("touchmove", drag, { passive: false });
+  document.addEventListener("touchend", stopDrag);
+}
+
 
   function drag(e) {
     if (!isDragging) return;
