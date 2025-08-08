@@ -97,9 +97,9 @@ Aqui está um texto dividido em blocos numerados:
 
 {texto}
 
-Para cada bloco que mereça intervenção, siga EXTRITAMENTE este formato (SEM COMENTÁRIOS EXTRAS):
+Para cada bloco que mereça intervenção, preservando o tom do autor, siga EXTRITAMENTE este formato:
 
-🌾 [n°] [Título simbólico]  
+🌾 [n°] **[Título simbólico]**  
 Frase original:  
 “...”]  
 Sugestão ✍:  
@@ -112,14 +112,12 @@ E, enquanto solava de um modo encantador, era como se você solasse junto com el
 
 - Exemplo de Saída ESPERADO:
 
-🌾 42° [Integração simbólica no dueto silencioso]
+🌾 42° **[Integração simbólica no dueto silencioso]**
 Frase original:
 “E, enquanto solava de um modo encantador, era como se você solasse junto com ele.”] 
 Sugestão ✍:
 “E, enquanto ele solava de um modo encantador, era como se sua alma estivesse em uníssono com a dele, num canto que só os dois ouviam.”
 📌 Justificativa: A sugestão reforça o simbolismo da fusão espiritual pela música.
-
-🔒 Só sugira se houver ganho real. Preserve o estilo do autor.
 """
 
     try:
@@ -172,9 +170,9 @@ Instruções:
 - Aplique no máximo 1 marcação de cada tipo (💎, 🌀, 🥈).
 - Use o formato exato:
 
-💎 Jóia Literária: “...” — [👸 breve comentário][NÚMERO].
-🌀 Potencial Dispersivo: possível dispersão emocional — [😵 A frase mistura sensações conflitantes e perde foco.] [✍ Dica de reescrita: “Sentia saudade, mas não sabia de quem.”] [8]
-🥈 Potencial Desperdiçado: “...” — [😥 explicação breve sobre por que a frase não alcançou seu potencial] seguido de sugestão [✍ Dica de reescrita: ...   ][NÚMERO]
+💎 **Jóia Literária:** “...” — [👸 breve comentário][NÚMERO].
+🌀 **Potencial Dispersivo:** possível dispersão emocional — [😵 A frase mistura sensações conflitantes e perde foco.] [✍ Dica de reescrita: “Sentia saudade, mas não sabia de quem.”] [8]
+🥈 **Potencial Desperdiçado:** “...” — [😥 explicação breve sobre por que a frase não alcançou seu potencial] seguido de sugestão [✍ Dica de reescrita: ...   ][NÚMERO]
 
 Se não houver motivo claro para aplicar, não use a marcação.
 
@@ -394,21 +392,21 @@ def analisar_fluidez():
     prompt = f"""
 Você é uma inteligência editorial literária. Analise o texto numerado abaixo e aplique marcações de fluidez, ritmo e estilo quando necessário. Use:
 
-🚨> {{F~~}} / Descreva mais...  
-🚨> {{F***}} / Construção truncada...  
-🚨> {{F>>}} / Acelere mais...  
-🚨> {{🤫*}} / Mostre mais fale menos...  
-🚨> {{🤏*}} / Detalhe pequeno...  
+**🚨> {{F~~}}** / Descreva mais...  
+**🚨> {{F***}}** / Construção truncada...  
+**🚨> {{F>>}}** / Acelere mais...  
+**🚨> {{🤫*}}** / Mostre mais fale menos...  
+**🚨> {{🤏*}}** / Detalhe pequeno...  
 
 Siga o formato:  
-🚨> [símbolo] / descrição breve. 📌 Dica: [sugestão clara] n° [número do bloco]
+**🚨> [símbolo]** / descrição breve. **📌 Dica:** [sugestão clara] n° [número do bloco]
 
 Exemplo Prático:
-🚨> {{F~~}} / Descreva mais... 📌 Dica: Em vez de apenas “Ele entrou na sala”, acrescente sensações ou objetos: “Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.” n° 2
+**🚨> {{F~~}}** / Descreva mais... **📌 Dica:** Em vez de apenas “Ele entrou na sala”, acrescente sensações ou objetos: “Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.” n° 2
 
-🚨> {{F***}} / Construção truncada... 📌 Dica: Reescreva a frase para manter ritmo: “A luz. A sombra. Ele.” → “A luz se espalhava, projetando sua sombra enquanto ele surgia.” n° 5
+**🚨> {{F***}}** / Construção truncada... **📌 Dica:** Reescreva a frase para manter ritmo: “A luz. A sombra. Ele.” → “A luz se espalhava, projetando sua sombra enquanto ele surgia.” n° 5
 
-🚨> {{🤫*}} / Mostre mais, fale menos... 📌 Dica: Em vez de dizer “Ele estava triste”, mostre com ação: “Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.” n° 7
+**🚨> {{🤫*}}** / Mostre mais, fale menos... **📌 Dica:** Em vez de dizer “Ele estava triste”, mostre com ação: “Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.” n° 7
 
 
 Corrija no máximo **1/3 de todos os blocos**.  
@@ -454,7 +452,7 @@ Para cada bloco, faça o seguinte:
 
 - Formate sua resposta assim, para cada bloco com sugestões:
 
-NUMERO (🌺 DICA:[sua dica aqui] 🎯 REESCREVA ✍: [exemplo]) /
+NUMERO 🌺 **DICA:**[sua dica aqui] **🎯 REESCREVA ✍:** [exemplo]
 
 ⚠️ Instruções ⚠️:
 - Comente no máximo *uma frase por bloco*. Mesmos que hajam várias.

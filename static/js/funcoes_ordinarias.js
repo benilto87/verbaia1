@@ -565,7 +565,7 @@ function numberSentences() {
         const textSpan = document.createElement("span");
         textSpan.className = "text-group";
         textSpan.setAttribute("contenteditable", "true");
-        textSpan.innerHTML = finalSentenceHTML.trim();
+        textSpan.innerHTML = '\u2003' + finalSentenceHTML.trim(); // espaço EM, mais largo
 
         // Adiciona os elementos ao grupo
         group.appendChild(numberSpan);
@@ -575,6 +575,85 @@ function numberSentences() {
     });
 }
 
+
+   // NUMBERSENTENCES 2 ***************************************************************************************************
+// NUMBERSENTENCES 2 ***************************************************************************************************
+function numberSentencesBy2() {
+    const editor = document.getElementById("editor");
+    
+    // 1. Pega o HTML original e o coloca em um contêiner temporário
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = editor.innerHTML;
+
+    // 2. Remove todos os grupos de numeração e anotações anteriores para limpeza
+    tempDiv.querySelectorAll('.sentence-group, .processed-symbol, .processed-comment, .scene-marker, .revisao-bloco').forEach(el => {
+        if (el.classList.contains('sentence-group')) {
+            const textGroup = el.querySelector('.text-group');
+            if (textGroup) {
+                el.replaceWith(textGroup);
+            }
+        } else {
+            el.remove();
+        }
+    });
+
+    // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
+    let htmlContent = tempDiv.innerHTML;
+    const tempEllipsisMarker = '__ELLIPSIS__';
+    htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
+
+    let sentences = [];
+    let currentSentence = '';
+    
+    const parts = htmlContent.split(/(<[^>]+>|[\.!?]|\n)/g);
+
+    parts.forEach(part => {
+        if (!part) return;
+
+        currentSentence += part;
+        
+        if (['.', '!', '?'].includes(part.trim()) || part === '\n') {
+            let trimmedSentence = currentSentence.trim();
+            if (trimmedSentence) {
+                sentences.push(trimmedSentence);
+            }
+            currentSentence = '';
+        }
+    });
+
+    if (currentSentence.trim()) {
+        sentences.push(currentSentence.trim());
+    }
+
+    // 4. Reconstroi o editor com a nova numeração e formatação em grupos de 2
+    editor.innerHTML = "";
+    let groupCount = 1;
+
+    for (let i = 0; i < sentences.length; i += 2) {
+        const grupoDeSentencasHTML = sentences.slice(i, i + 2).join(" ");
+        
+        const finalGrupoHTML = grupoDeSentencasHTML.replace(new RegExp(tempEllipsisMarker, 'g'), '...');
+
+        const group = document.createElement("div");
+        group.className = "sentence-group";
+
+        const numberSpan = document.createElement("span");
+        numberSpan.className = "number-marker";
+        numberSpan.innerHTML = `${groupCount++}<span class="separador">°</span>`;
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "text-group";
+        textSpan.setAttribute("contenteditable", "true");
+        textSpan.innerHTML = '\u2003' + finalGrupoHTML.trim(); // espaço largo
+
+        group.appendChild(numberSpan);
+        group.appendChild(textSpan);
+        editor.appendChild(group);
+    }
+}
+
+   // NUMBERSENTENCES 2 ***************************************************************************************************
+// NUMBERSENTENCES 2 ***************************************************************************************************
 function numberSentencesBy3() {
     const editor = document.getElementById("editor");
     
@@ -645,86 +724,7 @@ function numberSentencesBy3() {
         const textSpan = document.createElement("span");
         textSpan.className = "text-group";
         textSpan.setAttribute("contenteditable", "true");
-        textSpan.innerHTML = finalGrupoHTML.trim();
-
-        group.appendChild(numberSpan);
-        group.appendChild(textSpan);
-        editor.appendChild(group);
-    }
-}
-
-    // NUMBERSENTENCES 4 ****************************************************************************************************
-function numberSentencesBy4() {
-    const editor = document.getElementById("editor");
-    
-    // 1. Pega o HTML original e o coloca em um contêiner temporário
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = editor.innerHTML;
-
-    // 2. Remove todos os grupos de numeração e anotações anteriores para limpeza
-    tempDiv.querySelectorAll('.sentence-group, .processed-symbol, .processed-comment, .scene-marker, .revisao-bloco').forEach(el => {
-        if (el.classList.contains('sentence-group')) {
-            const textGroup = el.querySelector('.text-group');
-            if (textGroup) {
-                el.replaceWith(textGroup);
-            }
-        } else {
-            el.remove();
-        }
-    });
-
-    // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
-    let htmlContent = tempDiv.innerHTML;
-    const tempEllipsisMarker = '__ELLIPSIS__';
-    htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
-
-    let sentences = [];
-    let currentSentence = '';
-    
-    // Agora, o split é feito apenas por tags, ponto final, exclamação, interrogação ou quebra de linha
-    const parts = htmlContent.split(/(<[^>]+>|[\.!?]|\n)/g);
-
-    parts.forEach(part => {
-        if (!part) return;
-
-        currentSentence += part;
-        
-        // Finaliza a sentença se encontrar pontuação de fim de frase ou quebra de linha
-        if (['.', '!', '?'].includes(part.trim()) || part === '\n') {
-            let trimmedSentence = currentSentence.trim();
-            if (trimmedSentence) {
-                sentences.push(trimmedSentence);
-            }
-            currentSentence = ''; // Reseta para a próxima sentença
-        }
-    });
-
-    // Adiciona qualquer conteúdo restante que não tenha pontuação final
-    if (currentSentence.trim()) {
-        sentences.push(currentSentence.trim());
-    }
-
-    // 4. Reconstroi o editor com a nova numeração e formatação em grupos de 4
-    editor.innerHTML = "";
-    let groupCount = 1;
-
-    for (let i = 0; i < sentences.length; i += 4) {
-        const grupoDeSentencasHTML = sentences.slice(i, i + 4).join(" ");
-        
-        // Restaura as reticências antes de inserir o HTML
-        const finalGrupoHTML = grupoDeSentencasHTML.replace(new RegExp(tempEllipsisMarker, 'g'), '...');
-
-        const group = document.createElement("div");
-        group.className = "sentence-group";
-
-        const numberSpan = document.createElement("span");
-        numberSpan.className = "number-marker";
-        numberSpan.innerHTML = `${groupCount++}<span class="separador">°</span>`;
-
-        const textSpan = document.createElement("span");
-        textSpan.className = "text-group";
-        textSpan.setAttribute("contenteditable", "true");
-        textSpan.innerHTML = finalGrupoHTML.trim();
+        textSpan.innerHTML = '\u2003' + finalGrupoHTML.trim(); // espaço EM (largo)
 
         group.appendChild(numberSpan);
         group.appendChild(textSpan);

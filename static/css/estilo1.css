@@ -175,7 +175,7 @@ h1 {
     color: var(--accent);
     font-weight: bold;
     margin-right: 1rem;
-    border-right: 2px solid var(--border-color);
+    /* border-right: 2px solid var(--border-color); */
     padding-right: 1rem;
     display: block;
     float: left;
@@ -206,6 +206,7 @@ h1 {
 
 .scene-marker,
 .processed-symbol,
+.processed-symbol-gold,
 .processed-comment,
 .processed-comment1,
 .processed-comment-scriptus,
@@ -239,6 +240,17 @@ h1 {
   display: block;              /* ocupa linha inteira */
   background: #fff5f5; 
   border-left: 3px solid var(--error-color);
+}
+
+.processed-symbol-gold {
+  color: #a67900;                                 /* Dourado queimado elegante */
+  position: relative;
+  display: block;
+  background: #fffaf0;                            /* Fundo marfim claro */
+  border-left: 3px solid #d4af37;                 /* Ouro metálico */
+  font-weight: bold;
+  padding: 4px 8px;
+  margin-left: 12px; /* Espaço entre o texto e o marcador */
 }
 
 .processed-comment {
@@ -276,6 +288,12 @@ h1 {
 }
 
 .processed-comment-scriptus.marcacao-com-fechar {
+  position: relative;
+  display: inline-block;
+  padding-right: 28px;
+}
+
+.processed-symbol-gold.marcacao-com-fechar {
   position: relative;
   display: inline-block;
   padding-right: 28px;

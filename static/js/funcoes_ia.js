@@ -1,16 +1,22 @@
 // FUNÇÃO DA IA ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // ✨ ANALISE ✨ ********************************************************************************************************
+// ✨ ANALISE COM SAÍDA DUPLA: BLOCO + LOUSA **********************************************************************************************
 function analyzeWithAI() {
   const editor = document.getElementById("editor");
   const sentenceGroups = editor.querySelectorAll(".sentence-group");
   const textArray = [];
 
-  // 🔁 Mostra carregamento com alma viva
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
     feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Analisando texto... ✨</span>';
   }
+
+  // Limpa marcações anteriores nos blocos
+  document.querySelectorAll(".processed-symbol").forEach(el => {
+    if (el.innerText.includes("💎") || el.innerText.includes("🌀") || el.innerText.includes("🥈")) {
+      el.remove();
+    }
+  });
 
   sentenceGroups.forEach(group => {
     const number = group.querySelector(".number-marker")?.innerText.trim();
@@ -27,87 +33,88 @@ function analyzeWithAI() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text: fullText })
   })
-  .then(res => res.json())
-  .then(data => {
-    const resposta = data.result;
-    if (!resposta || resposta.startsWith("⚠️")) {
-      alert(resposta || "Erro desconhecido");
-      return;
-    }
+    .then(res => res.json())
+    .then(data => {
+      const resposta = data.result;
+      if (!resposta || resposta.startsWith("⚠️")) {
+        alert(resposta || "Erro desconhecido");
+        return;
+      }
 
-    // ✅ NÃO remove outras marcações (como 🎬 ou 🎯)
-    // Só remove as marcações deste botão: 💎, 🌀, 🥈
-    document.querySelectorAll(".processed-symbol").forEach(el => {
-  if (el.innerText.includes("💎") || el.innerText.includes("🌀") || el.innerText.includes("🥈")) {
-    el.remove();
-  }
-});
+      // 🧠 Processa a resposta para cada bloco
+      const linhas = resposta.split('\n');
+      const explicacoesPorBloco = {};
 
-    // 🔁 Aplica as novas marcações apenas de símbolos (💎, 🌀, 🥈)
-    sentenceGroups.forEach((group, i) => {
-      const numero = i + 1;
-      const textBlock = group.querySelector(".text-group")?.innerText.trim();
-      const lines = resposta.split('\n');
+      linhas.forEach(linha => {
+        const matchNumero = linha.match(/\[(\d+)\]/); // extrai o número entre colchetes
+        if (!matchNumero) return;
+        const numero = parseInt(matchNumero[1]);
 
-      lines.forEach(line => {
-  const matchAspas = line.match(/“([^”]+)”/);
-  const blocoTemTexto = textBlock && matchAspas && textBlock.includes(matchAspas[1]);
+        // Salva explicação completa para a lousa
+        if (!explicacoesPorBloco[numero]) {
+          explicacoesPorBloco[numero] = [];
+        }
+        explicacoesPorBloco[numero].push(linha);
 
-  // 🥈 POTENCIAL DESPERDIÇADO
-  if (line.includes("🥈") && blocoTemTexto) {
-    const idMarcacao = `marcacao-${Date.now()}-${numero}-🥈`;
-    const span = document.createElement("div");
-    span.innerHTML = `
-      <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
-        ${line}
-        <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
-      </span>
-    `;
-    group.appendChild(span);
-  }
+        // INSERE APENAS O SÍMBOLO NO BLOCO
+        const group = sentenceGroups[numero - 1];
+        if (!group) return;
 
-  // 🌀 DISPERSIVO
-  if (line.includes("🌀") && line.includes(`[${numero}]`)) {
-    const idMarcacao = `marcacao-${Date.now()}-${numero}-🌀`;
-    const span = document.createElement("div");
-    span.innerHTML = `
-      <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
-        ${line}
-        <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
-      </span>
-    `;
-    group.appendChild(span);
-  }
+        let simbolo = '';
+        if (linha.includes('💎')) simbolo = '💎 Jóia Literária';
+        else if (linha.includes('🌀')) simbolo = '🌀 Potencial Dispersivo';
+        else if (linha.includes('🥈')) simbolo = '🥈 Potencial Desperdiçado';
+        else return;
 
-  // 💎 JÓIA LITERÁRIA
-  if (line.includes("💎") && blocoTemTexto) {
-    const idMarcacao = `marcacao-${Date.now()}-${numero}-💎`;
-    const span = document.createElement("div");
-    span.innerHTML = `
-      <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
-        ${line}
-        <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
-      </span>
-    `;
-    group.appendChild(span);
-  }
-});
+        const idMarcacao = `marcacao-${Date.now()}-${numero}-${simbolo}`;
+
+        const marcador = document.createElement("div");
+        marcador.className = "processed-symbol-gold marcacao-com-fechar";
+        marcador.id = idMarcacao;
+        marcador.innerHTML = `
+          <span>${simbolo}</span>
+          <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+        `;
+        group.appendChild(marcador);
+      });
+
+      // 🧠 GERA A LOUSA COM EXPLICAÇÕES
+      const lousa = document.getElementById("inspiracao-lousa");
+      const titulo = lousa.querySelector("strong");
+      const texto = document.getElementById("inspiracao-texto");
+
+      lousa.style.display = "block";
+      titulo.innerText = "• MARCAÇÕES ESPECIAIS 💎®";
+      texto.innerText = "👁 Gerando leitura da Flávia...";
+      let textoFinal = ""; // <-- declaração correta antes de usar
+
+      Object.keys(explicacoesPorBloco).sort((a, b) => a - b).forEach(numero => {
+        explicacoesPorBloco[numero].forEach(expl => {
+          const explComHTML = expl
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // negrito
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')             // itálico
+            .replace(/\n/g, '<br>');                          // quebra de linha
+
+          textoFinal += `${explComHTML}<br><br>`;
+        });
+      });
+
+      texto.innerHTML = textoFinal;
+
+      // ✅ Feedback final
+      if (feedbackDiv) {
+        feedbackDiv.innerHTML = '<span style="color:green;">✔️ Análise concluída!</span>';
+        setTimeout(() => {
+          feedbackDiv.innerHTML = '';
+        }, 2000);
+      }
+    })
+    .catch(err => {
+      if (feedbackDiv) {
+        feedbackDiv.innerHTML = '❌ Erro ao analisar texto.';
+      }
+      alert("Erro na IA: " + err);
     });
-
-    // ✅ Feedback final por 2 segundos
-    if (feedbackDiv) {
-      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Análise concluída!</span>';
-      setTimeout(() => {
-        feedbackDiv.innerHTML = '';
-      }, 2000);
-    }
-  })
-  .catch(err => {
-    if (feedbackDiv) {
-      feedbackDiv.innerHTML = '❌ Erro ao analisar texto.';
-    }
-    alert("Erro na IA: " + err);
-  });
 }
 
 // INSPIRE 👁‍🗨 ***************************************************************************************************************
@@ -435,8 +442,11 @@ async function corrigirTexto2() {
   }
 }
 
+// ALTERNADOR 3.5 PARA 4.0
+
 // 🌐 Modelo inicial ********************************************************************************************
-let modeloAtual = "3.5"; // Começa como 3.5
+// 🌐 Modelo inicial ********************************************************************************************
+let modeloAtual = "4.0"; // ✅ Começa em 4.0 direto!
 
 // 🎛 Alternador de modelo com botão "🔼"
 const botaoToggle = document.getElementById("botao-toggle-modelo");
@@ -445,14 +455,18 @@ const botaoPrincipal = document.getElementById("botao-pedido");
 botaoToggle.addEventListener("click", () => {
   if (modeloAtual === "3.5") {
     modeloAtual = "4.0";
-    botaoPrincipal.innerText = "🧠 pedido 4.0";
-    botaoToggle.classList.add("girado"); // ⬇️ gira pra 180°
+    botaoPrincipal.innerText = "🔮 pedido™";
+    botaoToggle.classList.add("girado");
   } else {
     modeloAtual = "3.5";
     botaoPrincipal.innerText = "📘 pedido 3.5";
-    botaoToggle.classList.remove("girado"); // ⬆️ volta pra 0°
+    botaoToggle.classList.remove("girado");
   }
 });
+
+// ✅ Garante que o botão já apareça certo ao carregar
+botaoPrincipal.innerText = "🔮 pedido™";
+botaoToggle.classList.add("girado");
 
 // DO...>> 💻 TAREFA LIGRE 💻 ************************************************************************************************************
 async function gerarTarefa() {
@@ -523,7 +537,7 @@ async function gerarTarefa() {
   }
 }
 
-// 🌾 SIMBOLPROCESS 🌾 **********************************************************************
+// 🌾 ROTA DICAS SIMBÓLICAS 🌾 **********************************************************************
 function executarSimbolProcess() {
   const editor = document.getElementById("editor");
   const sentenceGroups = editor.querySelectorAll(".sentence-group");
@@ -557,14 +571,24 @@ function executarSimbolProcess() {
       return;
     }
 
-    const blocos = resposta.split(/(?=🌾\s*\d+\s*\[)/g);
+    // Aceita 🌾 antes OU depois do número (ex: 🌾 42° ou 42°🌾)
+    const blocos = resposta.split(/(?=🌾\s*\d+°?\s*\*\*\[)/g);
     const sugestoes = {};
 
     blocos.forEach(bloco => {
       try {
-        const numeroMatch = bloco.match(/🌾\s*(\d+)/);
-        const numero = numeroMatch ? parseInt(numeroMatch[1]) : null;
-        if (numero) sugestoes[numero] = bloco.trim();
+        const numeroMatch = bloco.match(/(\d+)\s*°?\s*🌾|\s*🌾\s*(\d+)/);
+        const numero = numeroMatch ? parseInt(numeroMatch[1] || numeroMatch[2]) : null;
+        if (numero) {
+          // Aplicar Markdown:
+          const sugestaoComHTML = bloco
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
+            .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
+            .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
+            .replace(/\n/g, "<br>");                          // quebra de linha
+
+          sugestoes[numero] = sugestaoComHTML.trim();
+        }
       } catch (e) {
         console.warn("Erro ao processar bloco simbólico:", bloco, e);
       }
@@ -580,7 +604,7 @@ function executarSimbolProcess() {
         const span = document.createElement("span");
         span.innerHTML = `
           <span class="processed-comment-scriptus marcacao-com-fechar" id="${idMarcacao}">
-            ${sugestao.replace(/\n/g, "<br>")}
+            ${sugestao}
             <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
           </span>
         `;
@@ -727,12 +751,17 @@ function analyzeFluidezIA() {
       if (sugestao) {
         const idMarcacao = `marcacao-${numero}-${Math.random().toString(36).substr(2, 6)}`;
         const span = document.createElement("span");
+        const sugestaoHTML = sugestao
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')   // **negrito**
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')               // *itálico*
+          .replace(/\n/g, '<br>');                            // quebra de linha
+
         span.innerHTML = `
-        <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
-      ${sugestao}
-      <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
-    </span>
-  `;
+          <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
+            ${sugestaoHTML}
+            <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+          </span>
+        `;
 
         const textGroup = group.querySelector(".text-group");
         if (textGroup) {
@@ -810,12 +839,17 @@ function analisarDicasIA() {
       if (sugestao) {
         const idMarcacao = `marcacao-${numero}-${Math.random().toString(36).substr(2, 6)}`;
         const span = document.createElement("span");
+        const sugestaoHTML = sugestao
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')   // **negrito**
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')               // *itálico*
+          .replace(/\n/g, '<br>');                            // quebra de linha
+
         span.innerHTML = `
-        <span class="processed-comment marcacao-com-fechar" id="${idMarcacao}">
-      ${sugestao}
-      <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
-    </span>
-  `;
+          <span class="processed-comment marcacao-com-fechar" id="${idMarcacao}">
+            ${sugestaoHTML}
+            <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+          </span>
+        `;
 
         const textGroup = group.querySelector(".text-group");
         if (textGroup) {
