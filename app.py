@@ -605,7 +605,7 @@ Exemplo de saída esperado:
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
 Seus olhos**, duas contas negras e imóveis, guardavam um reflexo que não era de luz.** No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**
 
-🌙🌾 Lista de mudanças:
+🌙🌾 **Lista de mudanças:**
 1. Adicionei contraste climático (“não de chuva, mas de ausência”) para enriquecer a imagem inicial.
 2. Substituí a descrição redundante do barulho das asas por uma imagem mais direta (“o som das asas arranhou o silêncio”).
 3. Troquei o clichê “pretos como carvão” por uma metáfora mais visual e estática (“duas contas negras e imóveis”).
