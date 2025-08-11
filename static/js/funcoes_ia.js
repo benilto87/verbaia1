@@ -792,7 +792,7 @@ function analyzeFluidezIA() {
   });
 }
 
-// 🌺 DICAS POR BLOCO 🌺 ******************************************************************************************************
+// 🍂 DICAS POR BLOCO 🍂 ******************************************************************************************************
 function analisarDicasIA() {
   const editor = document.getElementById("editor");
   const sentenceGroups = editor.querySelectorAll(".sentence-group");
@@ -801,7 +801,7 @@ function analisarDicasIA() {
   // 🌼 Feedback visual inicial
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#884488;">⏳ Gerando dicas por bloco... 🌺</span>';
+    feedbackDiv.innerHTML = '<span style="color:#884488;">⏳ Gerando dicas por bloco... 🍂</span>';
   }
 
   sentenceGroups.forEach(group => {
