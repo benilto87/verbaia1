@@ -31,109 +31,104 @@ h1 {
     padding-right: 1rem; /* 👈 Dá espaço da borda */
 }
 
-/* BOTÕES DO SISTEMA ************************************************** */
+/* === SISTEMA DE CORES / TOKENS ======================================= */
+:root{
+  /* neutros */
+  --slate-900:#0f172a; --slate-800:#1f2937; --slate-700:#334155; 
+  --slate-600:#475569; --slate-500:#64748b; --slate-400:#94a3b8;
+  --slate-300:#cbd5e1; --slate-200:#e2e8f0; --slate-100:#f1f5f9; --white:#fff;
 
-#toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1.5rem;
+  /* “outono profissional” (âmbar/caramelo + complementares disciplinadas) */
+  --brand-700:#8a4b24; --brand-600:#a15c2f; --brand-500:#bf7a45; 
+  --brand-400:#d9965d; --brand-300:#e7b889;
+
+  --teal-600:#0f766e; --teal-500:#13857d;
+  --rose-600:#b91c1c; --rose-500:#dc2626;
+  --cyan-600:#0e7490; --cyan-500:#0891b2;
+
+  --radius:8px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.08);
+  --shadow-md:0 2px 6px rgba(0,0,0,.10);
 }
 
-.toolbar-button {
-    background: var(--accent);
-    border: 1px solid #c7a94e;      
-    color: white;
-    font-weight: 500;
-    border-radius: 5px;
-    padding: 0.6rem 0.9rem;
-    cursor: pointer;
-    transition: 0.2s ease;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3); 
+/* === LAYOUT DA BARRA ================================================= */
+#toolbar{
+  display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.25rem;
 }
 
-.toolbar-button:hover {
-    background: var(--primary);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+/* === BOTÃO BASE ====================================================== */
+.toolbar-button{
+  appearance:none; border:1px solid transparent;
+  border-radius:var(--radius);
+  padding:.55rem .9rem;
+  font:600 0.85rem/1.1 system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  letter-spacing:.02em; text-transform:uppercase;
+  cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, background-color .12s ease, border-color .12s ease, color .12s ease;
+  box-shadow:var(--shadow-sm);
+  display:inline-flex; align-items:center; gap:.4rem;
 }
+.toolbar-button:hover{ transform:translateY(-1px); box-shadow:var(--shadow-md); }
+.toolbar-button:active{ transform:translateY(0); }
+.toolbar-button:disabled{ opacity:.55; cursor:not-allowed; }
+.toolbar-button:focus-visible{ outline:2px solid var(--slate-300); outline-offset:2px; }
 
-.toolbar-button:active {
-    transform: scale(0.98);
-}
-
-/* CLASSES DE BOTÕES ESPECÍFICAS */
-.botao-amarelo {
-  background-color: #8FBC8F;
-  color: #xxff99;
-  border: 1px solid #c7a94e;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
-}
-
-.botao-amarelo:hover {
-  background-color: #e6c678;
-  color: #3a2400;
-  border-color: #b8942f;
-}
-
-.botao-marcas {
-  background-color: #20B2AA;
-  color: #4a2f00;
-  border: 1px solid #c7a94e;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
-}
-
-.botao-marcas:hover {
-  background-color: #e6c678;
-  color: #3a2400;
-  border-color: #b8942f;
-}
-
-.botao-especial {
-  background-color: #F08080;
-  color: #4a2f00;
-  border: 1px solid #c7a94e;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
-}
-
-.botao-especial:hover {
-  background-color: #e6c678;
-  color: #3a2400;
-  border-color: #b8942f;
-}
-
-.botao-turquesa {
-  background-color: #00DED1;
-  color: #4a2f00;
-  border: 1px solid #c7a94e;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
-}
-
-.botao-turquesa:hover {
-  background-color: #e6c678;
-  color: #3a2400;
-  border-color: #b8942f;
-}
-
+/* === VARIANTES (mantive seus nomes) ================================== */
+/* botões sólidos “profissionais” */
 .botao-dourado {
-  background-color: #f2db9c;
-  color: #4a2f00;
-  border: 1px solid #c7a94e;
+  background: linear-gradient(180deg, #f6a94c, #e0812a); /* dourado-alaranjado quente */
+  color: #3a2400; /* marrom escuro para contraste */
+  border: 1px solid #c26a1f; /* borda mais intensa */
   font-weight: bold;
+  border-radius: 5px;
   box-shadow: 0 2px 4px rgba(74, 47, 0, 0.3);
 }
 
 .botao-dourado:hover {
-  background-color: #e6c678;
-  color: #3a2400;
-  border-color: #b8942f;
+  background: linear-gradient(180deg, #e0812a, #c46317); /* mais fechado no hover */
+  color: #2a1800;
+  border-color: #9a4f12;
 }
+
+.botao-marcas{                       /* TEAL elegante */
+  background:linear-gradient(180deg, var(--teal-500), var(--teal-600));
+  border-color:#0a4f4a; color:#ecfeff;
+}
+.botao-marcas:hover{ background:linear-gradient(180deg, var(--teal-600), #095e57); }
+
+.botao-especial{                     /* ROSE sóbrio (alerta/ação especial) */
+  background:linear-gradient(180deg, var(--rose-500), var(--rose-600));
+  border-color:#7f1d1d; color:#fff5f5;
+}
+.botao-especial:hover{ background:linear-gradient(180deg, var(--rose-600), #991b1b); }
+
+.botao-turquesa{                     /* CYAN controlado (info) */
+  background:linear-gradient(180deg, var(--cyan-500), var(--cyan-600));
+  border-color:#00CED1; color:#ecfeff;
+}
+.botao-turquesa:hover{ background:linear-gradient(180deg, var(--cyan-600), #0b7188); }
+
+.botao-amarelo{                      /* SECUNDÁRIO CLARO (outline filled) */
+  background:linear-gradient(180deg, var(--slate-100), #fff);
+  border-color:var(--slate-300); color:var(--slate-800);
+}
+.botao-amarelo:hover{ background:linear-gradient(180deg, #eef2f7, #fff); border-color:var(--slate-400); }
+
+/* === ESTILO GHOST / OUTLINE (opcional) =============================== */
+.toolbar-button.is-outline{
+  background:transparent; color:var(--brand-600);
+  border-color:var(--brand-400);
+}
+.toolbar-button.is-outline:hover{
+  background:rgba(191,122,69,.08);
+}
+
+/* === TAMANHOS OPCIONAIS ============================================= */
+.toolbar-button.sm{ padding:.4rem .65rem; font-size:.78rem; }
+.toolbar-button.lg{ padding:.7rem 1.1rem; font-size:.92rem; }
+
+/* === SUAVIZAÇÃO DE ÍCONES (se houver) ================================ */
+.toolbar-button > svg{ width:1rem; height:1rem; flex:0 0 auto; }
+
 
 /* EDITOR CONTEINER ****************************************************************************************************** */
 .editor-container {
@@ -254,10 +249,13 @@ h1 {
 }
 
 .processed-comment {
-    color: var(--highlight); 
-    background: #f0fff4; 
+    color: #4a3220; /* marrom médio para texto legível */
+    background: linear-gradient(90deg, #e9a96f 0%, #f6d6a8 52%); /* dourado-alaranjado suave */
     font-style: italic;
-    border-left: 3px solid var(--highlight);
+    border-left: 3px solid #c97b36; /* laranja queimado suave */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* sombra discreta */
+    padding: 6px 10px;
+    border-radius: 4px;
 }
 
 .processed-comment1 {

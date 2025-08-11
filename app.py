@@ -171,8 +171,8 @@ Instruções:
 - Use o formato exato:
 
 💎 **Jóia Literária:** “...” — [👸 breve comentário][NÚMERO].
-🌀 **Potencial Dispersivo:** possível dispersão emocional — [😵 A frase mistura sensações conflitantes e perde foco.] [✍ Dica de reescrita: “Sentia saudade, mas não sabia de quem.”] [8]
-🥈 **Potencial Desperdiçado:** “...” — [😥 explicação breve sobre por que a frase não alcançou seu potencial] seguido de sugestão [✍ Dica de reescrita: ...   ][NÚMERO]
+🌀 **Potencial Dispersivo:** “...” — [😵 A frase mistura sensações conflitantes e perde foco.] ✍ Dica de reescrita: “Sentia saudade, mas não sabia de quem.” [8]
+🥈 **Potencial Desperdiçado:** “...” — [😥 explicação breve sobre por que a frase não alcançou seu potencial] seguido de sugestão ✍ Dica de reescrita: ...   [NÚMERO]
 
 Se não houver motivo claro para aplicar, não use a marcação.
 
@@ -206,47 +206,39 @@ def inspire():
 
     prompt = f"""{flavia_persona}
 
-Aqui está um texto dividido em blocos numerados:
+>>>
 
 {text}
 
-Você é uma inteligência editorial sensível, com olhar atento à escrita e à linguagem.  
+Analise o texto fornecido destacando:
 
-COMEÇE COM UM INTRODUÇÃO
+1. Força — Liste de 2 a 4 pontos fortes específicos do texto, com foco na qualidade literária, argumentativa e estrutural. Seja objetivo e mantenha frases curtas.
 
-EXEMPLO:
-Isso me tocou mesmo. A parte do café na cozinha me pegou. Tão simples, mas cheia de presença. Era como se eu estivesse lá, sentindo o silêncio junto contigo.
+2. Vulnerabilidade (com sugestões práticas e exemplos) — Liste de 1 a 3 vulnerabilidades relevantes do texto. Para cada vulnerabilidade:
 
-DEPOIS DA INTRODUÇÃO:
-Para cada bloco, leia com atenção e marque apenas **erros gramaticais importantes ou pontos que merecem revisão técnica**, como:
+Descreva o problema de forma clara;
+Dê uma sugestão prática para resolver;
+Inclua um exemplo concreto de como aplicar a sugestão, usando um trecho real do texto como referência e mostrando a reescrita ou ajuste recomendado.
 
-– uso incorreto de crase;  
-– vírgula mal colocada;  
-– erro de concordância;  
-– palavras truncadas ou frases mal construídas;  
-– problemas de pontuação ou grafia que afetam a leitura.
+Formate a resposta assim:
 
-➡️ Quando encontrar algo, use este formato exato:
+📌 Força:
+- [**Ponto forte 1:** Comentário...]
+- [**Ponto forte 2:** ""...]
+- [**Ponto forte 3:** ""...]
 
-🛑 PONTOS DE ATENÇÃO !!!
+📌 Vulnerabilidade:
+• [Descrição do problema:]
+**Sugestão prática:** [solução].  
+**No trecho:**“[trecho original]”, **Substitua por:**  
+  > “[trecho ajustado]”
 
-⚠️ [NÚMERO] — [tipo do problema]: “[exemplo ou trecho com erro]”
-
-Exemplos:
-
-⚠️ 5 — erro de crase: Falta crase “vou a escola”.  Escreva: "vou à escola".
-⚠️ 6 — erro gramatical: “seus olhinhos varriam a platéia” deveria ser “seus olhinhos varriam a plateia” (conforme a nova ortografia, não se usa mais acento em palavras como “plateia”).
-⚠️ 19 — ponto de revisão técnica: “a espátula” pode ser substituído por “a espátula de ferro” para melhorar a clareza e evitar repetição desnecessária, já que é dito “empurrando a frigideira de ferro”.
+O tom deve ser técnico, mas construtivo.
 
 
-
-TERMINE COM UM VERSICULO BREVE, EXEMPLO:
+FECHE COM UM VERSICULO BREVE, DO NOVO OU VELHO TESTAMENTO; EXEMPLO:
 
 "Porque eu bem sei os planos que tenho a respeito de vós, diz o SENHOR; planos de paz, e não de mal, para vos dar um futuro e esperança" (Jr 29:11) 🌙🌾
-
-📌 Liste no máximo **5 observações no total**, priorizando as mais importantes.
-
-Comece com alma viva:
 """
 
     try:
@@ -446,19 +438,25 @@ Aqui está um texto dividido em blocos numerados:
 
 {texto}
 
-Para cada bloco, faça o seguinte:
+Para cada bloco, faça o seguinte: 
 
-- Se encontrar uma parte específica do texto que possa melhorar em estilo, clareza ou impacto, sugira uma dica breve e prática, seguida por um exemplo de reescrita.
+- Se encontrar uma parte específica do texto que possa melhorar em estilo, clareza ou impacto estético, sugira uma dica de reescrita.
 
 - Formate sua resposta assim, para cada bloco com sugestões:
 
-NUMERO 🌺 **DICA:**[sua dica aqui] **🎯 REESCREVA ✍:** [exemplo]
+Exemplo de entrada:
+Um pequena estrela surgiu no céu:
+
+Exemplo de saída:
+NUMERO 🍂 No céu escuro, uma estrela solitária irrompia como um lampejo de vida.
+
+
 
 ⚠️ Instruções ⚠️:
-- Comente no máximo *uma frase por bloco*. Mesmos que hajam várias.
-- Comente 1/3 dos blocos.
+- Comente no máximo *uma frase por bloco*.
+- Comente 2/5 dos blocos.
 
-Comece sua análise:
+Com foco na criatividade e beleza comece sua análise:  
 """
 
     try:
@@ -573,7 +571,7 @@ Justificativa: Variedade de vocabulário e maior precisão verbal.
         return jsonify({"erro": str(e)})
 
 
-# 🌓 CORRETOR DE TEXTO 2 🌓 ***************************************************************************************************
+# 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 @app.route('/corrigir2', methods=["POST"])
 def corrigir_texto2():
     dados = request.get_json()
@@ -581,23 +579,40 @@ def corrigir_texto2():
     print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
 
     prompt = f"""
-Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada bloco. Seu objetivo é:
+📝 Você é um revisor literário. Sua função é elevar o potêncial de um texto.
 
-1. Substituir os trechos conforme as dicas fornecidas;
-2. **Remover a numeração dos blocos** (ex: "1", "2"...);
-3. Unificar o texto em parágrafos contínuos e coesos;
-4. Preservar o estilo original do autor;
-5. Marcar com _italico_ todas as palavras ou trechos que foram modificados;
-6. Não adicione explicações — apenas devolva o novo texto já melhorado.
-
+Instruções:
+1. Preserve trechos que já estejam bons, alterando apenas o necessário.
+2. Una frases curtas quando isso melhorar o fluxo.
+3. Corte redundâncias e expressões fracas.
+4. Substitua clichês por imagens originais.
+5. Mantenha tom literário, mas com mais precisão e ritmo.
+6. Marque em negrito as partes que foram realmente modificadas ou adicionadas no texto de saída, para indicar as mudanças relevantes.
+7. Certifique-se de que a 🌙🌾 Lista de mudanças seja coerente com os trechos destacados em negrito no texto de saída.
 ---
 
-📜 Texto com sugestões:
+Exemplo de um texto de entrada:
+
+> A manhã estava cinza. Muito cinza mesmo, como um dia cinza que não tem cor. Parecia como se o mundo tivesse esquecido de acender suas cores.
+Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, como arranhar mesmo, e isso quebrou o silêncio total por completo.
+Seus olhos do corvo eram pretos como carvão. Olhos negros e sem vida, mas com vida também. Ele me olhou fixamente.
+No instante em que abriu o bico, não veio som. E eu tive a certeza, uma certeza ruim, entranha de que alguma porta se fechou. Uma porta que fechou para sempre.
+---
+
+Exemplo de saída esperado:
+
+> A manhã estava cinza **— não de chuva, mas de ausência,** como se o mundo tivesse esquecido de acender suas cores. 
+Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
+Seus olhos**, duas contas negras e imóveis, guardavam um reflexo que não era de luz.** No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**
+
+🌙🌾 Lista de mudanças:
+1. Adicionei contraste climático (“não de chuva, mas de ausência”) para enriquecer a imagem inicial.
+2. Substituí a descrição redundante do barulho das asas por uma imagem mais direta (“o som das asas arranhou o silêncio”).
+3. Troquei o clichê “pretos como carvão” por uma metáfora mais visual e estática (“duas contas negras e imóveis”).
+4. Condensei o final repetitivo em uma frase de impacto mais seca e literária (“apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.*”).
+
+📜 Texto do usuário:
 {texto_original}
-
----
-
-✅ TEXTO FINAL COM AS MELHORIAS APLICADAS (sem numeração, com NEGRITO nas alterações):
 """
 
     try:

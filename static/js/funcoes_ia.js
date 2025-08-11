@@ -118,6 +118,7 @@ function analyzeWithAI() {
 }
 
 // INSPIRE 👁‍🗨 ***************************************************************************************************************
+// INSPIRE 👁‍🗨 ***************************************************************************************************************
 function inspirarComFlavia() {
   const editor = document.getElementById("editor");
   const rawText = editor.innerText.trim();
@@ -131,7 +132,7 @@ function inspirarComFlavia() {
   const lousa = document.getElementById("inspiracao-lousa");
   const texto = document.getElementById("inspiracao-texto");
   lousa.style.display = "block";
-  texto.innerText = "💌 Gerando inspiração com alma viva... ✍";
+  texto.innerText = "🌺 Estou analisando com cuidado... ✍";
 
   fetch('/inspire', {
     method: 'POST',
@@ -140,13 +141,18 @@ function inspirarComFlavia() {
   })
   .then(res => res.json())
   .then(data => {
-    texto.innerText = data.result || "⚠️ Nenhuma resposta da IA.";
+    const formatted = (data.result || "⚠️ Nenhuma resposta da IA.")
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **negrito**
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')             // *itálico*
+      .replace(/\n/g, '<br>');                          // quebra de linha
+    texto.innerHTML = formatted; // insere com formatação HTML
   })
   .catch(err => {
     texto.innerText = "⚠️ Erro ao se conectar com a IA.";
     alert("Erro na IA: " + err);
   });
 }
+
 
 // INSPIRE 2 👁‍🗨‍👁‍🗨‍ ************************************************************************************************************
 function inspirarComFlavia2() { 
@@ -377,7 +383,7 @@ async function corrigirTexto() {
   }
 }
 
-// 🆗 CORRETOR DE TEXTO 2 🆗 ************************************************************************************************************
+// 🌓® CORRETOR DE TEXTO 2 🌓® ************************************************************************************************************
 async function corrigirTexto2() {
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
@@ -419,7 +425,7 @@ async function corrigirTexto2() {
 
     editor.innerHTML = `
       <div class="sentence-group">
-        <span class="number-marker">🆗</span>
+        <span class="number-marker">🌓®</span>
         <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
       </div>
     `;
@@ -825,10 +831,18 @@ function analisarDicasIA() {
     const sugestoes = {};
 
     linhas.forEach(linha => {
-      const match = linha.match(/^(\d+)/);  // captura número do bloco
-      if (match) {
-        const numero = parseInt(match[1]);
-        sugestoes[numero] = linha.trim();
+      // tenta vários formatos: "3 …", "3° …", "NÚMERO 3 …", "NUMERO 3 …", "Nº 3 …"
+      const m =
+        linha.match(/^\s*(\d+)\s*[°º.]?\s/) ||
+        linha.match(/^\s*(?:N[ÚU]?MERO|Nº)\s*(\d+)\s*/i);
+
+      if (!m) return;
+
+      const numero = parseInt(m[1] || m[2], 10);
+      if (!Number.isNaN(numero)) {
+        // opcional: remova o prefixo capturado para exibir só o texto
+        const linhaSemPrefixo = linha.replace(m[0], '').trim();
+        sugestoes[numero] = linhaSemPrefixo;
       }
     });
 

@@ -259,42 +259,80 @@ function fecharBusca() {
   limparDestaques();
 }
 
+// Escapa caracteres especiais do termo pra usar no RegExp
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function destacarBusca() {
   const termo = document.getElementById("inputBusca").value.trim();
-  if (termo.length < 1) return;
+
+  // ✅ Só continua se tiver pelo menos 2 letras
+  if (termo.length < 2) {
+    limparDestaques();
+    return;
+  }
 
   limparDestaques();
 
-  const grupos = document.querySelectorAll("#editor .text-group");
-  const regex = new RegExp(`(${termo})`, "gi");
+  const regex = new RegExp(escapeRegex(termo), "gi");
+  const roots = document.querySelectorAll("#editor .text-group");
 
-  grupos.forEach(group => {
-    const originalText = group.textContent;
-    const highlightedHTML = originalText.replace(regex, "<mark>$1</mark>");
-    group.innerHTML = highlightedHTML;
+  roots.forEach(root => highlightNode(root, regex));
+}
+
+
+// Percorre apenas nós de TEXTO e envolve os matches com <mark>
+function highlightNode(root, regex) {
+  const walker = document.createTreeWalker(
+    root,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        // não marcar dentro de <mark>
+        if (node.parentNode && node.parentNode.nodeName === "MARK") {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+
+  const toProcess = [];
+  while (walker.nextNode()) toProcess.push(walker.currentNode);
+
+  toProcess.forEach(textNode => {
+    const text = textNode.nodeValue;
+    let lastIndex = 0, m;
+    const frag = document.createDocumentFragment();
+
+    regex.lastIndex = 0;
+    while ((m = regex.exec(text)) !== null) {
+      if (m.index > lastIndex) {
+        frag.appendChild(document.createTextNode(text.slice(lastIndex, m.index)));
+      }
+      const mark = document.createElement("mark");
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      lastIndex = regex.lastIndex;
+    }
+    if (lastIndex < text.length) {
+      frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+
+    textNode.parentNode.replaceChild(frag, textNode);
   });
 }
 
 function limparDestaques() {
-  const grupos = document.querySelectorAll("#editor .text-group");
-  grupos.forEach(group => {
-    group.innerHTML = group.textContent; // Remove <mark> sem quebrar a estrutura
+  // “Desembrulha” apenas as <mark>, preservando todo o resto do HTML
+  document.querySelectorAll("#editor .text-group mark").forEach(mark => {
+    const parent = mark.parentNode;
+    while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+    parent.removeChild(mark);
+    parent.normalize(); // junta nós de texto adjacentes
   });
 }
-
-// 🔍 Atalhos de teclado
-document.addEventListener("keydown", function (e) {
-  // Ctrl + L → abrir busca
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
-    e.preventDefault(); // evita conflito com o navegador
-    abrirBusca();
-  }
-
-  // Esc → fechar busca
-  if (e.key === "Escape") {
-    fecharBusca();
-  }
-});
 
 // 🔍 ***************************************************************************************************************
 
