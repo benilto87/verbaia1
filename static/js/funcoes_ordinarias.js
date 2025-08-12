@@ -992,3 +992,34 @@ window.addEventListener("load", () => {
     panel.classList.add("minimized");
   }
 });
+
+  async function enviarCorrecaoLiteraria() {
+    const editor = document.getElementById("editor");
+    const texto = (editor?.innerText || editor?.value || "").trim();
+    const temperatura = parseFloat(document.getElementById("temperatureSlider").value);
+
+    if (!texto) {
+      alert("⚠️ O editor está vazio.");
+      return;
+    }
+
+    // Mostre algum feedback visual se tiver sua área de “lousa”/status
+    try {
+      const res = await fetch('/corrigir2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texto: texto, temperature: temperatura })
+      });
+      const data = await res.json();
+
+      if (data.corrigido) {
+        // Exiba onde você já mostra as saídas (ex.: lousa/caixa lateral)
+        // Aqui um exemplo simples que injeta de volta no editor:
+        editor.innerHTML = data.corrigido;
+      } else {
+        alert("Erro: " + (data.erro || "Falha ao processar."));
+      }
+    } catch (e) {
+      alert("Erro de rede: " + e.message);
+    }
+  }

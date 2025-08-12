@@ -252,71 +252,61 @@ function inspirarComFlavia3() {
   });
 }
 
-// 📝 GERAR RASCUNHO 📝 ********************************************************************************************************
-async function gerarRascunho() {
+// 📝 GERAR RASCUNHO — garante que envia temperature e chama a rota certa
+async function gerarRascunho(temperaturaEscolhida){
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
 
-  // ✨ Mostra carregamento visual com azul marinho
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Criando rascunho... </span>';
-  }
-
-  console.log("🧪 Texto capturado do editor:", textoOriginal);
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">📃 Gerando rascunho... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '';
     return;
   }
+
+  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.85;
 
   try {
     const resposta = await fetch("/rascunho", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ texto: textoOriginal }) // <-- aqui estava certo agora!
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
     });
 
     const dados = await resposta.json();
+    if (dados.erro) throw new Error(dados.erro);
 
-    if (dados.erro) {
-      throw new Error(dados.erro);
-    }
+    const rascunho = (dados.rascunho || '').trim();
 
-const rascunho = dados.rascunho.trim();
+    const rascunhoConvertido = rascunho
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/\n/g, "<br>");
 
-// 🆗 Conversão simples de Markdown para HTML
-const rascunhoConvertido = rascunho
-  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
-  .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
-  .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
-  .replace(/\n/g, "<br>");                          // quebra de linha
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">📜</span>
+        <span class="text-group" contenteditable="true">${rascunhoConvertido}</span>
+      </div>
+    `;
 
-editor.innerHTML = `
-  <div class="sentence-group">
-    <span class="number-marker">📜</span>
-    <span class="text-group" contenteditable="true">${rascunhoConvertido}</span>
-  </div>
-`;
-    // ✅ Mensagem final temporária
     if (feedbackDiv) {
       feedbackDiv.innerHTML = '<span style="color:green;">✔️ Rascunho gerado!</span>';
-      setTimeout(() => {
-        feedbackDiv.innerHTML = '';
-      }, 2000); // ⏱️ Limpa após 2 segundos
+      setTimeout(()=> feedbackDiv.innerHTML = '', 2000);
     }
-
   } catch (erro) {
     console.error("Erro ao gerar rascunho:", erro);
     alert("Erro ao gerar rascunho.");
-
-    if (feedbackDiv) {
-      feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao gerar rascunho.</span>';
-    }
+    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao gerar rascunho.</span>';
   }
 }
+
+// 🔗 expõe a callback que a plaquinha chama
+window.enviarRascunho = function(temp){ gerarRascunho(temp); };
+
   
 // ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
 async function corrigirTexto() {
@@ -384,15 +374,16 @@ async function corrigirTexto() {
 }
 
 // 🌓® CORRETOR DE TEXTO 2 🌓® ************************************************************************************************************
-async function corrigirTexto2() {
+// ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====
+async function corrigirTexto2(temperaturaEscolhida){
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
 
-  // ✨ Mostra carregamento visual com azul marinho
+  // usa a temp que veio da plaquinha; se não vier, fallback 0.99
+  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.99;
+
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Corrigindo erros... </span>';
-  }
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌙 Melhorando seu texto... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");
@@ -402,26 +393,20 @@ async function corrigirTexto2() {
   try {
     const resposta = await fetch("/corrigir2", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ texto: textoOriginal })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
     });
 
     const dados = await resposta.json();
+    if (dados.erro) throw new Error(dados.erro);
 
-    if (dados.erro) {
-      throw new Error(dados.erro);
-    }
+    const textoCorrigido = (dados.corrigido || "").trim();
 
-    const textoCorrigido = dados.corrigido.trim();
-
-    // 🆗 CONVERSÃO DE **markdown** PARA HTML
     const htmlCorrigido = textoCorrigido
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
-      .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
-      .replace(/\n/g, "<br>");                          // quebra de linha
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/\n/g, "<br>");
 
     editor.innerHTML = `
       <div class="sentence-group">
@@ -430,23 +415,21 @@ async function corrigirTexto2() {
       </div>
     `;
 
-    // 🆗 Limpa o feedback após aplicar correção
     if (feedbackDiv) {
       feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
-      setTimeout(() => {
-        feedbackDiv.innerHTML = '';
-      }, 2000); // ⏱️ Limpa após 2 segundos
+      setTimeout(() => feedbackDiv.innerHTML = '', 2000);
     }
-
   } catch (erro) {
     console.error("Erro ao corrigir texto:", erro);
     alert("Erro ao corrigir texto.");
-
-    if (feedbackDiv) {
-      feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
-    }
+    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
   }
 }
+window.corrigirTexto2 = corrigirTexto2;
+
+
+
+
 
 // ALTERNADOR 3.5 PARA 4.0
 
@@ -886,4 +869,62 @@ function analisarDicasIA() {
     }
     alert("Erro ao buscar dicas: " + err);
   });
+}
+
+// ✅ PLACA TEMPERATURA *************************************************************************************************************************
+// ✅ Plaquinha unificada: sempre salva a FUNÇÃO, não o nome
+window._callbackTemperatura = null;
+
+function placaAtualizarTemp(v){
+  const el = document.getElementById('placaTempLabel');
+  if (el) el.textContent = Number(v).toFixed(2);
+}
+
+// agora aceita: abrirPlacaTemperatura(this, corrigirTexto2, 0.99)  OU  abrirPlacaTemperatura(this, 'corrigirTexto2', 0.99)
+function abrirPlacaTemperatura(btn, cb, defaultTemp){
+  if (typeof cb === 'function') {
+    window._callbackTemperatura = cb;
+  } else if (typeof cb === 'string' && typeof window[cb] === 'function') {
+    window._callbackTemperatura = window[cb];
+  } else {
+    window._callbackTemperatura = null;
+  }
+
+  const placa  = document.getElementById('placaTemperatura');
+  const slider = document.getElementById('placaTempSlider');
+  const label  = document.getElementById('placaTempLabel');
+  if (!placa) return;
+
+  // default opcional por botão (ex.: 0.99 pro revisor, 0.85 pro rascunho)
+  if (slider && label && typeof defaultTemp === 'number') {
+    slider.value = defaultTemp;
+    label.textContent = defaultTemp.toFixed(2);
+  }
+
+  placa.style.display = 'block';
+  requestAnimationFrame(() => {
+    const r = btn.getBoundingClientRect(), pad = 10, w = placa.offsetWidth || 300;
+    let left = r.left + (r.width/2) - (w/2);
+    left = Math.max(16, Math.min(left, window.innerWidth - w - 16));
+    placa.style.left = left + 'px';
+    placa.style.top  = (r.bottom + pad) + 'px';
+  });
+}
+
+function fecharPlacaTemperatura(){
+  const placa = document.getElementById('placaTemperatura');
+  if (placa) placa.style.display = 'none';
+}
+
+function confirmarTemperatura(){
+  const s = document.getElementById('placaTempSlider');
+  const temp = s ? parseFloat(s.value) : 0.9;
+  fecharPlacaTemperatura();
+
+  if (typeof window._callbackTemperatura === 'function') {
+    window._callbackTemperatura(temp);
+  } else {
+    alert("Callback de temperatura não definida. Verifique o 'onclick' do botão.");
+  }
+  window._callbackTemperatura = null;
 }

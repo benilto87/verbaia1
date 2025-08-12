@@ -112,14 +112,15 @@
 <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analisarDicasIA()" title="Análise de Fluidez">🍂</button>
 <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analyzeFluidezIA()" title="Análise de Fluidez">🚨</button>
 <button class="toolbar-button botao-modificavel botao-marcas" onclick="executarMarcadorDeCenas()" title="Marcar Cenas Principais">🎬</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="corrigirTexto2()" title="Analisar com IA">🌓®</button>		
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2, 0.99)" title="Analisar com IA">🌓®</button>
+	
 
 <!-- Botões da Flávia -->
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="analyzeWithAI()" title="Analisar com IA">💎®</button>	
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia()" title="Inspiração da Flávia">👁‍🗨</button>		
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia2()" title="Reflexão da Flávia">💡</button>
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia3()" title="Leitora Virtual">👸</button>
-<button class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarRascunho()" title="Gerar Rascunho">📜...</button>
+<button class="toolbar-button botao-fixo-tarefa botao-especial" onclick="abrirPlacaTemperatura(this,'enviarRascunho')" title="Gerar rascunho">📜...</button>
 
 <!-- Pedido IA -->
 <button id="botao-pedido" class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarTarefa()" title="Shift+Enter">📘 pedido 3.5</button>
@@ -133,15 +134,35 @@
   <button class="botao-modificavel" onclick="trocarModoChat('edtorial')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">📘</button>
   <button id="botao-modo-geral" onclick="trocarModo()" style="background: none; border: none; font-size: 1.0em; cursor: pointer;">Modo Tarefa 📌</button>
   </div>	
+  <!-- Botão Literário -->
+<div id="placaTemperatura" style="display:none; position:fixed; z-index:9999; min-width:280px; background:#fff; border:1px solid #e6d3a3; padding:14px 16px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.12);">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;">
+    <strong style="font-size:0.95rem;">Temperatura literária</strong>
+    <button type="button" onclick="fecharPlacaTemperatura()" style="border:none;background:transparent;font-size:1rem;cursor:pointer;">✖</button>
+  </div>
+
+  <div style="display:flex; align-items:center; gap:10px; margin:8px 0;">
+    <label for="placaTempSlider" style="font-size:0.9rem; white-space:nowrap;">Escolha</label>
+    <input id="placaTempSlider" type="range" min="0.0" max="1.3" step="0.01" value="0.99" oninput="placaAtualizarTemp(this.value)" style="width:220px;">
+    <span id="placaTempLabel" style="font-family:monospace;">0.99</span>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#777; margin-top:-4px; margin-bottom:8px;">
+    <span>min 0.00</span><span>• 0.99</span><span>max 1.30</span>
+  </div>
+
+  <div style="display:flex; gap:10px; justify-content:flex-end;">
+    <button type="button" onclick="fecharPlacaTemperatura()" class="toolbar-button" style="background:#ddd;border-color:#bbb;color:#222;">Cancelar</button>
+    <button type="button" onclick="confirmarTemperatura()" class="toolbar-button" style="background:#c88c2b;border-color:#c7a94e;">Confirmar</button>
+  </div>
+</div>
 		
 			</div>
 
 <div class="editor-container">
   <div id="editor" contenteditable="true" placeholder="Comece a digitar aqui...">
     O sol se pôs. Ele ficou na janela. Pensou na vida que passara. A cidade ficava longe. As luzes acendiam devagar. Uma estrela apareceu. Ele suspirou. Sentia uma tristeza sem nome. Não sabia o que fazer. Queria ir embora. <br>
-	<br>
-	<br>
-	✨🌃
+	🌃
   </div>
   <div class="resize-handle"></div>
 </div>

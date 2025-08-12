@@ -138,7 +138,7 @@ Sugestão ✍:
         completion = openai_client.chat.completions.create(
             model='gpt-4o',
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.65,
+            temperature=0.64,
             max_tokens=900,
         )
 
@@ -414,7 +414,7 @@ Analise com sensibilidade editorial e inicie agora:
         completion = openai_client.chat.completions.create(
             model='gpt-4o',
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
+            temperature=0.52,
             max_tokens=700,
         )
 
@@ -424,7 +424,7 @@ Analise com sensibilidade editorial e inicie agora:
     except Exception as e:
         return jsonify({'result': f"Erro ao processar: {e}"})
 
-# 🌺 FLUIDEZ COM DICAS POR BLOCO 🌺
+# 🍂 FLUIDEZ COM DICAS POR BLOCO 🍂
 @app.route('/dicas-blocos', methods=['POST'])
 def analisar_dicas_blocos():
     data = request.get_json()
@@ -463,7 +463,7 @@ Com foco na criatividade e beleza comece sua análise:
         completion = openai_client.chat.completions.create(
             model='gpt-4o',
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
+            temperature=0.8,
             max_tokens=900,
         )
 
@@ -477,15 +477,24 @@ Com foco na criatividade e beleza comece sua análise:
  # 📝 RASCUNHO 📝 ********************************************************************************************************
 @app.route('/rascunho', methods=["POST"])
 def criar_rascunho():
-    dados = request.get_json()
-    texto_bruto = dados.get("texto", "")  # <-- agora pega 'texto'
-    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto}")
+    from flask import request, jsonify
+    dados = request.get_json(force=True) or {}
+    texto_bruto = (dados.get("texto") or "").strip()
+    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
+    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
+
+    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
+
+    if not texto_bruto:
+        return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
 Você é uma inteligência literária que transforma **fragmentos esboçados** em um **rascunho textual fluido, coerente e estilisticamente refinado**.
 
-- Seu objetivo é unir os fragmentos dados, respeitando o estilo implícito, criando transições, ritmo e atmosfera entre eles.
-- Entregue com as mudanças de palavras ou trechos em _italico_.
+- Unir os fragmentos respeitando a voz implícita do autor.
+- Criar transições naturais, ritmo e atmosfera entre as partes.
+- **Marcar em negrito as partes realmente modificadas ou adicionadas** (para evidenciar as mudanças relevantes).
+⚠️Escreva somente em português do Brasil.
 
 Exemplo de entrada:
 O dia amanhecia cinzento.
@@ -493,7 +502,7 @@ Ela olhava pela janela sem dizer nada.
 Um pássaro pousou no parapeito.
 
 Exemplo de saída esperada:
-O dia amanheceu _vestindo o mundo de cinza_. E ela olhando a _janela sem dizer nada_. Um pássaro pousou _suave como um presságio sobre o_ parapeito.
+O dia amanheceu **vestindo o mundo de cinza**. E ela olhando a **janela sem dizer nada**. Um pássaro pousou **suave como um presságio sobre o** parapeito.
 
 
 ⚠NO CASO DE PEDIDOS:
@@ -502,20 +511,20 @@ E retorne "escrito no estilo Machado de Assis...✍", "texto com melhor acabamen
 - Se não houver pedido apenas termine com "_Rascunho pronto✔_" em _italico_.
 
 Agora processe o bloco abaixo:
-
 {texto_bruto}
-"""
+""".strip()
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",  # troque para "gpt-4o" se o 5 não estiver habilitado
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.85
+            temperature=temperatura,
+            max_tokens=1400
         )
         texto_final = resposta.choices[0].message.content.strip()
-        return jsonify({"rascunho": texto_final})
+        return jsonify({"rascunho": texto_final}), 200
     except Exception as e:
-        return jsonify({"erro": str(e)})
+        return jsonify({"erro": str(e)}), 500
  
 # ✅ CORRETOR DE TEXTO ✅ ***************************************************************************************************
 @app.route('/corrigir', methods=["POST"])
@@ -574,57 +583,59 @@ Justificativa: Variedade de vocabulário e maior precisão verbal.
 # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 @app.route('/corrigir2', methods=["POST"])
 def corrigir_texto2():
-    dados = request.get_json()
-    texto_original = dados.get("texto", "").strip()
-    print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
+    from flask import request, jsonify
+
+    dados = request.get_json(force=True) or {}
+    texto_original = (dados.get("texto") or "").strip()
+    # temperatura enviada pelo frontend (padrão 0.99), com clamp para segurança
+    temperatura = float(dados.get("temperature", 0.99))
+    temperatura = max(0.10, min(1.50, temperatura))
+
+    if not texto_original:
+        return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário. Sua função é elevar o potêncial de um texto.
+📝 Você é um revisor literário. 
 
 Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
-2. Una frases curtas quando isso melhorar o fluxo.
-3. Corte redundâncias e expressões fracas.
-4. Substitua clichês por imagens originais.
-5. Mantenha tom literário, mas com mais precisão e ritmo.
-6. Marque em negrito as partes que foram realmente modificadas ou adicionadas no texto de saída, para indicar as mudanças relevantes.
-7. Certifique-se de que a 🌙🌾 Lista de mudanças seja coerente com os trechos destacados em negrito no texto de saída.
----
+2. Mantenha tom literário, mas com mais precisão e ritmo.
+3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
 
-Exemplo de um texto de entrada:
+Exemplo de entrada:
 
-> A manhã estava cinza. Muito cinza mesmo, como um dia cinza que não tem cor. Parecia como se o mundo tivesse esquecido de acender suas cores.
-Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, como arranhar mesmo, e isso quebrou o silêncio total por completo.
-Seus olhos do corvo eram pretos como carvão. Olhos negros e sem vida, mas com vida também. Ele me olhou fixamente.
-No instante em que abriu o bico, não veio som. E eu tive a certeza, uma certeza ruim, entranha de que alguma porta se fechou. Uma porta que fechou para sempre.
----
+> A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
+Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
+No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou. Pra sempre.
 
 Exemplo de saída esperado:
 
-> A manhã estava cinza **— não de chuva, mas de ausência,** como se o mundo tivesse esquecido de acender suas cores. 
+> A manhã estava cinza **— não de chuva, mas de ausência,** como um mundo sem cor. 
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
-Seus olhos**, duas contas negras e imóveis, guardavam um reflexo que não era de luz.** No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**
+No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**
 
 🌙🌾 **Lista de mudanças:**
 1. Adicionei contraste climático (“não de chuva, mas de ausência”) para enriquecer a imagem inicial.
-2. Substituí a descrição redundante do barulho das asas por uma imagem mais direta (“o som das asas arranhou o silêncio”).
-3. Troquei o clichê “pretos como carvão” por uma metáfora mais visual e estática (“duas contas negras e imóveis”).
-4. Condensei o final repetitivo em uma frase de impacto mais seca e literária (“apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.*”).
+2. Substituí a descrição redundante do barulho das asas por uma imagem mais direta (“_o som das asas arranhou o silêncio_”).
+3. Condensei o final repetitivo em uma frase de impacto mais seca e literária (“_apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar._”).
 
-📜 Texto do usuário:
+Texto do usuário:
 {texto_original}
-"""
+""".strip()
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.4
+            temperature=temperatura,
+            max_tokens=1400
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
-        return jsonify({"corrigido": texto_corrigido})
+        return jsonify({"corrigido": texto_corrigido}), 200
+
     except Exception as e:
-        return jsonify({"erro": str(e)})
+        return jsonify({"erro": str(e)}), 500
 
 
 # ✅ TAREFA LIVRE ✅ ***************************************************************************************************

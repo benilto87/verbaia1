@@ -522,6 +522,10 @@ mark {
   border-radius: 2px;
 }
 
+  #temperatureSlider {
+    accent-color: #c88c2b; /* dourado-alaranjado folha 🍂 */
+  }
+
 /* ========================================================= */
 /* --- MEDIA QUERY PARA CELULARES (TELA PEQUENA) --- */
 /* ========================================================= */
