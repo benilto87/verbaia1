@@ -122,23 +122,9 @@ Sugestão ✍:
 
     try:
         completion = openai_client.chat.completions.create(
-            model='gpt-4o',
+            model='gpt-4.1',
             messages=[{"role": "user", "content": prompt}],
             temperature=0.65,
-            max_tokens=900,
-        )
-
-        resposta = completion.choices[0].message.content.strip()
-        return jsonify({'result': resposta})
-
-    except Exception as e:
-        return jsonify({'result': f"Erro ao processar: {e}"})
-
-    try:
-        completion = openai_client.chat.completions.create(
-            model='gpt-4o',
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.64,
             max_tokens=900,
         )
 
@@ -243,7 +229,7 @@ FECHE COM UM VERSICULO BREVE, DO NOVO OU VELHO TESTAMENTO; EXEMPLO:
 
     try:
         completion = openai_client.chat.completions.create(
-            model='gpt-4o',
+            model='gpt-4.1',
             messages=[{"role": "user", "content": prompt}],
             temperature=0.9,
             max_tokens=600
@@ -360,7 +346,7 @@ Texto:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model='gpt-4o',
+            model='gpt-4.1',
             messages=[{"role": "user", "content": prompt}],
             temperature=0.4,
             max_tokens=300,
@@ -412,7 +398,7 @@ Analise com sensibilidade editorial e inicie agora:
 
     try:
         completion = openai_client.chat.completions.create(
-            model='gpt-4o',
+            model='gpt-4.1',
             messages=[{"role": "user", "content": prompt}],
             temperature=0.52,
             max_tokens=700,
@@ -461,7 +447,7 @@ Com foco na criatividade e beleza comece sua análise:
 
     try:
         completion = openai_client.chat.completions.create(
-            model='gpt-4o',
+            model='gpt-4.1',
             messages=[{"role": "user", "content": prompt}],
             temperature=0.8,
             max_tokens=900,
@@ -516,7 +502,7 @@ Agora processe o bloco abaixo:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4o",  # troque para "gpt-4o" se o 5 não estiver habilitado
+            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
             max_tokens=1400
@@ -570,7 +556,7 @@ Justificativa: Variedade de vocabulário e maior precisão verbal.
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4.1",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.8
         )
@@ -626,7 +612,7 @@ Texto do usuário:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4o",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
+            model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
             max_tokens=1400
