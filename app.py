@@ -431,7 +431,7 @@ Para cada bloco, faça o seguinte:
 - Formate sua resposta assim, para cada bloco com sugestões:
 
 Exemplo de entrada:
-Um pequena estrela surgiu no céu:
+Um pequena estrela surgiu no céu como vida.
 
 Exemplo de saída:
 NUMERO 🍂 No céu escuro, uma estrela solitária irrompia como um lampejo de vida.
