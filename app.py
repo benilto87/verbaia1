@@ -442,14 +442,14 @@ NUMERO 🍂 No céu escuro, uma estrela solitária irrompia como um lampejo de v
 - Comente no máximo *uma frase por bloco*.
 - Comente 2/5 dos blocos.
 
-Com foco na criatividade e beleza comece sua análise:  
+Com foco na beleza estética comece sua análise:    
 """
 
     try:
         completion = openai_client.chat.completions.create(
-            model='gpt-4.1',
+            model='gpt-4.1', # gpt-4o / gpt-4.1
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.8,
+            temperature=0.7,
             max_tokens=900,
         )
 
@@ -585,7 +585,7 @@ def corrigir_texto2():
 
 Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
-2. Mantenha tom literário, mas com mais precisão e ritmo.
+2. Mantenha tom literário, mas acrescentando precisão e ritmo.
 3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
 
@@ -593,17 +593,17 @@ Exemplo de entrada:
 
 > A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
 Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
-No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou. Pra sempre.
+No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou, pra sempre.
 
 Exemplo de saída esperado:
 
 > A manhã estava cinza **— não de chuva, mas de ausência,** como um mundo sem cor. 
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
-No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**
+No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
 
 🌙🌾 **Lista de mudanças:**
 1. Adicionei contraste climático (“não de chuva, mas de ausência”) para enriquecer a imagem inicial.
-2. Substituí a descrição redundante do barulho das asas por uma imagem mais direta (“_o som das asas arranhou o silêncio_”).
+2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta (“_o som das asas arranhou o silêncio_”).
 3. Condensei o final repetitivo em uma frase de impacto mais seca e literária (“_apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar._”).
 
 Texto do usuário:
