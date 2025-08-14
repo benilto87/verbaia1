@@ -693,20 +693,18 @@ function analyzeFluidezIA() {
   const sentenceGroups = editor.querySelectorAll(".sentence-group");
   const textArray = [];
 
-  // ✨ Mostra carregamento visual com azul marinho
+  // UI carregando
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
     feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Analisando fluidez... 🚨</span>';
   }
 
+  // monta texto numerado
   sentenceGroups.forEach(group => {
     const number = group.querySelector(".number-marker")?.innerText.trim();
     const text = group.querySelector(".text-group")?.innerText.trim();
-    if (number && text) {
-      textArray.push(`${number}\n${text}`);
-    }
+    if (number && text) textArray.push(`${number}\n${text}`);
   });
-
   const fullText = textArray.join("\n\n");
 
   fetch('/fluidez', {
@@ -716,61 +714,117 @@ function analyzeFluidezIA() {
   })
   .then(res => res.json())
   .then(data => {
-    const resposta = data.result || '';
-    if (!resposta.trim()) {
+    const resposta = (data.result || '').trim();
+    if (!resposta) {
       alert("⚠️ Nenhuma sugestão de fluidez recebida.");
       return;
     }
 
-    const linhas = resposta.split('\n');
+    // --- PARSER ROBUSTO ---
+    // 1) normaliza texto
+    const raw = resposta
+      .replace(/\u200B|\uFEFF/g, '') // zero-width
+      .replace(/\r\n/g, '\n')
+      .trim();
+
+    // 2) encontre TODOS os cabeçalhos "**🚨 Correção!!**" (ou "Texto Revisado:")
+    //    - aceita com/sem ** e com/sem ">"
+    const headerRe = /^[ \t]*\*{0,2}🚨>?\s*(?:Correção!!|Texto Revisado:)\*{0,2}[ \t]*$/gmi;
+    const headers = [...raw.matchAll(headerRe)];
+
+    // 3) recorte cada bloco: do cabeçalho até a PRIMEIRA linha "n° X" dentro do trecho
     const sugestoes = {};
+    for (let i = 0; i < headers.length; i++) {
+      const start = headers[i].index; // posição do cabeçalho
+      const end = (i + 1 < headers.length) ? headers[i + 1].index : raw.length;
+      const trecho = raw.slice(start, end).trim();
 
-    linhas.forEach(linha => {
-      const match = linha.match(/n°\s*(\d+)/);
-      if (match) {
-        const numero = parseInt(match[1]);
-        sugestoes[numero] = linha.trim();
+      // dentro do trecho, capture a ÚLTIMA linha "n° X"
+      const nLineRe = /^\s*n[º°\.]?\s*(\d+)\s*$/gmi;
+      const allN = [...trecho.matchAll(nLineRe)];
+      if (allN.length === 0) continue;
+
+      const n = parseInt(allN[allN.length - 1][1], 10);
+      if (Number.isNaN(n)) continue;
+
+      // recorte exato do bloco: do cabeçalho até a última linha "n° X"
+      // para isso, pegue o índice da última linha "n° X" dentro do trecho
+      const lastN = allN[allN.length - 1];
+      // calcule o offset absoluto dessa linha no 'raw'
+      const trechoStartAbs = start;
+      const trechoLocalStart = 0; // início local do trecho
+      // precisamos achar o índice local da linha "n° X" no trecho:
+      // reconstruímos o trecho até o início dessa linha
+      // truque simples: split por linhas e recombine mantendo comprimentos
+      const linhas = trecho.split('\n');
+      let acumulado = 0, idxLocalN = -1;
+      for (let k = 0; k < linhas.length; k++) {
+        const ln = linhas[k];
+        const m = ln.match(/^\s*n[º°\.]?\s*(\d+)\s*$/i);
+        if (m && parseInt(m[1],10) === n) idxLocalN = acumulado;
+        // +1 para o \n (exceto última)
+        acumulado += ln.length + 1;
       }
-    });
+      if (idxLocalN < 0) {
+        // fallback: se não achou, usa o trecho todo
+        idxLocalN = trecho.length;
+      } else {
+        // queremos incluir a linha "n° X" completa
+        // encontre o fim da linha "n° X"
+        const after = trecho.slice(idxLocalN).indexOf('\n');
+        const endLocal = after === -1 ? trecho.length : idxLocalN + after;
+        // bloco final é do início até o fimLocal (inclui a linha n°)
+        const blocoFinal = trecho.slice(0, endLocal).trim();
 
-    sentenceGroups.forEach((group, i) => {
-      const numero = i + 1;
+        // Markdown → HTML
+        const html = blocoFinal
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(/_(.*?)_/g, "<em>$1</em>")
+          .replace(/\*(.*?)\*/g, "<em>$1</em>")
+          .replace(/\n/g, "<br>");
+
+        sugestoes[n] = html;
+        continue;
+      }
+
+      // fallback simples (se idxLocalN não achou): usa trecho inteiro
+      const html = trecho
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/_(.*?)_/g, "<em>$1</em>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(/\n/g, "<br>");
+
+      sugestoes[n] = html;
+    }
+
+    // --- aplica no DOM pelo número visível ---
+    sentenceGroups.forEach(group => {
+      const numeroStr = group.querySelector(".number-marker")?.innerText.match(/\d+/)?.[0];
+      const numero = numeroStr ? parseInt(numeroStr, 10) : NaN;
+      if (Number.isNaN(numero)) return;
+
       const sugestao = sugestoes[numero];
+      if (!sugestao) return;
 
-      if (sugestao) {
-        const idMarcacao = `marcacao-${numero}-${Math.random().toString(36).substr(2, 6)}`;
-        const span = document.createElement("span");
-        const sugestaoHTML = sugestao
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')   // **negrito**
-          .replace(/\*(.*?)\*/g, '<em>$1</em>')               // *itálico*
-          .replace(/\n/g, '<br>');                            // quebra de linha
-
-        span.innerHTML = `
-          <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
-            ${sugestaoHTML}
-            <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
-          </span>
-        `;
-
-        const textGroup = group.querySelector(".text-group");
-        if (textGroup) {
-    textGroup.appendChild(span);
-  }
-}
+      const idMarcacao = `marcacao-${numero}-${Math.random().toString(36).substr(2, 6)}`;
+      const span = document.createElement("span");
+      span.innerHTML = `
+        <span class="processed-symbol marcacao-com-fechar" id="${idMarcacao}">
+          ${sugestao}
+          <button class="marcacao-fechar" onclick="removerMarcacao('${idMarcacao}')">✖</button>
+        </span>
+      `;
+      const textGroup = group.querySelector(".text-group");
+      if (textGroup) textGroup.appendChild(span);
     });
 
-    // ✅ Finaliza com mensagem visual temporária
     if (feedbackDiv) {
       feedbackDiv.innerHTML = '<span style="color:green;">✔️ Análise de fluidez concluída!</span>';
-      setTimeout(() => {
-        feedbackDiv.innerHTML = '';
-      }, 2000);
+      setTimeout(() => { feedbackDiv.innerHTML = ''; }, 2000);
     }
   })
   .catch(err => {
-    if (feedbackDiv) {
-      feedbackDiv.innerHTML = '❌ Erro ao analisar fluidez.';
-    }
+    if (feedbackDiv) feedbackDiv.innerHTML = '❌ Erro ao analisar fluidez.';
     alert("Erro ao analisar fluidez: " + err);
   });
 }

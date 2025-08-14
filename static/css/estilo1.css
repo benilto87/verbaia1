@@ -235,6 +235,7 @@ h1 {
   display: block;              /* ocupa linha inteira */
   background: #fff5f5; 
   border-left: 3px solid var(--error-color);
+  font-family: 'Georgia', 'Garamond', serif;
 }
 
 .processed-symbol-gold {
@@ -268,7 +269,6 @@ h1 {
 .processed-comment-scriptus {
   background: #fdf6e3; /* bege suave */
   color: #5a3e1b;      /* marrom escuro */
-  font-style: italic;
   border-left: 3px solid #d2b48c; /* bege tostado */
   padding: 6px;
   margin-top: 6px;

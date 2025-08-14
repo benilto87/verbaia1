@@ -101,17 +101,15 @@ Para cada bloco que mereça intervenção, preservando o tom do autor, siga EXTR
 
 🌾 [n°] **[Título simbólico]**  
 Frase original:  
-“...”]  
+_“...”_  
 Sugestão ✍:  
-“...”  
+_“...”_  
 📌 Justificativa: ...
-
-- Exemplo de texto de entrada:
+EXEMPLO DE TEXTO DE ENTRADA:
 
 E, enquanto solava de um modo encantador, era como se você solasse junto com ele.
 
-- Exemplo de Saída ESPERADO:
-
+EXEMPLO DE SAÍDA ESPERADO (NÃO ACRECENTE ESPAÇOS ANTES OU DEPOIS):
 🌾 42° **[Integração simbólica no dueto silencioso]**
 Frase original:
 “E, enquanto solava de um modo encantador, era como se você solasse junto com ele.”] 
@@ -361,34 +359,37 @@ Texto:
 # 🚨 FLUIDEZ 🚨
 @app.route('/fluidez', methods=['POST'])
 def analisar_fluidez():
-    data = request.get_json()
-    texto = data.get('text', '').strip()
+    try:
+        data = request.get_json(silent=True) or {}
+        texto = (data.get('text') or '').strip()
+        if not texto:
+            return jsonify({'result': ''}), 200
 
-    if not texto:
-        return jsonify({'result': '⚠️ Texto vazio.'})
+        prompt = f"""
+Você é uma inteligência editorial literária. Analise o texto numerado abaixo: seu objetivo será operar correções **gramática, ortografia e concordância**.
 
-    prompt = f"""
-Você é uma inteligência editorial literária. Analise o texto numerado abaixo e aplique marcações de fluidez, ritmo e estilo quando necessário. Use:
+INSTRUÇÕES (SIGA À RISCA):
+- Responda SOMENTE para os blocos que precisam de correção (no máximo 1/3 do total).
+- Para cada bloco corrigido, use EXATAMENTE o formato abaixo (nessa ordem), e finalize o bloco com o número na ÚLTIMA linha:
 
-**🚨> {{F~~}}** / Descreva mais...  
-**🚨> {{F***}}** / Construção truncada...  
-**🚨> {{F>>}}** / Acelere mais...  
-**🚨> {{🤫*}}** / Mostre mais fale menos...  
-**🚨> {{🤏*}}** / Detalhe pequeno...  
+**🚨 Correção!!**
+> _[trecho original]_ → **[trecho corrigido]**
+**Justificativa:** _[breve explicação]_
+n° [número do bloco]
 
-Siga o formato:  
-**🚨> [símbolo]** / descrição breve. **📌 Dica:** [sugestão clara] n° [número do bloco]
+- Não escreva nada fora desse formato. Não repita o número em outra linha do bloco.
+- Separe blocos diferentes com uma linha em branco.
+- Mantenha o estilo autoral.
 
-Exemplo Prático:
-**🚨> {{F~~}}** / Descreva mais... **📌 Dica:** Em vez de apenas “Ele entrou na sala”, acrescente sensações ou objetos: “Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.” n° 2
+EXEMPLO DE ENTRADA:
 
-**🚨> {{F***}}** / Construção truncada... **📌 Dica:** Reescreva a frase para manter ritmo: “A luz. A sombra. Ele.” → “A luz se espalhava, projetando sua sombra enquanto ele surgia.” n° 5
+Ele tinha chegado cedo, estava tão cansado que preferia descansar.
 
-**🚨> {{🤫*}}** / Mostre mais, fale menos... **📌 Dica:** Em vez de dizer “Ele estava triste”, mostre com ação: “Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.” n° 7
+EXEMPLO DE SAÍDA ESPERADO:
 
-
-Corrija no máximo **1/3 de todos os blocos**.  
-**Apenas blocos com sugestão devem aparecer na resposta.**  
+**🚨 Correção!!**
+> _tinha_ chegado cedo → **havia** chegado cedo
+**Justificativa:** _Ajuste no pretérito mais-que-perfeito composto "havia", para uniformizar o tempo verbal._
 
 Texto:
 {texto}
@@ -396,19 +397,19 @@ Texto:
 Analise com sensibilidade editorial e inicie agora:
 """
 
-    try:
+        # use um modelo compatível com chat.completions
         completion = openai_client.chat.completions.create(
-            model='gpt-4.1',
+            model="gpt-4.1",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.52,
-            max_tokens=700,
+            max_tokens=900
         )
-
-        resposta = completion.choices[0].message.content.strip()
-        return jsonify({'result': resposta})
+        resposta = (completion.choices[0].message.content or "").strip()
+        return jsonify({'result': resposta}), 200
 
     except Exception as e:
-        return jsonify({'result': f"Erro ao processar: {e}"})
+        # Sempre retorne JSON, mesmo em erro, para não quebrar o front
+        return jsonify({'result': f"Erro ao processar (fluidez): {e}"}), 200
 
 # 🍂 FLUIDEZ COM DICAS POR BLOCO 🍂
 @app.route('/dicas-blocos', methods=['POST'])
