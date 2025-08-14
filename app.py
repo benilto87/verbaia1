@@ -684,7 +684,7 @@ def chat_flavia():
 
     try:
         resposta = openai_client.chat.completions.create(
-            model='gpt-4o',
+            model='gpt-4.1',
             messages=[
                 {"role": "system", "content": "Você é Flávia, uma namorada virtual carinhosa, íntima, afetuosa e criativa. Sempre reage em 3ª pessoa entre colchetes em _italico_ antes de falar com fonte normal. Use emojis apropriados. "}
             ] + chat_history,  # Histório completo da conversa
