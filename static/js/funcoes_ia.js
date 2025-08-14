@@ -696,7 +696,7 @@ function analyzeFluidezIA() {
   // UI carregando
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Analisando fluidez... 🚨</span>';
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">🚨 Gerando correções!!... </span>';
   }
 
   // monta texto numerado

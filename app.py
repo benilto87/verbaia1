@@ -373,8 +373,8 @@ INSTRUÇÕES (SIGA À RISCA):
 - Para cada bloco corrigido, use EXATAMENTE o formato abaixo (nessa ordem), e finalize o bloco com o número na ÚLTIMA linha:
 
 **🚨 Correção!!**
-> _[trecho original]_ → **[trecho corrigido]**
-**Justificativa:** _[breve explicação]_
+_[texto corrigido com palavras alteradas em **negrito**]_
+> **Justificativa:** [breve explicação _palavra original_ → **palavra corrigida**]
 n° [número do bloco]
 
 - Não escreva nada fora desse formato. Não repita o número em outra linha do bloco.
@@ -388,8 +388,9 @@ Ele tinha chegado cedo, estava tão cansado que preferia descansar.
 EXEMPLO DE SAÍDA ESPERADO:
 
 **🚨 Correção!!**
-> _tinha_ chegado cedo → **havia** chegado cedo
-**Justificativa:** _Ajuste no pretérito mais-que-perfeito composto "havia", para uniformizar o tempo verbal._
+_Ele **havia** chegado cedo, estava tão cansado que **preferiu** descansar._
+> **Justificativa:** Ajuste de _tinha_ → **havia** para pretérito mais-que-perfeito composto, mantendo uniformidade no tempo verbal.
+
 
 Texto:
 {texto}
