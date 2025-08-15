@@ -716,7 +716,7 @@ def chat_flavia_edtorial():
 
     try:
         resposta = openai_client.chat.completions.create(
-            model='gpt-4o',
+            model='gpt-4.1',
             messages=[
                 {"role": "system", "content": "Você é um assistente útil e inteligente, que responde perguntas de forma clara, direta e completa, como no ChatGPT."}
             ] + chat_history,  # Histório completo da conversa
