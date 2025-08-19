@@ -366,31 +366,31 @@ def analisar_fluidez():
             return jsonify({'result': ''}), 200
 
         prompt = f"""
-Você é uma inteligência editorial literária. Analise o texto numerado abaixo: seu objetivo será operar correções **gramática, ortografia e concordância**.
+Você é uma IA literária. Analise o texto numerado abaixo e aplique marcações de fluidez, ritmo e estilo.  Use:
 
-INSTRUÇÕES (SIGA À RISCA):
-- Responda SOMENTE para os blocos que precisam de correção (no máximo 1/3 do total).
-- Para cada bloco corrigido, use EXATAMENTE o formato abaixo (nessa ordem), e finalize o bloco com o número na ÚLTIMA linha:
+**🚨 {{🧱}}** / CONSTRUÇÃO TRUNCADA /  
+**🚨 {{🌿}}** / DESCREVA MAIS /  
+**🚨 {{🏁}}** / ACELERE MAIS /  
+**🚨 {{🤫*}}** / MOSTRE MAIS FALE MESNOS /
 
-**🚨 Correção!!**
-_[texto corrigido com palavras alteradas em **negrito**]_
-> **Justificativa:** [breve explicação _palavra original_ → **palavra corrigida**]
-n° [número do bloco]
+Siga o formato:  
+**🚨> [símbolo]** / DESCRIÇÃO BREVE / **📌 Dica:** [sugestão clara] n° [número do bloco]
 
-- Não escreva nada fora desse formato. Não repita o número em outra linha do bloco.
-- Separe blocos diferentes com uma linha em branco.
-- Mantenha o estilo autoral.
+Exemplo Prático:
+**🚨 {{🧱}}** / CONSTRUÇÃO TRUNCADA / **📌 Dica:** _**Ao invés de:**_ “A luz espalha sombra nele.” _**reescreva com mais ritmo:**_ → _“A luz se espalhava, projetando sua sombra sobre ele.”_ n° 5
 
-EXEMPLO DE ENTRADA:
+**🚨 {{🌿}}** / DESCREVA MAIS / **📌 Dica:** _**Ao invés de:**_ “Ele entrou na sala”, _**acrescente sensações ou objetos:**_ → _“Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.”_ n° 2
 
-Ele tinha chegado cedo, estava tão cansado que preferia descansar.
+**🚨 {{🏁}}** / ACELERE MAIS / **📌 Dica:** _**Ao invés de:**_ "Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio." _**substitua por uma imagem mais enxuta e direta:**_ → _"Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio."_ 
 
-EXEMPLO DE SAÍDA ESPERADO:
+**🚨 {{🤫*}}** / MOSTRE MAIS FALE MESNOS / **📌 Dica:** _**Ao invés de:**_ “Ele estava triste”, _**mostre com ação:**_ → _“Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.”_ n° 7
 
-**🚨 Correção!!**
-_Ele **havia** chegado cedo, estava tão cansado que **preferiu** descansar._
-> **Justificativa:** Ajuste de _tinha_ → **havia** para pretérito mais-que-perfeito composto, mantendo uniformidade no tempo verbal.
 
+**APLICAÇÃO NÃO DEVE SER FIXA: ALGUMAS MARCAÇÕES PODEM SER REPETIDAS E OUTRAS OMITIDAS CONFORME A NECESSIDADE DO TEXTO**
+
+
+Corrija no máximo **1/5 de todos os blocos**.  
+**Apenas blocos com sugestão devem aparecer na resposta.**  
 
 Texto:
 {texto}
@@ -400,7 +400,7 @@ Analise com sensibilidade editorial e inicie agora:
 
         # use um modelo compatível com chat.completions
         completion = openai_client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.52,
             max_tokens=900
