@@ -775,31 +775,93 @@ function numberSentencesBy3() {
         editor.appendChild(group);
     }
 }
-
+     // REMOVENUMBER 🧺 *******************************************************************************************************
   // REMOVENUMBER 🧺 *******************************************************************************************************
 function removeNumbering() {
-
   const editor = document.getElementById("editor");
   const groups = editor.querySelectorAll(".sentence-group");
 
+  // 1) seletores de marcações da IA (ajuste/adicione conforme seu projeto)
+  const SKIP_SELECTOR = [
+    // classes comuns de caixas/comentários da IA
+    ".processed-comment",
+    ".ia-sugestao",
+    ".ia-comentario",
+    ".marca-ia",
+    ".comentario-ia",
+    ".badge", ".chip", ".fechar-x", ".x-close",
+    // padrões abrangentes
+    '[data-ia]', '[data-marcacao]',
+    '[class*="processed-comment"]',
+    '[class*="comentario"]',
+    '[class*="sugest"]',
+    '[class*="marca"]'
+  ].join(",");
+
+  // helper: remove do CLONE todos os elementos de marcação
+  function stripIAElements(root) {
+    root.querySelectorAll(SKIP_SELECTOR).forEach(el => el.remove());
+    return root;
+  }
+
+  // coleta texto recursivamente (preserva <strong>/<em> do texto válido)
+  function collectText(node) {
+    if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
+    let out = "";
+    node.childNodes.forEach(ch => out += collectText(ch));
+    return out;
+  }
+
   const cleanText = Array.from(groups).map(group => {
-    const text = group.querySelector(".text-group")?.innerText.trim();
-    return text || '';
-  }).join(' '); // Junta frases com espaço
+    const tg = group.querySelector(".text-group");
+    if (!tg) return "";
 
-  // 🔄 Limpa o conteúdo do editor e coloca o texto diretamente
-  editor.innerHTML = cleanText;
+    // 2) trabalha num CLONE para não mexer no DOM original
+    const clone = tg.cloneNode(true);
+    stripIAElements(clone);
 
-  // 🖱️ Posiciona o cursor ao final do conteúdo do editor
+    // 3) extrai somente texto (inclui negrito/itálico que sejam do texto, não da IA)
+    let onlyText = collectText(clone);
+
+    // 4) limpeza de padrões textuais que porventura escapem do DOM:
+    //    - remove blocos de sugestões: “… / DESCREVA MAIS / … Dica: … → … ” (formato variado)
+    //    - remove marcadores "n° 8", emojis, X etc.
+    let t = onlyText
+      // remove blocos "Dica: ... → ... " (não guloso; até aspas finais ou fim)
+      .replace(/\/?\s*(DESCREVA MAIS|MOSTRE MAIS FALE MENOS|DICA)\s*\/?\s*.*?Dica:\s*.*?(?:["”].*?["”]|$)/giu, "")
+      // versões sem a palavra-chave explícita
+      .replace(/Dica:\s*.*?(?:["”].*?["”]|$)/giu, "")
+      // setas e rótulos isolados
+      .replace(/[→→>]+.*?(?:["”].*?["”]|$)/gu, "")
+      // remove marcador inicial tipo "8° " ou "8º "
+      .replace(/^\s*\d+\s*[º°]\s*/u, "")
+      // remove "n° 8", "nº 8", "n°8"
+      .replace(/\bn\s*[º°]\s*\d+\b/giu, "")
+      // remove símbolos de fechar
+      .replace(/[✖✘❌❎🗙×]/gu, "")
+      // remove emojis
+      .replace(/\p{Extended_Pictographic}+/gu, "")
+      // normaliza espaços e pontuação duplicada
+      .replace(/\s+([,.;:!?])/g, "$1")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    return t;
+  }).filter(Boolean)
+    .join(" "); // troque por "\n" se quiser cada frase em uma linha
+
+  // 5) escreve no editor como texto puro
+  editor.innerText = cleanText;
+
+  // 6) cursor ao fim
   const range = document.createRange();
-  const sel = window.getSelection();
   range.selectNodeContents(editor);
-  range.collapse(false); // Fim do texto
+  range.collapse(false);
+  const sel = window.getSelection();
   sel.removeAllRanges();
   sel.addRange(range);
 
-  // ⚠️ Garante que o editor permaneça editável
-  editor.setAttribute('contenteditable', 'true');
+  editor.setAttribute("contenteditable", "true");
 }
 
 // 🧹 LIMPAR SÍMBOLOS *****************************************************************************************************

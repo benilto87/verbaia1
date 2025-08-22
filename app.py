@@ -400,7 +400,7 @@ Analise com sensibilidade editorial e inicie agora:
 
         # use um modelo compatível com chat.completions
         completion = openai_client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4.1",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.52,
             max_tokens=900
