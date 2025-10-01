@@ -568,6 +568,7 @@ Justificativa: Variedade de vocabulário e maior precisão verbal.
         return jsonify({"erro": str(e)})
 
 
+ # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 @app.route('/corrigir2', methods=["POST"])
 def corrigir_texto2():
