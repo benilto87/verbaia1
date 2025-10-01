@@ -522,6 +522,12 @@ mark {
   border-radius: 2px;
 }
 
+mark.focused-mark {
+  outline: 2px solid orange;
+  background: yellow;
+}
+
+/* PLACA TEMPERATURA 🍂 */
   #temperatureSlider {
     accent-color: #c88c2b; /* dourado-alaranjado folha 🍂 */
   }

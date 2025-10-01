@@ -334,6 +334,32 @@ function limparDestaques() {
   });
 }
 
+function destacarBusca() {
+  const termo = document.getElementById("inputBusca").value.trim();
+
+  // ✅ Só continua se tiver pelo menos 2 letras
+  if (termo.length < 2) {
+    limparDestaques();
+    return;
+  }
+
+  limparDestaques();
+
+  const regex = new RegExp(escapeRegex(termo), "gi");
+  const roots = document.querySelectorAll("#editor .text-group");
+
+  roots.forEach(root => highlightNode(root, regex));
+
+  // 🔎 após destacar, foca no primeiro <mark>
+  const firstMark = document.querySelector("#editor .text-group mark");
+  if (firstMark) {
+    firstMark.scrollIntoView({ behavior: "smooth", block: "center" });
+    // opcional: também dá foco visual
+    firstMark.classList.add("focused-mark");
+    setTimeout(()=> firstMark.classList.remove("focused-mark"), 1500);
+  }
+}
+
 // 🔍 ***************************************************************************************************************
 
 // ✅ Carrega a primeira aba automaticamente ao abrir
