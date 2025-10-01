@@ -464,7 +464,7 @@ async function corrigirTexto3(temperaturaEscolhida){
 
     editor.innerHTML = `
       <div class="sentence-group">
-        <span class="number-marker">🌒®</span>
+        <span class="number-marker">🌒</span>
         <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
       </div>
     `;
