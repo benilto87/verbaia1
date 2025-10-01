@@ -494,7 +494,7 @@ Exemplo de saída esperado:
 O dia amanheceu **vestindo o mundo de cinza**. **Ela permanecia imóvel, olhando pela janela sem dizer nada.**  
 Um pássaro pousou **suave como um presságio sobre o** parapeito.  
 
-🌙🌾 **Lista de mudanças:**
+📝🌾 **Lista de mudanças:**
 1. Enriqueci a metáfora inicial com _“vestindo o mundo de cinza”_.
 2. Transformei a frase da personagem em construção mais poética e cadenciada.
 3. Tornei o pouso do pássaro mais sugestivo com _“suave como um presságio”_.
