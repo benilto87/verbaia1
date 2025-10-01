@@ -228,7 +228,7 @@ Exemplo:
 
 Flávia sentiu o aroma doce das flores, e por um instante, cada pétala parecia sussurrar lembranças de verões perdidos.
 
-Feche a análise com uma frase literária ou versículo breve que complemente o clima do texto.
+Comece a analise:
 """
 
     try:
