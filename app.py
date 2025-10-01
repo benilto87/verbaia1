@@ -625,6 +625,66 @@ Texto do usuário:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
+# 🌒 CORRETOR LITERÁRIO 2 🌒 ***************************************************************************************************
+@app.route('/corrigir3', methods=["POST"])
+def corrigir_texto3():
+    from flask import request, jsonify
+
+    dados = request.get_json(force=True) or {}
+    texto_original = (dados.get("texto") or "").strip()
+    # temperatura enviada pelo frontend (padrão 0.99), com clamp para segurança
+    temperatura = float(dados.get("temperature", 0.99))
+    temperatura = max(0.10, min(1.50, temperatura))
+
+    if not texto_original:
+        return jsonify({"erro": "Texto vazio."}), 400
+
+    prompt = f"""
+📝 Você é um revisor literário focado na correção de texto prolixos. Missão: enxugar o texto e dar sofisticação literária mantendo sua essência. 
+
+Instruções:
+1. Preserve trechos que já estejam bons, alterando apenas o necessário.
+2. Mantenha tom literário, mas acrescentando precisão e ritmo.
+3. Una frases curtas ou omita trechos quando isso melhorar o fluxo.
+4. Enxugue excessos: corte redundâncias, repetições e expressões fracas. 
+5. Substitua clichês por imagens originais.
+6. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+7. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
+
+Exemplo de entrada:
+
+> A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
+Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
+No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou, pra sempre.
+
+Exemplo de saída esperado:
+
+> A manhã estava cinza **— não de chuva, mas de ausência. 
+Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
+No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar. ** para sempre.
+
+🌒 **Lista de mudanças:**
+1. Adicionei contraste climático mais literário (“não de chuva, mas de ausência”), e omiti a ideia repetiva no fim.
+2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta (“_o som das asas arranhou o silêncio_”).
+3. Condensei o final repetitivo em uma frase de impacto mais seca e literária (“_apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar._”).
+4. Omiti o clichê "para sempre" para um final mais impactante.
+
+Texto do usuário:
+{texto_original}
+""".strip()
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperatura,
+            max_tokens=1400
+        )
+        texto_corrigido = resposta.choices[0].message.content.strip()
+        return jsonify({"corrigido": texto_corrigido}), 200
+
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
 
 # ✅ TAREFA LIVRE ✅ ***************************************************************************************************
 @app.route('/tarefa', methods=["POST"])

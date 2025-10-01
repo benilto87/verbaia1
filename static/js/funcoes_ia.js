@@ -427,9 +427,62 @@ async function corrigirTexto2(temperaturaEscolhida){
 }
 window.corrigirTexto2 = corrigirTexto2;
 
+// 🌒® CORRETOR DE TEXTO 3 🌒® ************************************************************************************************************
+// ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====
+async function corrigirTexto3(temperaturaEscolhida){
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
 
+  // usa a temp que veio da plaquinha; se não vier, fallback 0.99
+  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.99;
 
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌒 Enxugando seu texto... </span>';
 
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/corrigir3", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
+    });
+
+    const dados = await resposta.json();
+    if (dados.erro) throw new Error(dados.erro);
+
+    const textoCorrigido = (dados.corrigido || "").trim();
+
+    const htmlCorrigido = textoCorrigido
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/\n/g, "<br>");
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">🌒®</span>
+        <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
+      </div>
+    `;
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
+      setTimeout(() => feedbackDiv.innerHTML = '', 2000);
+    }
+  } catch (erro) {
+    console.error("Erro ao corrigir texto:", erro);
+    alert("Erro ao corrigir texto.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
+  }
+}
+window.corrigirTexto3 = corrigirTexto3;
+
+// **************************************************************************************************************
+// **************************************************************************************************************
 
 // ALTERNADOR 3.5 PARA 4.0
 
