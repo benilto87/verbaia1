@@ -194,35 +194,41 @@ def inspire():
 
 {text}
 
-Analise o texto fornecido destacando:
+✍ Analise o texto fornecido com foco em aprofundamento narrativo, psicológico e simbólico. Sua resposta deve incluir:
 
-1. Força — Liste de 2 a 4 pontos fortes específicos do texto, com foco na qualidade literária, argumentativa e estrutural. Seja objetivo e mantenha frases curtas.
+📌 Potencial de aprofundamento do enredo:
 
-2. Vulnerabilidade (com sugestões práticas e exemplos) — Liste de 1 a 3 vulnerabilidades relevantes do texto. Para cada vulnerabilidade:
+Liste de 2 a 4 oportunidades para tornar a história mais rica, com foco em personagens, conflitos internos, relações ou ambientação.
 
-Descreva o problema de forma clara;
-Dê uma sugestão prática para resolver;
-Inclua um exemplo concreto de como aplicar a sugestão, usando um trecho real do texto como referência e mostrando a reescrita ou ajuste recomendado.
+TIPOS DE SUGESTÃO:
 
-Formate a resposta assim:
+-Dê ideias concretas de como explorar cada oportunidade.
 
-📌 Força:
-- [**Ponto forte 1:** Comentário...]
-- [**Ponto forte 2:** ""...]
-- [**Ponto forte 3:** ""...]
+-Inclua exemplos de pequenas alterações ou acréscimos, como:
 
-📌 Vulnerabilidade:
-• [Descrição do problema:]
-**Sugestão prática:** [solução].  
-**No trecho:**“[trecho original]”, **Substitua por:**  
-  > “[trecho ajustado]”
+-Gestos ou falas que revelem mais da psicologia dos personagens;
 
-O tom deve ser técnico, mas construtivo.
+-Símbolos, cores, sons ou aromas que reforcem emoções ou temas;
 
+-Flashbacks ou pensamentos internos que adicionem profundidade;
 
-FECHE COM UM VERSICULO BREVE, DO NOVO OU VELHO TESTAMENTO; EXEMPLO:
+-Detalhes de ambiente que espelhem o estado emocional dos personagens;
 
-"Porque eu bem sei os planos que tenho a respeito de vós, diz o SENHOR; planos de paz, e não de mal, para vos dar um futuro e esperança" (Jr 29:11) 🌙🌾
+-Ideias de situações de ambiente ou com os personagens que tragam ganho narrativo.
+
+MODELO DE SAIDA ESPERADO:
+
+Conflito interno de Flávia – Mostrar sua hesitação após o beijo aumenta a empatia e complexidade da personagem.
+Exemplo:
+
+Enquanto recuava, uma lembrança da risada de Fernando no verão passado atravessou sua mente, misturando desejo e receio.
+
+Simbolismo das flores – Ameixas e flores podem refletir emoções e escolhas internas.
+Exemplo:
+
+Flávia sentiu o aroma doce das flores, e por um instante, cada pétala parecia sussurrar lembranças de verões perdidos.
+
+Feche a análise com uma frase literária ou versículo breve que complemente o clima do texto.
 """
 
     try:
@@ -230,7 +236,7 @@ FECHE COM UM VERSICULO BREVE, DO NOVO OU VELHO TESTAMENTO; EXEMPLO:
             model='gpt-4.1',
             messages=[{"role": "user", "content": prompt}],
             temperature=0.9,
-            max_tokens=600
+            max_tokens=1600
         )
         resposta = completion.choices[0].message.content.strip()
         return jsonify({'result': resposta})
@@ -606,9 +612,9 @@ Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.**
 No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
 
 🌙🌾 **Lista de mudanças:**
-1. Adicionei contraste climático _“não de chuva, mas de ausência”_ para enriquecer a imagem inicial.
-2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta _“o som das asas arranhou o silêncio”_.
-3. Condensei o final repetitivo em uma frase de impacto mais seca e literária _“apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”_
+1. Adicionei contraste climático “não de chuva, mas de ausência” para enriquecer a imagem inicial.
+2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “o som das asas arranhou o silêncio”.
+3. Condensei o final repetitivo em uma frase de impacto mais seca e literária “apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”
 
 Texto do usuário:
 {texto_original}
@@ -666,10 +672,10 @@ Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.**
 No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.** 
 
 🌒 **Lista de mudanças:**
-1. Adicionei contraste climático mais literário _“não de chuva, mas de ausência”_, e omiti a ideia repetiva no fim.
-2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta _“o som das asas arranhou o silêncio.”_
-3. Condensei o final repetitivo em uma frase de impacto mais seca e literária _“apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”_
-4. Omiti o clichê "para sempre" para um final mais impactante.
+1. Adicionei contraste climático mais literário “não de chuva, mas de ausência”, e omiti a ideia repetiva no fim.
+2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “o som das asas arranhou o silêncio.”
+3. Condensei o final repetitivo em uma frase de impacto mais seca e literária “apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”
+
 
 Texto do usuário:
 {texto_original}
