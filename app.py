@@ -214,19 +214,19 @@ TIPOS DE SUGESTÃO:
 
 -Detalhes de ambiente que espelhem o estado emocional dos personagens;
 
--Ideias de situações de ambiente ou com os personagens que tragam ganho narrativo.
+-Invente situações novas: com o ambiente, os personagens, etc., (ou altere mude as existentes) que tragam ganho narrativo. 
 
 MODELO DE SAIDA ESPERADO:
 
-Conflito interno de Flávia – Mostrar sua hesitação após o beijo aumenta a empatia e complexidade da personagem.
-Exemplo:
+Conflito interno – Mostrar hesitação da moça após o beijo aumenta a empatia e complexidade da personagem.
+Exemplo de escrita:
 
-Enquanto recuava, uma lembrança da risada de Fernando no verão passado atravessou sua mente, misturando desejo e receio.
+Enquanto ela recuava, uma lembrança da risada irônica dele na semana passado atravessou sua mente, misturando desejo e receio.
 
 Simbolismo das flores – Ameixas e flores podem refletir emoções e escolhas internas.
-Exemplo:
+Exemplo de escrita:
 
-Flávia sentiu o aroma doce das flores, e por um instante, cada pétala parecia sussurrar lembranças de verões perdidos.
+...sentiu o aroma doce das flores, e por um instante, cada pétala parecia sussurrar lembranças de verões perdidos.
 
 Comece a analise:
 """
