@@ -694,6 +694,137 @@ Texto do usuário:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
+# 🌔 CORRETOR LITERÁRIO 3 🌔 ***************************************************************************************************
+@app.route('/rascunho2', methods=["POST"])
+def criar_rascunho2():
+    from flask import request, jsonify
+    dados = request.get_json(force=True) or {}
+    texto_bruto = (dados.get("texto") or "").strip()
+    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
+    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
+
+    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
+
+    if not texto_bruto:
+        return jsonify({"erro": "Texto vazio."}), 400
+
+    prompt = f"""
+📝 Você é um assistente literário com foco no aperfeiçoamento narrativo:
+
+Instruções:
+
+Encontre as partes do texto que considere desnessessário e que apenas cansam a narrativa;
+Respeintando o estilo do artista, marque em negrito as partes que devem ser cortadas ou substituidas para melhora da texto.
+Recomendações de corte devem ter uma justificativa bem fundamentada.
+A Lista de corte deve ser coerente com os trechos destacados em negrito no texto de saída.
+
+
+EXEMPLO DE ENTRADA:
+
+A rua estava silenciosa naquela manhã. O vento sacudia as folhas secas, e cada passo meu ecoava nas paredes. 
+Havia um cachorro deitado na esquina, parecia me observar. 
+Apertei o passo, lembrando do compromisso marcado com Helena, que já devia estar me esperando no café da praça. Talvez a tempos
+
+SAÍDA ESPERADA:
+
+A rua estava silenciosa naquela manhã. *O vento sacudia as folhas secas, e_ cada passo meu ecoava nas paredes. Havia um cachorro deitado na esquina, parecia me observar. 
+_Havia um cachorro deitado na esquina, parecia me observar._ 
+Apertei o passo, _lembrando do compromisso marcado com Helena,_ que já devia estar me esperando no café da praça. 
+
+✂🌾 *Lista de cortes:*
+
+1. *Substitua:* *O vento sacudia as folhas secas, e*  
+ — Detalhe atmosférico redundante, já sugerido pelo silêncio inicial. 
+➝ Corte para dar agilidade, ou reescreva assim:** _"O vento sacudia suavemente as folhas secas"_.
+2. *Substitua:* *Havia um cachorro deitado na esquina, parecia me observar.* 
+ — A frase expositiva trocada por gesto mais visual. 
+➝ **Reescreva assim:** _“Um cachorro deitado na esquina levantou a cabeça, como se acompanhasse meus movimentos.”__
+3. *lembrando do compromisso marcado*  
+— Expressão burocrática, tende a pesar o fluxo da narrativa. 
+➝ **Reescreva assim:** _“Helena já devia estar me esperando no café da praça.”_
+
+Comece aqui:
+
+{texto_bruto}
+""".strip()
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperatura,
+            max_tokens=1400
+        )
+        texto_final = resposta.choices[0].message.content.strip()
+        return jsonify({"rascunho": texto_final}), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+# 🌔 CORRETOR LITERÁRIO 4 🌔 ***************************************************************************************************
+@app.route('/rascunho3', methods=["POST"])
+def criar_rascunho3():
+    from flask import request, jsonify
+    dados = request.get_json(force=True) or {}
+    texto_bruto = (dados.get("texto") or "").strip()
+    temperatura = float(dados.get("temperature", 0.7))  # 🎯 padrão criativo 0.85
+    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
+
+    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
+
+    if not texto_bruto:
+        return jsonify({"erro": "Texto vazio."}), 400
+
+    prompt = f"""
+📝 Você é um revisor literário especializado em aprofundamento de enredo e simbolismo.  
+
+Instruções:
+1. Preserve trechos que já estejam bons, alterando apenas o necessário.
+2. Mantenha tom literário, mas acrescente intensidade emocional, ritmo narrativo e simbolismo sutil.
+3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída, explicando por que cada alteração reforça o enredo ou os símbolos.
+
+Exemplo de entrada:
+
+> Fernando beijou delicadamente o rosto de Flávia, mas ela recuou levemente, tomada por uma estranheza silenciosa. 
+E, no entanto, um instante depois decidiu ir com eles. 
+Agora veio vestida com roupas verde e amarelo como num jogo do Brasil. 
+Antes de partir, Flávia, se correu até a ameixeira encostada junto à cerca, que se abria para um carreiro conduzindo a algum lugar incerto. 
+Ali, colheu um ramo cheio de ameixas maduras e entrou no carro. Alegre ofereceu a Fernando que aceitou. Então percebeu, curioso, que a sua também trazia pequenas florzinhas. 
+Fernando não resistiu àquelas minúsculas flores: desfez a vinha, apanhou as flores e as entregou a Flávia. 
+A alegria em sua reação brotou nela era bem mais que gratidão.
+
+Exemplo de saída esperado:
+
+> Fernando beijou delicadamente o rosto de Flávia. _Ela recuou, não por frieza, mas como se algo a puxasse para dentro de si, para um silêncio onde lembranças e temores disputavam espaço._  
+E, no entanto, um instante depois decidiu ir com eles.  
+Agora vestida com roupas verde e amarelo, _um contraste inesperado diante da tensão do momento._  
+Antes de entrar, correu até a ameixeira junto à cerca — _uma árvore que parecia guardar a passagem para lugares incertos._ Colheu um ramo carregado de frutos maduros, _como se quisesse levar consigo um testemunho daquele quintal._  
+Quando entregou as ameixas a Fernando, ele notou curioso: _entre os frutos, pequenas flores quase secretas._ Colheu-as e, sorrindo, devolveu-as a ela.  
+A alegria em sua reação brotou nela era bem mais que gratidão.
+
+🌙🌾 **Lista de mudanças:**
+1. **Aprofundamento do conflito de Flávia:** Profundizei o recuo de Flávia como conflito interno e memória afetiva, reforçando o impacto emocional do beijo.
+2. **Contraste das roupas:** Acrescentei contraste nas roupas para sugerir ironia ou leveza diante da gravidade do momento.
+3. **Metáfora da ameixeira:** A ameixeira virou metáfora de passagem e limiar, reforçando simbolismo.
+4. **Frores como revelação:** Destacei as flores como revelação quase secreta, ampliando a beleza e sutileza da narrativa.
+
+Comece aqui:
+
+{texto_bruto}
+""".strip()
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperatura,
+            max_tokens=1400
+        )
+        texto_final = resposta.choices[0].message.content.strip()
+        return jsonify({"rascunho": texto_final}), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
 # ✅ TAREFA LIVRE ✅ ***************************************************************************************************
 @app.route('/tarefa', methods=["POST"])
 def gerar_tarefa():

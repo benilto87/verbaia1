@@ -307,6 +307,117 @@ async function gerarRascunho(temperaturaEscolhida){
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho = function(temp){ gerarRascunho(temp); };
 
+// 📝 GERAR RASCUNHO — garante que envia temperature e chama a rota certa
+async function gerarRascunho2(temperaturaEscolhida){
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">📃 Gerando rascunho... </span>';
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '';
+    return;
+  }
+
+  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.85;
+
+  try {
+    const resposta = await fetch("/rascunho2", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
+    });
+
+    const dados = await resposta.json();
+    if (dados.erro) throw new Error(dados.erro);
+
+    const rascunho = (dados.rascunho || '').trim();
+
+    const rascunhoConvertido = rascunho
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // negrito
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")           // itálico
+      .replace(/_(.*?)_/g, "<em>$1</em>")             // itálico alternativo
+      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">📜</span>
+        <span class="text-group" contenteditable="true">${rascunhoConvertido}</span>
+      </div>
+    `;
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Rascunho gerado!</span>';
+      setTimeout(()=> feedbackDiv.innerHTML = '', 2000);
+    }
+  } catch (erro) {
+    console.error("Erro ao gerar rascunho:", erro);
+    alert("Erro ao gerar rascunho.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao gerar rascunho.</span>';
+  }
+}
+
+// 🔗 expõe a callback que a plaquinha chama
+window.enviarRascunho2 = function(temp){ gerarRascunho2(temp); };
+
+// 📝 GERAR RASCUNHO — garante que envia temperature e chama a rota certa
+async function gerarRascunho3(temperaturaEscolhida){
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">📃 Gerando rascunho... </span>';
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '';
+    return;
+  }
+
+  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.85;
+
+  try {
+    const resposta = await fetch("/rascunho3", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
+    });
+
+    const dados = await resposta.json();
+    if (dados.erro) throw new Error(dados.erro);
+
+    const rascunho = (dados.rascunho || '').trim();
+
+    const rascunhoConvertido = rascunho
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // negrito
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")           // itálico
+      .replace(/_(.*?)_/g, "<em>$1</em>")             // itálico alternativo
+      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">📜</span>
+        <span class="text-group" contenteditable="true">${rascunhoConvertido}</span>
+      </div>
+    `;
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Rascunho gerado!</span>';
+      setTimeout(()=> feedbackDiv.innerHTML = '', 2000);
+    }
+  } catch (erro) {
+    console.error("Erro ao gerar rascunho:", erro);
+    alert("Erro ao gerar rascunho.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao gerar rascunho.</span>';
+  }
+}
+
+// 🔗 expõe a callback que a plaquinha chama
+window.enviarRascunho3 = function(temp){ gerarRascunho3(temp); };
   
 // ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
 async function corrigirTexto() {
