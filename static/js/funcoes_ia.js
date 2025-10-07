@@ -622,7 +622,7 @@ botaoToggle.addEventListener("click", () => {
 });
 
 // ✅ Garante que o botão já apareça certo ao carregar
-botaoPrincipal.innerText = "🔮 pedir™";
+botaoPrincipal.innerText = "🔮 pedir";
 botaoToggle.classList.add("girado");
 
 // DO...>> 💻 TAREFA LIGRE 💻 ************************************************************************************************************
