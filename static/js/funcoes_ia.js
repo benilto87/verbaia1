@@ -284,6 +284,7 @@ async function gerarRascunho(temperaturaEscolhida){
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
       .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
       .replace(/\n/g, "<br>");
 
     editor.innerHTML = `
@@ -395,7 +396,7 @@ async function gerarRascunho3(temperaturaEscolhida){
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // negrito
       .replace(/\*(.*?)\*/g, "<em>$1</em>")           // itálico
       .replace(/_(.*?)_/g, "<em>$1</em>")             // itálico alternativo
-      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/~(.*?)~/g, "<s>$1</s>")             // riscado
       .replace(/\n/g, "<br>");
 
     editor.innerHTML = `
@@ -457,6 +458,7 @@ async function corrigirTexto() {
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
       .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
       .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
+	  .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
       .replace(/\n/g, "<br>");                          // quebra de linha
 
     editor.innerHTML = `
@@ -517,6 +519,7 @@ async function corrigirTexto2(temperaturaEscolhida){
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
       .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
       .replace(/\n/g, "<br>");
 
     editor.innerHTML = `
@@ -571,6 +574,7 @@ async function corrigirTexto3(temperaturaEscolhida){
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
       .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
       .replace(/\n/g, "<br>");
 
     editor.innerHTML = `
@@ -663,6 +667,7 @@ async function gerarTarefa() {
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
       .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
       .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
+      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
       .replace(/\n/g, "<br>");                          // quebra de linha
 
     editor.innerHTML = `

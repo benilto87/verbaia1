@@ -435,16 +435,16 @@ Aqui está um texto dividido em blocos numerados:
 Para cada bloco, faça o seguinte: 
 
 - Se encontrar uma parte específica do texto que possa melhorar em estilo, clareza ou impacto estético, sugira uma dica de reescrita.
-
+- Para tal use inspiração a escrita de grandes autores como Marcel Proust, Graciliano Ramos, Hemingway, Camus, etc. Cite o autor usado.
 - Formate sua resposta assim, para cada bloco com sugestões:
 
 Exemplo de entrada:
 Um pequena estrela surgiu no céu como vida.
 
-Exemplo de saída:
-NUMERO 🍂 No céu escuro, uma estrela solitária irrompia como um lampejo de vida.
+Exemplos de saída:
+NUMERO 🍂 No céu escuro, uma estrela solitária irrompia como um lampejo de vida. > *Abert Camus*
 
-
+NUMERO 🍂 No céu escuro, uma estrela solitária rompia a treva como uma virgem de luz, despontando no firmamento qual suspiro. > *José de Alencar*
 
 ⚠️ Instruções ⚠️:
 - Comente no máximo *uma frase por bloco*.
@@ -457,7 +457,7 @@ Com foco na beleza estética comece sua análise:
         completion = openai_client.chat.completions.create(
             model='gpt-4.1', # gpt-4o / gpt-4.1
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
+            temperature=0.52,
             max_tokens=900,
         )
 
@@ -487,23 +487,24 @@ def criar_rascunho():
 
 Instruções:
 1. Unir os fragmentos respeitando a voz implícita do autor. 
-2. Criar transições naturais, ritmo e atmosfera entre as partes. 
+2. Criar transições naturais, ritmo e atmosfera entre as partes. Aproveitando oportunidades de elevar o texto.
 3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes. 
 4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
 
 Exemplo de entrada:
 O dia amanhecia cinzento.
-Ela olhava pela janela sem dizer nada.
+Ela olhava pela janela sem falar.
 Um pássaro pousou no parapeito.
 
 Exemplo de saída esperado:
-O dia amanheceu **vestindo o mundo de cinza**. **Ela permanecia imóvel, olhando pela janela sem dizer nada.**  
+O dia amanheceu **vestindo o mundo de cinza**. 
+**Ela permanecia imóvel, olhando pela janela sem dizer nada.**  
 Um pássaro pousou **suave como um presságio sobre o** parapeito.  
 
-📝🌾 **Lista de mudanças:**
-1. Enriqueci a metáfora inicial com _“vestindo o mundo de cinza”_.
-2. Transformei a frase da personagem em construção mais poética e cadenciada.
-3. Tornei o pouso do pássaro mais sugestivo com _“suave como um presságio”_.
+📝🌾 **Lista de Mudanças:**
+1. Enriqueci a metáfora inicial com _vestindo o mundo de cinza_.
+2. Transformei a frase da personagem em uma construção mais poética e cadenciada em _Ela permanecia imóvel, olhando pela janela sem dizer nada_.
+3. Tornei o pouso do pássaro mais sugestivo com _suave como um presságio_.
 
 Agora processe o bloco abaixo:
 {texto_bruto}
@@ -529,29 +530,23 @@ def corrigir_texto():
     print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
 
     prompt = f"""
-Você é uma IA inteligente e perspicaz seu objetivo é operar correções **gramática, ortografia e concordância**, e melhorar a **fluidez e construção das frases**.
+Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada bloco. Seu objetivo é:
 
-📝 Instruções:
-- **Sublinhe as palavras ou trechos corrigidos no corpo do texto em **negrito**
+1. Substituir os trechos conforme as dicas fornecidas;
+2. **Remover a numeração dos blocos** (ex: "1", "2"...);
+3. Unificar o texto em parágrafos contínuos e coesos;
+4. Preservar o estilo original do autor;
+5. Marcar com **negrito** todas as palavras ou trechos que foram modificados;
+6. Adicione comentário da abordagem usada exemplo: 
 
-- Ao final, apresente uma **📝Lista de Mudanças com Justificativas Curtas**, mostrando como era em _italico_ e como ficou em **negrito**.
+🌿 Comentários:
+- Acidionei as sugestões 5 e 6 (para ampliar o conflito interno, simbolismo do ambiente, etc.) de forma orgânica no texto original.
+- Ajustei pequenas transições para garantir fluidez e evitar repetições.
+- Não utilizei sugestões que soassem forçadas, excessivas, ou destoassem do tom do autor.
+- Mantive o estilo original, ampliando a densidade psicológica e simbólica da cena.
 
-Exemplo texto de entrada usuário:
-A vida é cheia de altos e baixos, onde muitas vezes a gente não sabe o que fazer.
 
-Saida esperada:
-✍️ Texto Revisado:
-A vida é cheia de altos e baixos, **momentos em que muitas vezes** não **sabemos como agir**.
 
-📝 Lista de Mudanças:
-_onde_ → **momentos em que**
-Justificativa: Correção do uso incorreto de "onde" para situações temporais, não espaciais.
-
-_a gente não sabe_ → **não sabemos**
-Justificativa: Uso da forma culta e coesa do pronome.
-
-_o que fazer_ → **como agir**
-Justificativa: Variedade de vocabulário e maior precisão verbal.
 
 ---
 
@@ -567,7 +562,7 @@ Justificativa: Variedade de vocabulário e maior precisão verbal.
         resposta = openai_client.chat.completions.create(
             model="gpt-4.1",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.8
+            temperature=0.64
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido})
@@ -597,7 +592,7 @@ Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
 2. Mantenha tom literário, mas acrescentando precisão e ritmo.
 3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
+4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
 
 Exemplo de entrada:
 
@@ -611,10 +606,16 @@ Exemplo de saída esperado:
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
 No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
 
-🌙🌾 **Lista de mudanças:**
-1. Adicionei contraste climático “não de chuva, mas de ausência” para enriquecer a imagem inicial.
-2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “o som das asas arranhou o silêncio”.
-3. Condensei o final repetitivo em uma frase de impacto mais seca e literária “apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”
+🌓🐦 **Lista de Mudanças:**
+
+1. ~~Muito cinza mesmo, Parecia como um mundo sem cor~~ [~~riscado~~]
+➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
+
+2. ~~Suas asas fizeram um barulho feio, como um arranhar~~
+➝ Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “**o som das asas arranhou o silêncio**”.
+
+3. ~~E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou~~
+➝ Condensei o final repetitivo em uma frase de impacto mais seca e literária “**apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**”
 
 Texto do usuário:
 {texto_original}
@@ -633,7 +634,7 @@ Texto do usuário:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
-# 🌒 CORRETOR LITERÁRIO 2 🌒 ***************************************************************************************************
+# 🌒 CORRETOR LITERÁRIO (ENXUGA-TEXTO) 2 🌒 ***************************************************************************************************
 @app.route('/corrigir3', methods=["POST"])
 def corrigir_texto3():
     from flask import request, jsonify
@@ -657,7 +658,7 @@ Instruções:
 4. Enxugue excessos: corte redundâncias, repetições e expressões fracas. 
 5. Substitua clichês por imagens originais.
 6. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-7. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
+7. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
 
 Exemplo de entrada:
 
@@ -671,10 +672,16 @@ Exemplo de saída esperado:
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
 No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.** 
 
-🌒 **Lista de mudanças:**
-1. Adicionei contraste climático mais literário “não de chuva, mas de ausência”, e omiti a ideia repetiva no fim.
-2. Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “o som das asas arranhou o silêncio.”
-3. Condensei o final repetitivo em uma frase de impacto mais seca e literária “apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”
+🌒🐦 **Lista de Mudanças:**
+
+1. ~~Muito cinza mesmo, Parecia como um mundo sem cor~~ [~~riscado~~]
+➝ Adicionei contraste climático mais literário “não de chuva, mas de ausência”, e omiti a ideia repetiva no fim.
+
+2. ~~Suas asas fizeram um barulho feio, como um arranhar~~
+➝ Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “o som das asas arranhou o silêncio.”
+
+3. ~~E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou~~
+➝ Condensei o final repetitivo em uma frase de impacto mais seca e literária “apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”
 
 
 Texto do usuário:
@@ -775,13 +782,14 @@ def criar_rascunho3():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário especializado em aprofundamento de enredo e simbolismo.  
+📝 Você é um revisor literário especializado em aprofundamento de enredo e transições.  
 
 Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
 2. Mantenha tom literário, mas acrescente intensidade emocional, ritmo narrativo e simbolismo sutil.
-3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída, explicando por que cada alteração reforça o enredo ou os símbolos.
+3. Marque em itálico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída, explicando por que cada alteração reforça o enredo ou os símbolos.
+
 
 Exemplo de entrada:
 
@@ -789,24 +797,27 @@ Exemplo de entrada:
 E, no entanto, um instante depois decidiu ir com eles. 
 Agora veio vestida com roupas verde e amarelo como num jogo do Brasil. 
 Antes de partir, Flávia, se correu até a ameixeira encostada junto à cerca, que se abria para um carreiro conduzindo a algum lugar incerto. 
-Ali, colheu um ramo cheio de ameixas maduras e entrou no carro. Alegre ofereceu a Fernando que aceitou. Então percebeu, curioso, que a sua também trazia pequenas florzinhas. 
+Ali, colheu um ramo cheio de ameixas maduras e entrou no carro. Alegre ofereceu a Fernando que aceitou. 
+Então percebeu, curioso, que a sua também trazia pequenas florzinhas. 
 Fernando não resistiu àquelas minúsculas flores: desfez a vinha, apanhou as flores e as entregou a Flávia. 
 A alegria em sua reação brotou nela era bem mais que gratidão.
 
 Exemplo de saída esperado:
 
-> Fernando beijou delicadamente o rosto de Flávia. _Ela recuou, não por frieza, mas como se algo a puxasse para dentro de si, para um silêncio onde lembranças e temores disputavam espaço._  
+> Fernando beijou delicadamente o rosto de Flávia, mas ela recuou, _não por frieza, mas como se algo a puxasse para dentro de si, para um silêncio onde lembranças e temores disputavam espaço._  
 E, no entanto, um instante depois decidiu ir com eles.  
-Agora vestida com roupas verde e amarelo, _um contraste inesperado diante da tensão do momento._  
-Antes de entrar, correu até a ameixeira junto à cerca — _uma árvore que parecia guardar a passagem para lugares incertos._ Colheu um ramo carregado de frutos maduros, _como se quisesse levar consigo um testemunho daquele quintal._  
-Quando entregou as ameixas a Fernando, ele notou curioso: _entre os frutos, pequenas flores quase secretas._ Colheu-as e, sorrindo, devolveu-as a ela.  
+Agora vestida com roupas verde e amarelo, _um contraste inesperado destoava da tensão do momento._  
+Antes de entrar, correu até a ameixeira junto à cerca — _a árvore parecia guardar segredos de um lugar incerto._ _Ali perto, uma cobra coral passa despercebida pelo observador._  
+Quando entregou as ameixas a Fernando. 
+Notou entre os frutos, pequenas flores _quase secretas_; colheu-as e, com um riso, devolveu-as a ela.  
 A alegria em sua reação brotou nela era bem mais que gratidão.
 
-🌙🌾 **Lista de mudanças:**
+🌙🌾 **Lista de Mudanças:**
 1. **Aprofundamento do conflito de Flávia:** Profundizei o recuo de Flávia como conflito interno e memória afetiva, reforçando o impacto emocional do beijo.
 2. **Contraste das roupas:** Acrescentei contraste nas roupas para sugerir ironia ou leveza diante da gravidade do momento.
-3. **Metáfora da ameixeira:** A ameixeira virou metáfora de passagem e limiar, reforçando simbolismo.
-4. **Frores como revelação:** Destacei as flores como revelação quase secreta, ampliando a beleza e sutileza da narrativa.
+3. **Metáfora da ameixeira:** A ameixeira virou metáfora de passagem e limiar, reforçando simbolismo. 
+4. **Cobra coral:** Acrescentei o detalhe da cobra para efeito de tensão narrativa.
+5. **Frores secretas:** Destacei as flores como revelação quase secreta, ampliando a beleza e sutileza da narrativa.
 
 Comece aqui:
 
@@ -818,7 +829,7 @@ Comece aqui:
             model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=1400
+            max_tokens=1600
         )
         texto_final = resposta.choices[0].message.content.strip()
         return jsonify({"rascunho": texto_final}), 200

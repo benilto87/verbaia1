@@ -98,13 +98,13 @@
 <button class="toolbar-button botao-modificavel botao-turquesa" onclick="alternarCaixa()" title="Alternar Maiúsculas/Minúsculas"><span style="text-transform: none;">aA</span></button>
 <button onclick="aumentarFonte()" class="toolbar-button botao-modificavel botao-turquesa">A+</button>
 <button onclick="diminuirFonte()" class="toolbar-button botao-modificavel botao-turquesa">A-</button>
-<button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="copyText()" title="Copiar Texto">📋</button> 
 
 <!-- Botões de numeração e marcas -->
 <button class="toolbar-button botao-fixo-tarefa" onclick="numberSentences()" title="Numerar Frases">#</button>
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy2()" title="Numerar por blocos de 2 frases">#2</button>
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="removeNumbering()" title="Remover Numeração">⌫#</button>
+<button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="copyText()" title="Copiar Texto">📋</button> 
 <button class="toolbar-button botao-modificavel" onclick="removerFormatacaoSelecao()" title="Remover Estilo da Seleção">🧽</button>
 
 <!-- Botões de análise -->
@@ -112,16 +112,16 @@
 <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analisarDicasIA()" title="Análise de Fluidez">🍂</button>
 <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analyzeFluidezIA()" title="Análise de Fluidez">🚨</button>
 <button class="toolbar-button botao-modificavel botao-marcas" onclick="executarMarcadorDeCenas()" title="Marcar Cenas Principais">🎬</button>
-<button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="abrirPlacaTemperatura(this, corrigirTexto3, 0.77)" title="Analisar com IA">🌒</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2, 0.99)" title="Analisar com IA">🌓®</button>
 <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="abrirPlacaTemperatura(this, enviarRascunho2, 0.16)" title="Analisar com IA">❌</button>	
-<button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="abrirPlacaTemperatura(this, enviarRascunho3, 0.77)" title="Analisar com IA">🌔</button>
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto3, 0.77)" title="Analisar com IA">🌒</button>
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2, 0.99)" title="Analisar com IA">🌓®</button>
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, enviarRascunho3, 0.77)" title="Analisar com IA">🌔</button>
 <!-- Botões da Flávia -->
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="analyzeWithAI()" title="Analisar com IA">💎®</button>	
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia()" title="Inspiração da Flávia">👁‍🗨</button>		
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia2()" title="Reflexão da Flávia">💡</button>
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia3()" title="Leitora Virtual">👸</button>
-<button class="toolbar-button botao-fixo-tarefa botao-especial" onclick="abrirPlacaTemperatura(this,'enviarRascunho')" title="Gerar rascunho">📜...</button>
+<button class="toolbar-button botao-fixo-tarefa botao-especial" onclick="abrirPlacaTemperatura(this, enviarRascunho, 1.16)" title="Gerar rascunho">📜...</button>
 
 <!-- Pedido IA -->
 <button id="botao-pedido" class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarTarefa()" title="Shift+Enter">📘 pedido 3.5</button>
