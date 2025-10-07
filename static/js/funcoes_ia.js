@@ -612,7 +612,7 @@ const botaoPrincipal = document.getElementById("botao-pedido");
 botaoToggle.addEventListener("click", () => {
   if (modeloAtual === "3.5") {
     modeloAtual = "4.0";
-    botaoPrincipal.innerText = "🔮 pedir™";
+    botaoPrincipal.innerText = "🔮 pedir";
     botaoToggle.classList.add("girado");
   } else {
     modeloAtual = "3.5";
