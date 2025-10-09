@@ -194,39 +194,37 @@ def inspire():
 
 {text}
 
-✍ Analise o texto fornecido com foco em aprofundamento narrativo, psicológico e simbólico. Sua resposta deve incluir:
+ANÁLISE E REFINAMENTO DE TEXTO LITERÁRIO
+Atue como um editor literário. Sua tarefa é analisar o texto fornecido pelo usuário, identificando seus principais problemas e propondo soluções editoriais concretas para elevá-lo a um padrão literário superior.
 
-📌 Potencial de aprofundamento do enredo:
+ESTRUTURA DA ANÁLISE EDITORIAL:
 
-Liste de 2 a 4 oportunidades para tornar a história mais rica, com foco em personagens, conflitos internos, relações ou ambientação.
+**1. Problemas Identificados:**
+(Liste aqui os problemas específicos do texto, focando em itens como:
 
-TIPOS DE SUGESTÃO:
+**Prolixidade...** ou, ao contrário, **Falta de desenvolvimento...**
+**Estrutura narrativa confusa ou desorganizada**
+**Linguagem repetitiva, burocrática ou clichê**
+**Falta de tom, voz ou atmosfera consistentes**
+**Diálogos ou descrições pouco eficazes)**
 
--Dê ideias concretas de como explorar cada oportunidade.
+**2. Sugestões Editoriais:**
+(Forneça sugestões específicas baseadas nos problemas identificados. Escolha o foco apropriado para o texto:)
 
--Inclua exemplos de pequenas alterações ou acréscimos, como:
+Se o texto for PROLIXO (excessivamente longo e explicativo):
+**Foco: Cortar, Condensar e Poetizar.**
+(Sugira: cortar explicações desnecessárias, fundir elementos, substituir afirmações por imagens poéticas, selecionar os detalhes mais impactantes).
 
--Gestos ou falas que revelem mais da psicologia dos personagens;
+Se o texto for RASO (pouco desenvolvido e superficial):
+**Foco: Expandir, Profundizar e Sensibilizar.**
+(Sugira: adicionar camadas sensoriais, explorar emoções internas, estabelecer contexto, criar atmosfera, desenvolver metáforas).
 
--Símbolos, cores, sons ou aromas que reforcem emoções ou temas;
+**3. Resumo da Abordagem:**
+(Finalize com uma metáfora ou afirmação conclusiva que resuma a principal ação editorial necessária. Exemplos:)
 
--Flashbacks ou pensamentos internos que adicionem profundidade;
-
--Detalhes de ambiente que espelhem o estado emocional dos personagens;
-
--Invente situações novas: com o ambiente, os personagens, etc., (ou altere mude as existentes) que tragam ganho narrativo. 
-
-MODELO DE SAIDA ESPERADO:
-
-Conflito interno – Mostrar hesitação da moça após o beijo aumenta a empatia e complexidade da personagem.
-Exemplo de escrita:
-
-Enquanto ela recuava, uma lembrança da risada irônica dele na semana passado atravessou sua mente, misturando desejo e receio.
-
-Simbolismo das flores – Ameixas e flores podem refletir emoções e escolhas internas.
-Exemplo de escrita:
-
-...sentiu o aroma doce das flores, e por um instante, cada pétala parecia sussurrar lembranças de verões perdidos.
+Para um texto Prolixo: "Em resumo: aja como um escultor. Corte o mármore excessivo para revelar a forma bela e narrativa que está dentro do bloco de texto."
+Para um texto Raso: "Em resumo: aja como um pintor. Pegue o esboço simples e adicione camadas de tinta, cor, sombra e luz para criar uma imagem vívida e emocionante."
+Para um texto com outros problemas: "Em resumo: aja como um arquiteto. Reorganize a estrutura para criar uma jornada narrativa clara e impactante, onde cada cena sustenta a seguinte."
 
 Comece a analise:
 """
@@ -593,6 +591,7 @@ Instruções:
 2. Mantenha tom literário, mas acrescentando precisão e ritmo.
 3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
+5. Use ~~riscado~~ para apresentar as palavras substituidas.
 
 Exemplo de entrada:
 
@@ -606,7 +605,7 @@ Exemplo de saída esperado:
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
 No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
 
-🌓🐦 **Lista de Mudanças:**
+🌓🌿 **Lista de Mudanças:**
 
 1. ~~Muito cinza mesmo, Parecia como um mundo sem cor~~ [~~riscado~~]
 ➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
@@ -701,7 +700,7 @@ Texto do usuário:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
-# 🌔 CORRETOR LITERÁRIO 3 🌔 ***************************************************************************************************
+# 🌔✂ CORRETOR LITERÁRIO 3 ✂🌔 ***************************************************************************************************
 @app.route('/rascunho2', methods=["POST"])
 def criar_rascunho2():
     from flask import request, jsonify
@@ -760,7 +759,7 @@ Comece aqui:
             model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=1400
+            max_tokens=1500
         )
         texto_final = resposta.choices[0].message.content.strip()
         return jsonify({"rascunho": texto_final}), 200
@@ -796,11 +795,9 @@ Exemplo de entrada:
 > Fernando beijou delicadamente o rosto de Flávia, mas ela recuou levemente, tomada por uma estranheza silenciosa. 
 E, no entanto, um instante depois decidiu ir com eles. 
 Agora veio vestida com roupas verde e amarelo como num jogo do Brasil. 
-Antes de partir, Flávia, se correu até a ameixeira encostada junto à cerca, que se abria para um carreiro conduzindo a algum lugar incerto. 
-Ali, colheu um ramo cheio de ameixas maduras e entrou no carro. Alegre ofereceu a Fernando que aceitou. 
-Então percebeu, curioso, que a sua também trazia pequenas florzinhas. 
-Fernando não resistiu àquelas minúsculas flores: desfez a vinha, apanhou as flores e as entregou a Flávia. 
-A alegria em sua reação brotou nela era bem mais que gratidão.
+Antes de partir, Flávia, se correu até a ameixeira encostada junto à cerca, que se abria para um carreiro a algum lugar incerto. 
+Ali, colheu e ofereceu a Fernando. Ele notou curioso, que a sua também trazia pequenas florzinhas, Fernando não resistiu: desfez a vinha, apanhou as flores e as entregou a Flávia. 
+
 
 Exemplo de saída esperado:
 
@@ -808,9 +805,8 @@ Exemplo de saída esperado:
 E, no entanto, um instante depois decidiu ir com eles.  
 Agora vestida com roupas verde e amarelo, _um contraste inesperado destoava da tensão do momento._  
 Antes de entrar, correu até a ameixeira junto à cerca — _a árvore parecia guardar segredos de um lugar incerto._ _Ali perto, uma cobra coral passa despercebida pelo observador._  
-Quando entregou as ameixas a Fernando. 
-Notou entre os frutos, pequenas flores _quase secretas_; colheu-as e, com um riso, devolveu-as a ela.  
-A alegria em sua reação brotou nela era bem mais que gratidão.
+Quando entregou as ameixas a Fernando, ele notou entre os frutos, pequenas flores _quase secretas_; colheu-as e, com um riso, devolveu-as a ela.  
+
 
 🌙🌾 **Lista de Mudanças:**
 1. **Aprofundamento do conflito de Flávia:** Profundizei o recuo de Flávia como conflito interno e memória afetiva, reforçando o impacto emocional do beijo.
