@@ -314,7 +314,7 @@ async function gerarRascunho2(temperaturaEscolhida){
   const textoOriginal = editor.innerText.trim();
 
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">📃 Gerando rascunho... </span>';
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">❌ Analisando cortes... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");
@@ -345,7 +345,7 @@ async function gerarRascunho2(temperaturaEscolhida){
 
     editor.innerHTML = `
       <div class="sentence-group">
-        <span class="number-marker">📜</span>
+        <span class="number-marker">❌</span>
         <span class="text-group" contenteditable="true">${rascunhoConvertido}</span>
       </div>
     `;
@@ -370,7 +370,7 @@ async function gerarRascunho3(temperaturaEscolhida){
   const textoOriginal = editor.innerText.trim();
 
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">📃 Gerando rascunho... </span>';
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌔 Gerando Acrescimo... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");
@@ -401,7 +401,7 @@ async function gerarRascunho3(temperaturaEscolhida){
 
     editor.innerHTML = `
       <div class="sentence-group">
-        <span class="number-marker">📜</span>
+        <span class="number-marker">🌔</span>
         <span class="text-group" contenteditable="true">${rascunhoConvertido}</span>
       </div>
     `;
@@ -488,7 +488,7 @@ async function corrigirTexto() {
 
 // 🌓® CORRETOR DE TEXTO 2 🌓® ************************************************************************************************************
 // ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====
-async function corrigirTexto2(temperaturaEscolhida){
+async function corrigirTexto2a(temperaturaEscolhida){
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
 
@@ -504,7 +504,7 @@ async function corrigirTexto2(temperaturaEscolhida){
   }
 
   try {
-    const resposta = await fetch("/corrigir2", {
+    const resposta = await fetch("/corrigir2a", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
@@ -539,7 +539,63 @@ async function corrigirTexto2(temperaturaEscolhida){
     if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
   }
 }
-window.corrigirTexto2 = corrigirTexto2;
+window.corrigirTexto2 = corrigirTexto2a;
+
+// 🌿® CORRETOR DE TEXTO 2 🌿® ************************************************************************************************************
+// ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====
+async function corrigirTexto2b(temperaturaEscolhida){
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  // usa a temp que veio da plaquinha; se não vier, fallback 0.99
+  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.99;
+
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌿 Reescrevendo seu texto... </span>';
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/corrigir2b", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
+    });
+
+    const dados = await resposta.json();
+    if (dados.erro) throw new Error(dados.erro);
+
+    const textoCorrigido = (dados.corrigido || "").trim();
+
+    const htmlCorrigido = textoCorrigido
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">🌿®</span>
+        <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
+      </div>
+    `;
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
+      setTimeout(() => feedbackDiv.innerHTML = '', 2000);
+    }
+  } catch (erro) {
+    console.error("Erro ao corrigir texto:", erro);
+    alert("Erro ao corrigir texto.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
+  }
+}
+window.corrigirTexto2 = corrigirTexto2b;
+
 
 // 🌒® CORRETOR DE TEXTO 3 🌒® ************************************************************************************************************
 // ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====

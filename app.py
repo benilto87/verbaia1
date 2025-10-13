@@ -171,7 +171,7 @@ Analise com alma viva. Comece agora:
         completion = openai_client.chat.completions.create(
             model='gpt-4o',
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
+            temperature=0.52,
             max_tokens=700,
         )
 
@@ -198,17 +198,20 @@ ANÁLISE E REFINAMENTO DE TEXTO LITERÁRIO
 Atue como um editor literário. Sua tarefa é analisar o texto fornecido pelo usuário, identificando seus principais problemas e propondo soluções editoriais concretas para elevá-lo a um padrão literário superior.
 
 ESTRUTURA DA ANÁLISE EDITORIAL:
+**1. Nota do texto:** 
+(Dê nota de textualidade de 1.0/5 à 5/5
 
-**1. Problemas Identificados:**
+**2. Problemas Identificados:**
 (Liste aqui os problemas específicos do texto, focando em itens como:
 
-**Prolixidade...** ou, ao contrário, **Falta de desenvolvimento...**
+**Falta de desenvolvimento...** ou, ao contrário, **Prolixidade...** 
 **Estrutura narrativa confusa ou desorganizada**
+**Transições truncadas ou confusas**
 **Linguagem repetitiva, burocrática ou clichê**
 **Falta de tom, voz ou atmosfera consistentes**
 **Diálogos ou descrições pouco eficazes)**
 
-**2. Sugestões Editoriais:**
+**3. Sugestões Editoriais:**
 (Forneça sugestões específicas baseadas nos problemas identificados. Escolha o foco apropriado para o texto:)
 
 Se o texto for PROLIXO (excessivamente longo e explicativo):
@@ -219,12 +222,18 @@ Se o texto for RASO (pouco desenvolvido e superficial):
 **Foco: Expandir, Profundizar e Sensibilizar.**
 (Sugira: adicionar camadas sensoriais, explorar emoções internas, estabelecer contexto, criar atmosfera, desenvolver metáforas).
 
-**3. Resumo da Abordagem:**
+[Se o texto já for muito bom; traga sugestões ponderadas e estratégicas].
+
+**4. Resumo da Abordagem:**
 (Finalize com uma metáfora ou afirmação conclusiva que resuma a principal ação editorial necessária. Exemplos:)
 
+Para um texto Nota 4.0 à 5: "Em resumo: aja como um cirurgião plástico estético. Realize intervenções precisas para realçar a beleza que já existe, preservando a voz e a essência da obra."
 Para um texto Prolixo: "Em resumo: aja como um escultor. Corte o mármore excessivo para revelar a forma bela e narrativa que está dentro do bloco de texto."
 Para um texto Raso: "Em resumo: aja como um pintor. Pegue o esboço simples e adicione camadas de tinta, cor, sombra e luz para criar uma imagem vívida e emocionante."
 Para um texto com outros problemas: "Em resumo: aja como um arquiteto. Reorganize a estrutura para criar uma jornada narrativa clara e impactante, onde cada cena sustenta a seguinte."
+
+
+**Use uma abordagem específica para textos com nota acima de 4.0**
 
 Comece a analise:
 """
@@ -567,10 +576,9 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
     except Exception as e:
         return jsonify({"erro": str(e)})
 
-
  # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
-@app.route('/corrigir2', methods=["POST"])
+@app.route('/corrigir2a', methods=["POST"])
 def corrigir_texto2():
     from flask import request, jsonify
 
@@ -584,9 +592,8 @@ def corrigir_texto2():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário. 
+📝 Você é um revisor literário. Faça um trabalho de cirurgião plástico realçando a beleza e a potência que já existem no texto.
 
-Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
 2. Mantenha tom literário, mas acrescentando precisão e ritmo.
 3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
@@ -633,6 +640,72 @@ Texto do usuário:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
+ # 🌿® CORRETOR LITERÁRIO 🌿® ***************************************************************************************************
+# 🌿® CORRETOR LITERÁRIO 🌿® ***************************************************************************************************
+@app.route('/corrigir2b', methods=["POST"])
+def corrigir_texto2b():
+    from flask import request, jsonify
+
+    dados = request.get_json(force=True) or {}
+    texto_original = (dados.get("texto") or "").strip()
+    # temperatura enviada pelo frontend (padrão 0.99), com clamp para segurança
+    temperatura = float(dados.get("temperature", 0.99))
+    temperatura = max(0.10, min(1.50, temperatura))
+
+    if not texto_original:
+        return jsonify({"erro": "Texto vazio."}), 400
+
+    prompt = f"""
+📝 PROMPT PARA REVISÃO E REWRITE DE TEXTO LITERÁRIO
+Instruções para o Assistente:
+Atue como um editor literário e revisor especializado em narrativa introspectiva e prosa poética. Sua tarefa é, a partir do texto fornecido, realizar uma análise técnica e, em seguida, entregar uma versão reescrita e aprimorada do mesmo, aplicando as soluções editoriais identificadas.
+
+Siga a estrutura de resposta abaixo rigorosamente.
+
+(Dê uma Nota Textual de 1.0 à 5 de 5.) Ex:
+**Nota:** 4.2/5 🔰
+
+**Diagnóstico e Análise Técnica:**
+(Identifique sucintamente os 2-3 problemas centrais do texto.)
+1➝ [Ex: Prolixidade e excesso de explicação]
+2➝ [Ex: Estrutura narrativa desorganizada]
+3➝ [Ex: Linguagem clichê ou pouco evocativa]
+
+**Abordagem de Reescrita:**
+Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma poética subjacente."_
+Se Raso: _"Fiz  um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
+Se Estruturalmente Frágil: _"Faça  um trabalho de arquiteto, reorganizando a estrutura para criar uma jornada narrativa clara e impactante."_
+Se Já Bom [nota 4.0 à 5]: _"Fiz  um trabalho de cirurgião plástico, realizando ajustes mínimos e precisos para realçar a beleza e a potência que já existem no texto."_
+
+🌿® **Versão Refinada:**
+Aqui, entregue o texto completo reescrito. Esta não é uma sugestão, mas a versão final, aplicando todos os princípios discutidos. O texto deve ser uma melhoria clara do original, mantendo a voz do autor, mas elevando seu padrão literário.)
+Sublinhe em negrito as principais mudanças; o trecho sublinhado deve estar em coerencia com a lista de mudanças.
+(O TEXTO REWRITADO DEVE SER INSERIDO AQUI)
+
+📌 **Lista de Mudanças:**
+(Liste de forma breve e direta as intervenções mais importantes que você realizou no texto. Isso serve como um "making of" didático para o usuário.)
+
+[Ex: Condensei os três primeiros parágrafos em um único bloco narrativo, transformando explicações em ação.]
+[Ex: Substituí adjetivos genéricos ("triste", "bonito") por imagens concretas e metáforas ("um vazio que pesava como chumbo", "um sorriso que era uma fenda de luz").]
+[Ex: Reestruturei a cena do clímax para criar um suspense crescente, antecipando e depois retardando o momento do encontro.]
+
+Texto do usuário:
+{texto_original}
+""".strip()
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperatura,
+            max_tokens=1400
+        )
+        texto_corrigido = resposta.choices[0].message.content.strip()
+        return jsonify({"corrigido": texto_corrigido}), 200
+
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
 # 🌒 CORRETOR LITERÁRIO (ENXUGA-TEXTO) 2 🌒 ***************************************************************************************************
 @app.route('/corrigir3', methods=["POST"])
 def corrigir_texto3():
@@ -648,17 +721,18 @@ def corrigir_texto3():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário focado na correção de texto prolixos. Missão: enxugar o texto e dar sofisticação literária mantendo sua essência. 
+📝 Você é um revisor literário focado na correção de texto prolixos. Missão: localizar excessos e enxugar o texto - sem deformá-los - e dar sofisticação literária mantendo sua essência. 
 
 Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
 2. Mantenha tom literário, mas acrescentando precisão e ritmo.
-3. Una frases curtas ou omita trechos quando isso melhorar o fluxo.
-4. Enxugue excessos: corte redundâncias, repetições e expressões fracas. 
-5. Substitua clichês por imagens originais.
-6. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-7. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
+3. Enxugue excessos: corte redundâncias, repetições - melhore o ritmo. 
+4. O enxugamento deve corresponder a necessidade, de trechos à blocos inteiros desde que isso melhore justificadamente a qualidade textual.
+5. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+6. Faça uma Lista de Mudanças:
+- A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
 
+- O texto susbstituido deve ser ~~riscado~~
 Exemplo de entrada:
 
 > A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
@@ -671,7 +745,7 @@ Exemplo de saída esperado:
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
 No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.** 
 
-🌒🐦 **Lista de Mudanças:**
+🌒🌿 **Lista de Mudanças:**
 
 1. ~~Muito cinza mesmo, Parecia como um mundo sem cor~~ [~~riscado~~]
 ➝ Adicionei contraste climático mais literário “não de chuva, mas de ausência”, e omiti a ideia repetiva no fim.
@@ -786,7 +860,7 @@ def criar_rascunho3():
 Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
 2. Mantenha tom literário, mas acrescente intensidade emocional, ritmo narrativo e simbolismo sutil.
-3. Marque em itálico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída, explicando por que cada alteração reforça o enredo ou os símbolos.
 
 
