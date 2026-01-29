@@ -419,6 +419,63 @@ async function gerarRascunho3(temperaturaEscolhida){
 
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho3 = function(temp){ gerarRascunho3(temp); };
+
+
+// 📝 GERAR RASCUNHO — ⚠️DESATIVADO (SEM TEMPERATURA PARA ESTA FUNÇÃO) garante que envia temperature e chama a rota certa
+async function gerarRascunho4(temperaturaEscolhida){
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🔠 Correção Gramatical... </span>';
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '';
+    return;
+  }
+
+  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.85;
+
+  try {
+    const resposta = await fetch("/rascunho4", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
+    });
+
+    const dados = await resposta.json();
+    if (dados.erro) throw new Error(dados.erro);
+
+    const rascunho = (dados.rascunho || '').trim();
+
+    const rascunhoConvertido = rascunho
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // negrito
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")           // itálico
+      .replace(/_(.*?)_/g, "<em>$1</em>")             // itálico alternativo
+      .replace(/~(.*?)~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">🔠</span>
+        <span class="text-group" contenteditable="true">${rascunhoConvertido}</span>
+      </div>
+    `;
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Rascunho gerado!</span>';
+      setTimeout(()=> feedbackDiv.innerHTML = '', 2000);
+    }
+  } catch (erro) {
+    console.error("Erro ao gerar rascunho:", erro);
+    alert("Erro ao gerar rascunho.");
+    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao gerar rascunho.</span>';
+  }
+}
+
+// 🔗 expõe a callback que a plaquinha chama
+window.enviarRascunho4 = function(temp){ gerarRascunho4(temp); };
   
 // ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
 async function corrigirTexto() {
@@ -438,6 +495,138 @@ async function corrigirTexto() {
 
   try {
     const resposta = await fetch("/corrigir", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ texto: textoOriginal })
+    });
+
+    const dados = await resposta.json();
+
+    if (dados.erro) {
+      throw new Error(dados.erro);
+    }
+
+    const textoCorrigido = dados.corrigido.trim();
+
+    // ✅ CONVERSÃO DE **markdown** PARA HTML
+    const htmlCorrigido = textoCorrigido
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
+      .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
+	  .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");                          // quebra de linha
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">✅</span>
+        <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
+      </div>
+    `;
+
+    // ✅ Limpa o feedback após aplicar correção
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
+      setTimeout(() => {
+        feedbackDiv.innerHTML = '';
+      }, 2000); // ⏱️ Limpa após 2 segundos
+    }
+
+  } catch (erro) {
+    console.error("Erro ao corrigir texto:", erro);
+    alert("Erro ao corrigir texto.");
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
+    }
+  }
+}
+
+// ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
+async function corrigirGramatica() {
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  // ✨ Mostra carregamento visual com azul marinho
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) {
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Corrigindo erros... </span>';
+  }
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/corrigir-gramatica", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ texto: textoOriginal })
+    });
+
+    const dados = await resposta.json();
+
+    if (dados.erro) {
+      throw new Error(dados.erro);
+    }
+
+    const textoCorrigido = dados.corrigido.trim();
+
+    // ✅ CONVERSÃO DE **markdown** PARA HTML
+    const htmlCorrigido = textoCorrigido
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
+      .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
+	  .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");                          // quebra de linha
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">✅</span>
+        <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
+      </div>
+    `;
+
+    // ✅ Limpa o feedback após aplicar correção
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
+      setTimeout(() => {
+        feedbackDiv.innerHTML = '';
+      }, 2000); // ⏱️ Limpa após 2 segundos
+    }
+
+  } catch (erro) {
+    console.error("Erro ao corrigir texto:", erro);
+    alert("Erro ao corrigir texto.");
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
+    }
+  }
+}
+
+// ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
+async function corrigirFluidez() {
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  // ✨ Mostra carregamento visual com azul marinho
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) {
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Corrigindo erros... </span>';
+  }
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/corrigir-fluidez", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -7,7 +7,7 @@ let lousaAtual = null;
 let proximaLousaId = 1;
 
 function criarNovaAba() {
-  const novaId = `lousa-${proximaLousaId++}`;
+  const novaId = `🌿 Texto ${proximaLousaId++}`;
   lousas[novaId] = document.getElementById("editor").innerHTML || ""; // mantém texto se houver
   lousaAtual = novaId;
 
@@ -123,8 +123,6 @@ function removerMarcacao(id) {
     elemento.remove();
   }
 }
-
-
 
 // NEGRITO E ITALICO N&I E ALINHAMENTOS 📍************************************************************************************************
 
@@ -561,6 +559,36 @@ function copyText() {
   selection.removeAllRanges();
 }
 
+// COLAR TEXTO 📋 *****************************************************************************************************
+async function pasteText() {
+  const editor = document.getElementById("editor");
+
+  try {
+    // tenta ler HTML primeiro
+    const clipboardItems = await navigator.clipboard.read();
+
+    for (const item of clipboardItems) {
+      if (item.types.includes("text/html")) {
+        const blob = await item.getType("text/html");
+        const html = await blob.text();
+        editor.innerHTML += html;
+        return;
+      }
+
+      if (item.types.includes("text/plain")) {
+        const blob = await item.getType("text/plain");
+        const text = await blob.text();
+        editor.innerHTML += `<div>${text.replace(/\n/g, "<br>")}</div>`;
+        return;
+      }
+    }
+
+  } catch (err) {
+    // fallback antigo (caso clipboard.read não seja permitido)
+    const text = await navigator.clipboard.readText();
+    editor.innerHTML += `<div>${text.replace(/\n/g, "<br>")}</div>`;
+  }
+}
 
     // NUMBERSENTENCES 1 ***************************************************************************************************
 // NUMBERSENTENCES 1 ***************************************************************************************************

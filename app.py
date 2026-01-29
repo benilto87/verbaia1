@@ -200,6 +200,7 @@ Atue como um editor literário. Sua tarefa é analisar o texto fornecido pelo us
 ESTRUTURA DA ANÁLISE EDITORIAL:
 **1. Nota do texto:** 
 (Dê nota de textualidade de 1.0/5 à 5/5
+[Dê uma breve explicação da nota]
 
 **2. Problemas Identificados:**
 (Liste aqui os problemas específicos do texto, focando em itens como:
@@ -222,18 +223,12 @@ Se o texto for RASO (pouco desenvolvido e superficial):
 **Foco: Expandir, Profundizar e Sensibilizar.**
 (Sugira: adicionar camadas sensoriais, explorar emoções internas, estabelecer contexto, criar atmosfera, desenvolver metáforas).
 
-[Se o texto já for muito bom; traga sugestões ponderadas e estratégicas].
+Se o texto for Nota 4.0 à 5: Atue como um cirurgião plástico estético. Realize intervenções precisas para realçar a beleza que já existe, preservando a voz e a essência da obra."
 
-**4. Resumo da Abordagem:**
-(Finalize com uma metáfora ou afirmação conclusiva que resuma a principal ação editorial necessária. Exemplos:)
-
-Para um texto Nota 4.0 à 5: "Em resumo: aja como um cirurgião plástico estético. Realize intervenções precisas para realçar a beleza que já existe, preservando a voz e a essência da obra."
-Para um texto Prolixo: "Em resumo: aja como um escultor. Corte o mármore excessivo para revelar a forma bela e narrativa que está dentro do bloco de texto."
-Para um texto Raso: "Em resumo: aja como um pintor. Pegue o esboço simples e adicione camadas de tinta, cor, sombra e luz para criar uma imagem vívida e emocionante."
-Para um texto com outros problemas: "Em resumo: aja como um arquiteto. Reorganize a estrutura para criar uma jornada narrativa clara e impactante, onde cada cena sustenta a seguinte."
+Se for um texto com outros problemas: Atue como um arquiteto. Reorganize a estrutura para criar uma jornada narrativa clara e impactante, onde cada cena sustenta a seguinte."
 
 
-**Use uma abordagem específica para textos com nota acima de 4.0**
+**4.Use uma abordagem específica para textos com nota de 4.0 para cima...**
 
 Comece a analise:
 """
@@ -522,12 +517,179 @@ Agora processe o bloco abaixo:
             model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=1400
+            max_tokens=2000
         )
         texto_final = resposta.choices[0].message.content.strip()
         return jsonify({"rascunho": texto_final}), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
+ 
+  # 📝 CORREÇÃO GRAMATICAL ⚠️⚠️DESATIVADO⚠️⚠️ 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
+@app.route('/rascunho4', methods=["POST"])
+def criar_rascunho4():
+    from flask import request, jsonify
+    dados = request.get_json(force=True) or {}
+    texto_bruto = (dados.get("texto") or "").strip()
+    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
+    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
+
+    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
+
+    if not texto_bruto:
+        return jsonify({"erro": "Texto vazio."}), 400
+
+    prompt = f"""
+**Você é uma IA inteligente e perspicaz seu objetivo é operar correções **gramática, ortografia, concordância, coesão, aprimoramento da fluidez sintática e substituição de construções inadequadas por formas padrão e elegantes.**
+
+📝 Instruções:
+- Sublinhe **SOMENTE** as palavras ou trechos corrigidos no corpo do texto em **negrito**, para descatar as partes alteradas.
+
+- Ao final, apresente uma **📝Lista de Mudanças com Justificativas Curtas**, mostrando como era em _italico_ e como ficou em **negrito**.
+
+Exemplo texto de entrada usuário:
+Ontem fui na reunião e percebi se itinha muitas pessoas interessada no projeto.
+
+✍️ Texto Revisado:
+Ontem **fui à** reunião e percebi **que** **havia** muitas pessoas **interessadas** no projeto.
+
+📝 Lista de Mudanças com Justificativas Curtas:
+
+_fui na_ → **fui à**
+Justificativa: Emprego correto da crase com verbos que indicam deslocamento a lugares/eventos.
+
+_se_ → **que**
+Justificativa: Ajuste do pronome para garantir clareza sintática na oração subordinada.
+
+_itinham_ → **havia**
+Justificativa: Concordância — o verbo “haver” no sentido de existência é impessoal e permanece no singular.
+
+_interessada_ → **interessadas**
+Justificativa: Concordância nominal com “pessoas”.
+
+Agora processe o bloco abaixo:
+{texto_bruto}
+""".strip()
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperatura,
+            max_tokens=2000
+        )
+        texto_final = resposta.choices[0].message.content.strip()
+        return jsonify({"rascunho": texto_final}), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+        
+ # ✅ CORRETOR DE TEXTO ✅ ***************************************************************************************************
+@app.route('/corrigir-gramatica', methods=["POST"])
+def corrigir_gramatica():
+    dados = request.get_json()
+    texto_original = dados.get("texto", "").strip()
+    print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
+
+    prompt = f"""
+**Você é uma IA inteligente e perspicaz seu objetivo é operar correções **gramática, ortografia, concordância, coesão e substituição de construções inadequadas por formas padrão e elegantes.**
+
+📝 Instruções:
+- Sublinhe **SOMENTE** as palavras ou trechos corrigidos no corpo do texto em **negrito**, para descatar as partes alteradas.
+
+- Ao final, apresente uma **📝Lista de Mudanças com Justificativas Curtas**, mostrando como era em _italico_ e como ficou em **negrito**.
+
+Exemplo texto de entrada usuário:
+Ontem fui na reunião e percebi se itinha muitas pessoas interessada no projeto.
+
+✍️ Texto Revisado:
+Ontem **fui à** reunião e percebi **que** **havia** muitas pessoas **interessadas** no projeto.
+
+📝 Lista de Mudanças com Justificativas Curtas:
+
+_fui na_ → **fui à**
+Justificativa: Emprego correto da crase com verbos que indicam deslocamento a lugares/eventos.
+
+_se_ → **que**
+Justificativa: Ajuste do pronome para garantir clareza sintática na oração subordinada.
+
+_itinham_ → **havia**
+Justificativa: Concordância — o verbo “haver” no sentido de existência é impessoal e permanece no singular.
+
+_interessada_ → **interessadas**
+Justificativa: Concordância nominal com “pessoas”.
+
+Agora processe o bloco abaixo:
+{texto_original}
+
+---
+
+✅ TEXTO CORRIGIDO COM MUDANÇAS EM NEGRITO:
+"""
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.32
+        )
+        texto_corrigido = resposta.choices[0].message.content.strip()
+        return jsonify({"corrigido": texto_corrigido})
+    except Exception as e:
+        return jsonify({"erro": str(e)})        
+        
+        
+ 
+ # ✅ CORRETOR DE TEXTO ✅ ***************************************************************************************************
+@app.route('/corrigir-fluidez', methods=["POST"])
+def corrigir_fluidez():
+    dados = request.get_json()
+    texto_original = dados.get("texto", "").strip()
+    print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
+
+    prompt = f"""
+Você é uma IA inteligente e perspicaz seu objetivo é operar correções **gramática, ortografia e concordância**, e melhorar a **fluidez e construção das frases**.
+
+📝 Instruções:
+- **Sublinhe as palavras ou trechos corrigidos no corpo do texto em **negrito**
+
+- Ao final, apresente uma **📝Lista de Mudanças com Justificativas Curtas**, mostrando como era em _italico_ e como ficou em **negrito**.
+
+Exemplo texto de entrada usuário:
+A vida é cheia de altos e baixos, onde muitas vezes a gente não sabe o que fazer.
+
+Saida esperada:
+✍️ Texto Revisado:
+A vida é cheia de altos e baixos, **momentos em que muitas vezes** não **sabemos como agir**.
+
+📝 Lista de Mudanças:
+_onde_ → **momentos em que**
+Justificativa: Correção do uso incorreto de "onde" para situações temporais, não espaciais.
+
+_a gente não sabe_ → **não sabemos**
+Justificativa: Uso da forma culta e coesa do pronome.
+
+_o que fazer_ → **como agir**
+Justificativa: Variedade de vocabulário e maior precisão verbal.
+---
+
+📜 Texto original:
+{texto_original}
+
+---
+
+✅ TEXTO CORRIGIDO COM MUDANÇAS EM NEGRITO:
+"""
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.74
+        )
+        texto_corrigido = resposta.choices[0].message.content.strip()
+        return jsonify({"corrigido": texto_corrigido})
+    except Exception as e:
+        return jsonify({"erro": str(e)})
+ 
  
 # ✅ CORRETOR DE TEXTO ✅ ***************************************************************************************************
 @app.route('/corrigir', methods=["POST"])
@@ -632,7 +794,7 @@ Texto do usuário:
             model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=1400
+            max_tokens=2000
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido}), 200
@@ -698,7 +860,7 @@ Texto do usuário:
             model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=1400
+            max_tokens=2000
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido}), 200
@@ -721,18 +883,20 @@ def corrigir_texto3():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário focado na correção de texto prolixos. Missão: localizar excessos e enxugar o texto - sem deformá-los - e dar sofisticação literária mantendo sua essência. 
+📝 Você é um assistente literário com foco no aperfeiçoamento narrativo:
 
 Instruções:
-1. Preserve trechos que já estejam bons, alterando apenas o necessário.
-2. Mantenha tom literário, mas acrescentando precisão e ritmo.
-3. Enxugue excessos: corte redundâncias, repetições - melhore o ritmo. 
-4. O enxugamento deve corresponder a necessidade, de trechos à blocos inteiros desde que isso melhore justificadamente a qualidade textual.
-5. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+
+1. Encontre as partes do texto que considere desnessessário e que apenas cansam a narrativa.
+2. Os trechos podem ser mudados, adaptados ou até cortados - conforme perdir a necessidade.
+3. Textos cortados ou mudados podem ser trechos ou blocos inteiros.
+4. A Lista de Mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
+5. Respeintando o estilo do artista, marque em **negrito** as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 6. Faça uma Lista de Mudanças:
 - A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
-
 - O texto susbstituido deve ser ~~riscado~~
+7. As mudanças e cortes devem ter justificativas bem fundamentadas.
+
 Exemplo de entrada:
 
 > A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
@@ -766,7 +930,7 @@ Texto do usuário:
             model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=1400
+            max_tokens=2000
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido}), 200
@@ -899,7 +1063,7 @@ Comece aqui:
             model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=1600
+            max_tokens=2000
         )
         texto_final = resposta.choices[0].message.content.strip()
         return jsonify({"rascunho": texto_final}), 200
