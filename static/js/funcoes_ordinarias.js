@@ -7,7 +7,7 @@ let lousaAtual = null;
 let proximaLousaId = 1;
 
 function criarNovaAba() {
-  const novaId = `🌿 Texto ${proximaLousaId++}`;
+  const novaId = `🌿 Aba ${proximaLousaId++}`;
   lousas[novaId] = document.getElementById("editor").innerHTML || ""; // mantém texto se houver
   lousaAtual = novaId;
 
