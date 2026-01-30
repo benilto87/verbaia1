@@ -502,8 +502,8 @@ function redo() {
 }
 
 
-// COPIAR TEXTO 📋 *****************************************************************************************************
-// COPIAR TEXTO 📋 *****************************************************************************************************
+// COPIAR  📋 *****************************************************************************************************
+// COPIAR  📋 *****************************************************************************************************
 function copyText() {
   const editor = document.getElementById("editor");
   const textGroups = editor.querySelectorAll(".text-group");
@@ -559,12 +559,11 @@ function copyText() {
   selection.removeAllRanges();
 }
 
-// COLAR TEXTO 📋 *****************************************************************************************************
+// COLAR 📋 *****************************************************************************************************
 async function pasteText() {
   const editor = document.getElementById("editor");
 
   try {
-    // tenta ler HTML primeiro
     const clipboardItems = await navigator.clipboard.read();
 
     for (const item of clipboardItems) {
@@ -572,6 +571,7 @@ async function pasteText() {
         const blob = await item.getType("text/html");
         const html = await blob.text();
         editor.innerHTML += html;
+        salvarConteudoAtual(); // 🔥 ESSENCIAL
         return;
       }
 
@@ -579,14 +579,14 @@ async function pasteText() {
         const blob = await item.getType("text/plain");
         const text = await blob.text();
         editor.innerHTML += `<div>${text.replace(/\n/g, "<br>")}</div>`;
+        salvarConteudoAtual(); // 🔥 ESSENCIAL
         return;
       }
     }
-
   } catch (err) {
-    // fallback antigo (caso clipboard.read não seja permitido)
     const text = await navigator.clipboard.readText();
     editor.innerHTML += `<div>${text.replace(/\n/g, "<br>")}</div>`;
+    salvarConteudoAtual(); // 🔥 ESSENCIAL
   }
 }
 
