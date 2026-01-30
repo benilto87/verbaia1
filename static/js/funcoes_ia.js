@@ -857,7 +857,7 @@ const botaoPrincipal = document.getElementById("botao-pedido");
 botaoToggle.addEventListener("click", () => {
   if (modeloAtual === "3.5") {
     modeloAtual = "4.0";
-    botaoPrincipal.innerText = "🔮 pedir";
+    botaoPrincipal.innerText = "🔮 peça";
     botaoToggle.classList.add("girado");
   } else {
     modeloAtual = "3.5";
@@ -867,7 +867,7 @@ botaoToggle.addEventListener("click", () => {
 });
 
 // ✅ Garante que o botão já apareça certo ao carregar
-botaoPrincipal.innerText = "🔮 pedir";
+botaoPrincipal.innerText = "🔮 peça";
 botaoToggle.classList.add("girado");
 
 // DO...>> 💻 TAREFA LIGRE 💻 ************************************************************************************************************
