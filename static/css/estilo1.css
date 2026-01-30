@@ -40,13 +40,13 @@ h1 {
 .titulo-principal {
     font-family: "Garamond", "EB Garamond", "Times New Roman", serif;
     font-style: italic;
-    font-weight: 800;
+    font-weight: 500;
     letter-spacing: 0.03em;
 }
 
 .icone-titulo {
     width: 80px;
-    height: 80px;
+    height: 70px;
     object-fit: contain;
 }
 
