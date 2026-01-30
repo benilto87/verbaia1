@@ -590,6 +590,12 @@ async function pasteText() {
   }
 }
 
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    salvarConteudoAtual();
+  }
+});
+
     // NUMBERSENTENCES 1 ***************************************************************************************************
 // NUMBERSENTENCES 1 ***************************************************************************************************
 function numberSentences() {
