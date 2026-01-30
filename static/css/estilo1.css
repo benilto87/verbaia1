@@ -551,17 +551,18 @@ mark.focused-mark {
 
     /* Ajustes na barra de ferramentas para melhor uso do espaço */
     #toolbar {
-        flex-direction: row;
-        gap: 0.2rem;
-        margin-bottom: 1rem;
-        justify-content: center;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* <<< ALINHA À ESQUERDA */
+    gap: 0.25rem;
+}
 
-    .toolbar-button {
-        flex-grow: 1;
-        font-size: 0.75rem;
-        padding: 0.5rem 0.8rem;
-    }
+   .toolbar-button {
+    flex: 1 1 auto;
+    min-width: 37px;
+    max-width: 64px;
+    padding: 0.4rem;
+}
 
     /* Otimizando o contêiner do editor para celulares */
     .editor-container {
