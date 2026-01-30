@@ -646,29 +646,28 @@ def corrigir_fluidez():
     print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
 
     prompt = f"""
-Você é uma IA inteligente e perspicaz seu objetivo é operar correções **gramática, ortografia e concordância**, e melhorar a **fluidez e construção das frases**.
+Você é uma IA perspicaz. Você atua como editor de estilo.
+Seu objetivo é aprimorar a fluidez, a coesão textual e a construção das frases, além de corrigir eventuais problemas gramaticais.
+---
 
 📝 Instruções:
 - **Sublinhe as palavras ou trechos corrigidos no corpo do texto em **negrito**
-
 - Ao final, apresente uma **📝Lista de Mudanças com Justificativas Curtas**, mostrando como era em _italico_ e como ficou em **negrito**.
+
 
 Exemplo texto de entrada usuário:
 A vida é cheia de altos e baixos, onde muitas vezes a gente não sabe o que fazer.
 
-Saida esperada:
 ✍️ Texto Revisado:
-A vida é cheia de altos e baixos, **momentos em que muitas vezes** não **sabemos como agir**.
+A vida é cheia de altos e baixos, **momentos em que,** muitas vezes, a gente não sabe **como agir.**
 
 📝 Lista de Mudanças:
-_onde_ → **momentos em que**
-Justificativa: Correção do uso incorreto de "onde" para situações temporais, não espaciais.
 
-_a gente não sabe_ → **não sabemos**
-Justificativa: Uso da forma culta e coesa do pronome.
+_onde_ → **momentos em que**
+Justificativa: Substituição para melhorar a coesão e evitar o uso incorreto de “onde”.
 
 _o que fazer_ → **como agir**
-Justificativa: Variedade de vocabulário e maior precisão verbal.
+Justificativa: Escolha verbal mais natural e elegante no encadeamento da frase.
 ---
 
 📜 Texto original:
@@ -683,7 +682,7 @@ Justificativa: Variedade de vocabulário e maior precisão verbal.
         resposta = openai_client.chat.completions.create(
             model="gpt-4.1",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.74
+            temperature=0.70
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido})
@@ -887,41 +886,37 @@ def corrigir_texto3():
 
 Instruções:
 
-1. Encontre as partes do texto que considere desnessessário e que apenas cansam a narrativa.
-2. Os trechos podem ser mudados, adaptados ou até cortados - conforme perdir a necessidade.
-3. Textos cortados ou mudados podem ser trechos ou blocos inteiros.
-4. A Lista de Mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
-5. Respeintando o estilo do artista, marque em **negrito** as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-6. Faça uma Lista de Mudanças:
-- A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
-- O texto susbstituido deve ser ~~riscado~~
-7. As mudanças e cortes devem ter justificativas bem fundamentadas.
-
-Exemplo de entrada:
-
-> A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
-Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
-No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou, pra sempre.
-
-Exemplo de saída esperado:
-
-> A manhã estava cinza **— não de chuva, mas de ausência. 
-Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
-No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.** 
-
-🌒🌿 **Lista de Mudanças:**
-
-1. ~~Muito cinza mesmo, Parecia como um mundo sem cor~~ [~~riscado~~]
-➝ Adicionei contraste climático mais literário “não de chuva, mas de ausência”, e omiti a ideia repetiva no fim.
-
-2. ~~Suas asas fizeram um barulho feio, como um arranhar~~
-➝ Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “o som das asas arranhou o silêncio.”
-
-3. ~~E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou~~
-➝ Condensei o final repetitivo em uma frase de impacto mais seca e literária “apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.”
+Encontre as partes do texto que considere desnessessário e que apenas cansam a narrativa;
+Respeintando o estilo do artista, marque em negrito as partes que devem ser cortadas ou substituidas para melhora da texto.
+Recomendações de corte devem ter uma justificativa bem fundamentada.
+A Lista de corte deve ser coerente com os trechos destacados em negrito no texto de saída.
 
 
-Texto do usuário:
+EXEMPLO DE ENTRADA:
+
+A rua estava silenciosa naquela manhã. O vento sacudia as folhas secas, e cada passo meu ecoava nas paredes. 
+Havia um cachorro deitado na esquina, parecia me observar. 
+Apertei o passo, lembrando do compromisso marcado com Helena, que já devia estar me esperando no café da praça. Talvez a tempos
+
+SAÍDA ESPERADA:
+
+A rua estava silenciosa naquela manhã. *O vento sacudia as folhas secas, e_ cada passo meu ecoava nas paredes. Havia um cachorro deitado na esquina, parecia me observar. 
+_Havia um cachorro deitado na esquina, parecia me observar._ 
+Apertei o passo, _lembrando do compromisso marcado com Helena,_ que já devia estar me esperando no café da praça. 
+
+✂ *Lista de cortes:*
+
+1. *Substitua:* *O vento sacudia as folhas secas, e*  
+ — Detalhe atmosférico redundante, já sugerido pelo silêncio inicial. 
+➝ Corte para dar agilidade, ou reescreva assim:** _"O vento sacudia suavemente as folhas secas"_.
+2. *Substitua:* *Havia um cachorro deitado na esquina, parecia me observar.* 
+ — A frase expositiva trocada por gesto mais visual. 
+➝ **Reescreva assim:** _“Um cachorro deitado na esquina levantou a cabeça, como se acompanhasse meus movimentos.”__
+3. *lembrando do compromisso marcado*  
+— Expressão burocrática, tende a pesar o fluxo da narrativa. 
+➝ **Reescreva assim:** _“Helena já devia estar me esperando no café da praça.”_
+
+Comece aqui:
 {texto_original}
 """.strip()
 

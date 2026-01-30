@@ -82,6 +82,11 @@ function carregarConteudoAtual() {
   }
 }
 
+// ✅ Carrega a primeira aba automaticamente ao abrir
+document.addEventListener("DOMContentLoaded", () => {
+  criarNovaAba(); // cria e carrega lousa-1
+});
+
 // INSERIR E REMOVER MARCAÇÕES ❌ *****************************************************************************************************************************
 
 function inserirMarcacaoNoBloco(numero, textoIA) {
@@ -360,11 +365,6 @@ function destacarBusca() {
 
 // 🔍 ***************************************************************************************************************
 
-// ✅ Carrega a primeira aba automaticamente ao abrir
-document.addEventListener("DOMContentLoaded", () => {
-  criarNovaAba(); // cria e carrega lousa-1
-});
- 
 // SALVAR 💾 *****************************************************************************************************
 function saveText() {
   salvarConteudoAtual(); // garante que a aba ativa seja salva
