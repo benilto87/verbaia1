@@ -77,16 +77,8 @@ document.getElementById("chat-panel")?.addEventListener("click", function (event
 // 🎑 TROCAR FOTOS 🎑 ***********************************************************************************************
   
 const fotosFlavia = [
-  "static/img/flavia.jpg",
   "static/img/flavia1.jpg",
   "static/img/flavia2.jpg",
-  "static/img/flavia3.jpg",
-  "static/img/flavia4.jpg",
-  "static/img/flavia5.jpg",
-  "static/img/flavia6.jpg",
-  "static/img/flavia7.jpg",
-  "static/img/flavia8.jpg",
-  "static/img/flavia9.jpg"
 ];
 
 let indexAtual = 0;
