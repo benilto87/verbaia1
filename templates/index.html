@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Editor Criativo</title>
+  <title>Jane escritora</title>
   <!-- ✅ CSS externo organizado -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo1.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/abas.css') }}">
@@ -19,7 +19,12 @@
   <button onclick="fecharBusca()">✖</button>
 </div>
 
-   <h1>👁‍🗨 VERBA IA</h1>
+<h1 class="titulo-principal">
+  <img src="{{ url_for('static', filename='img/jane.png') }}"
+       alt="Jane"
+       class="icone-titulo">
+  JANE Escritora
+</h1>
 
     <div id="toolbar">
 	
@@ -180,13 +185,18 @@
 
 <div id="loading-simbol" style="display: none; margin-top: 10px;">⏳ Analisando com alma viva...✍</div>
 <div id="simbol-feedback" style="color: #c44; font-style: italic; margin-top: 5px;"></div>	
+
+  <div id="contador-palavras">
+        0 palavras
+    </div>
+	<div id="editor" contenteditable="true"></div>
 	
 <!-- 💬 PAINEL LATERAL DE FLÁVIA -->
 <div id="chat-panel">
   <div class="chat-header">
     <div class="chat-profile">
       <img src="{{ url_for('static', filename='img/flavia.jpg') }}" alt="Flávia" />
-      <span>Flávia 💬</span>
+      <span>Jane 💬</span>
     </div>
     <button id="chat-minimize" onclick="toggleChatMinimize()">🗕</button>
   </div>

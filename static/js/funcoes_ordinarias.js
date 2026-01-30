@@ -102,6 +102,54 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const editor = document.getElementById("editor");
+    const contador = document.getElementById("contador-palavras");
+
+    if (!editor || !contador) return;
+
+    function contarPalavras(texto) {
+        return texto
+            .trim()
+            .split(/\s+/)
+            .filter(p => p.length > 0).length;
+    }
+
+    editor.addEventListener("input", () => {
+        const texto = editor.innerText || "";
+        const total = contarPalavras(texto);
+        contador.textContent = `${total} palavra${total !== 1 ? "s" : ""}`;
+    });
+});
+
+function iniciarContadorPalavras() {
+    const editor = document.getElementById("editor");
+    const contador = document.getElementById("contador-palavras");
+
+    function atualizar() {
+        const texto = editor.innerText || "";
+        const total = texto.trim().split(/\s+/).filter(Boolean).length;
+        contador.textContent = `${total} palavra${total !== 1 ? "s" : ""}`;
+    }
+
+    // Atualiza ao digitar
+    editor.addEventListener("input", atualizar);
+
+    // Observa qualquer mudança no conteúdo (JS, abas, IA, etc)
+    const observer = new MutationObserver(atualizar);
+
+    observer.observe(editor, {
+        childList: true,
+        subtree: true,
+        characterData: true
+    });
+
+    // Atualiza na inicialização
+    atualizar();
+}
+
+document.addEventListener("DOMContentLoaded", iniciarContadorPalavras);
+
 
 
 // INSERIR E REMOVER MARCAÇÕES ❌ *****************************************************************************************************************************
@@ -1101,3 +1149,5 @@ window.addEventListener("load", () => {
       alert("Erro de rede: " + e.message);
     }
   }
+  
+  

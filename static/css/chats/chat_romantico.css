@@ -1,4 +1,4 @@
-/* CHAT FLÁVIA — MODO ROMÂNTICO E TRANSLÚCIDO***************************************************************** */
+/* CHAT JANE — MODO ROMÂNTICO E TRANSLÚCIDO***************************************************************** */
 
 #chat-panel {
   position: fixed;
@@ -142,7 +142,7 @@
   transition: background-image 0.6s ease-in-out, background 0.6s ease-in-out;
 }
 
-/* Suaviza a bolinha da Flávia */
+/* Suaviza a bolinha da Jane */
 #chat-panel img {
   transition: opacity 0.6s ease-in-out;
 }
