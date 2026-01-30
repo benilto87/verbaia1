@@ -84,8 +84,25 @@ function carregarConteudoAtual() {
 
 // ✅ Carrega a primeira aba automaticamente ao abrir
 document.addEventListener("DOMContentLoaded", () => {
-  criarNovaAba(); // cria e carrega lousa-1
+  // cria e carrega a primeira aba
+  criarNovaAba();
+
+  const editor = document.getElementById("editor");
+
+  // 🔥 qualquer mudança no editor salva o estado
+  editor.addEventListener("input", () => {
+    salvarConteudoAtual();
+  });
+
+  // 🔥 reforço explícito para colar nativo (mobile)
+  editor.addEventListener("paste", () => {
+    setTimeout(() => {
+      salvarConteudoAtual();
+    }, 0);
+  });
 });
+
+
 
 // INSERIR E REMOVER MARCAÇÕES ❌ *****************************************************************************************************************************
 

@@ -84,10 +84,11 @@
   <button class="toolbar-button botao-fixo-tarefa" onclick="undo()" title="Desfazer">↺</button>
   <button class="toolbar-button botao-fixo-tarefa" onclick="redo()" title="Refazer">↻</button>
   <button class="toolbar-button botao-fixo-tarefa" onclick="abrirBusca()" title="Busca interna">🔍</button>
-  <button class="toolbar-button botao-fixo-tarefa" onclick="cleanSymbols()" title="Limpar Símbolos">🧹</button>
+  <button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="copyText()" title="Copiar Texto">📋</button> 
+<!--  <button class="toolbar-button botao-fixo-tarefa" onclick="cleanSymbols()" title="Limpar Símbolos">🧹</button>-->
 </div>
 
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2b, 0.88)" title="Analisar com IA">🌿® </button>
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2b, 0.88)" title="Analisar com IA">🌿 </button>
 <button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="corrigirTexto()" title="Corrigir Texto">✨</button>
 
 <button class="toolbar-button botao-fixo-tarefa" onclick="corrigirGramatica()" title="Corrigir Texto">✅</button>
@@ -107,7 +108,7 @@
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy2()" title="Numerar por blocos de 2 frases">#2</button>
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="removeNumbering()" title="Remover Numeração">⌫#</button>
-<button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="pasteText()" title="Colar Texto">📋</button> 
+<button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="pasteText()" title="Colar Texto">📑</button> 
 <button class="toolbar-button botao-modificavel" onclick="removerFormatacaoSelecao()" title="Remover Estilo da Seleção">🧽</button>
 
 <!-- Botões de análise -->
