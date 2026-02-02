@@ -589,7 +589,8 @@ mark.focused-mark {
     font-family: "Garamond", "EB Garamond", "Times New Roman", serif;
     font-style: italic;
     font-weight: 400;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
+    gap: 0.3rem;
 }
 
 .icone-titulo {
