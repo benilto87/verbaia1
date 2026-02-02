@@ -72,7 +72,7 @@ h1 {
 
 /* === LAYOUT DA BARRA ================================================= */
 #toolbar{
-  display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.25rem;
+  display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.15rem; /*magin-bottom = margem entre barra de tarefas e quadro */
 }
 
 /* === BOTÃO BASE ====================================================== */
@@ -566,7 +566,9 @@ mark.focused-mark {
     white-space: nowrap;
 }
 
-
+#contador-palavras {
+    transition: color 0.25s ease, font-weight 0.25s ease;
+}
 
 /* ========================================================= */
 /* --- MEDIA QUERY PARA CELULARES (TELA PEQUENA) --- */

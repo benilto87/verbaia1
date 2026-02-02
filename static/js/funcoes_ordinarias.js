@@ -102,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+/* CONTADOR DE PALAVRAS */
 document.addEventListener("DOMContentLoaded", () => {
     const editor = document.getElementById("editor");
     const contador = document.getElementById("contador-palavras");
@@ -126,10 +128,11 @@ function iniciarContadorPalavras() {
     const editor = document.getElementById("editor");
     const contador = document.getElementById("contador-palavras");
 
-    function atualizar() {
+function atualizar() {
         const texto = editor.innerText || "";
         const total = texto.trim().split(/\s+/).filter(Boolean).length;
         contador.textContent = `${total} palavra${total !== 1 ? "s" : ""}`;
+        atualizarCorContador(total);
     }
 
     // Atualiza ao digitar
@@ -148,9 +151,21 @@ function iniciarContadorPalavras() {
     atualizar();
 }
 
+
 document.addEventListener("DOMContentLoaded", iniciarContadorPalavras);
 
+function atualizarCorContador(total) {
+    const contador = document.getElementById("contador-palavras");
+    if (!contador) return;
 
+    if (total > 700) {
+        contador.style.color = "red";
+    } else if (total >= 550) {
+        contador.style.color = "#cc6a00";
+    } else {
+        contador.style.color = "";
+    }
+}
 
 // INSERIR E REMOVER MARCAÇÕES ❌ *****************************************************************************************************************************
 
