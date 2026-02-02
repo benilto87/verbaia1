@@ -91,6 +91,9 @@ h1 {
 .toolbar-button:disabled{ opacity:.55; cursor:not-allowed; }
 .toolbar-button:focus-visible{ outline:2px solid var(--slate-300); outline-offset:2px; }
 
+
+
+
 /* === VARIANTES (mantive seus nomes) ================================== */
 /* botões sólidos “profissionais” */
 .botao-dourado {
@@ -580,6 +583,19 @@ mark.focused-mark {
     margin-top: 0.5rem; /* Ajusta a margem superior do h1 para 0.5rem */
     margin-bottom: 0.64rem; /* Mantém a margem inferior para espaçamento */
     font-size: 1.7rem; /* Opcional: diminui o tamanho da fonte para mobile */
+}
+
+.titulo-principal {
+    font-family: "Garamond", "EB Garamond", "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+}
+
+.icone-titulo {
+    width: 80px;
+    height: 64px;
+    object-fit: contain;
 }
 
     /* Ajustes na barra de ferramentas para melhor uso do espaço */
