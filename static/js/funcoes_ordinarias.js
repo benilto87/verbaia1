@@ -162,7 +162,7 @@ function atualizarCorContador(total) {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
     // limites por contexto
-    const limiteLaranja = isMobile ? 400 : 500;
+    const limiteLaranja = isMobile ? 320 : 400;
     const limiteVermelho = isMobile ? 500 : 700;
 
     if (total >= limiteVermelho) {
