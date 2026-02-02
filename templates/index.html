@@ -22,10 +22,11 @@
 </div>
 
 <h1 class="titulo-principal">
+  Escritora Jane
   <img src="{{ url_for('static', filename='img/jane.jpg') }}"
        alt="jane"
        class="icone-titulo">
-  Jane escritora
+
 </h1>
 
     <div id="toolbar">
@@ -95,8 +96,7 @@
 <!--  <button class="toolbar-button botao-fixo-tarefa" onclick="cleanSymbols()" title="Limpar Símbolos">🧹</button>-->
 </div>
 
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2b, 0.88)" title="Analisar com IA">🌿®</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="corrigirTexto()" title="Corrigir Texto">✨</button>
+
 
 <button class="toolbar-button botao-fixo-tarefa" onclick="corrigirGramatica()" title="Corrigir Texto">✅</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="corrigirFluidez()" title="Corrigir Texto">✅™</button>
@@ -116,6 +116,8 @@
 <button class="toolbar-button botao-modificavel" onclick="numberSentencesBy3()" title="Numerar por blocos de 3 frases">#3</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="removeNumbering()" title="Remover Numeração">⌫#</button>
 <button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="pasteText()" title="Colar Texto">📑</button> 
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2b, 0.88)" title="Analisar com IA">🌿®</button>
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, enviarRascunho, 1.16)" title="Gerar rascunho">📜</button>
 <button class="toolbar-button botao-modificavel" onclick="removerFormatacaoSelecao()" title="Remover Estilo da Seleção">🧽</button>
 
 <!-- Botões de análise -->
@@ -131,10 +133,11 @@
 <button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, enviarRascunho3, 0.37)" title="Analisar com IA">🌔</button>
 <!-- Botões da Flávia -->
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="analyzeWithAI()" title="Analisar com IA">💎</button>	
-<button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia()" title="Inspiração da Flávia">👁‍🗨</button>		
+<button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia()" title="Inspiração da Flávia">👁‍🗨</button>
+<button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="corrigirTexto()" title="Corrigir Texto">✨</button>		
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia2()" title="Reflexão da Flávia">💡</button>
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia3()" title="Leitora Virtual">👸</button>
-<button class="toolbar-button botao-fixo-tarefa botao-especial" onclick="abrirPlacaTemperatura(this, enviarRascunho, 1.16)" title="Gerar rascunho">📜</button>
+
 
 <!-- Pedido IA -->
 <button id="botao-pedido" class="toolbar-button botao-fixo-tarefa botao-especial" onclick="gerarTarefa()" title="Shift+Enter">📘 pedido 3.5</button>
@@ -148,7 +151,7 @@
   <button class="botao-modificavel" onclick="trocarModoChat('edtorial')" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">📘</button>
   <button id="botao-modo-geral" onclick="trocarModo()" style="background: none; border: none; font-size: 1.0em; cursor: pointer;">Modo Tarefa 📌</button>
   </div>	
-  <!-- Botão Literário -->
+  <!-- Botão Temperatura Literária 🔥🔥🔥 -->
 <div id="placaTemperatura" style="display:none; position:fixed; z-index:9999; min-width:280px; background:#fff; border:1px solid #e6d3a3; padding:14px 16px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.12);">
   <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;">
     <strong style="font-size:0.95rem;">Temperatura literária</strong>
@@ -162,7 +165,7 @@
   </div>
 
   <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#777; margin-top:-4px; margin-bottom:8px;">
-    <span>min 0.00</span><span>• 0.99</span><span>max 1.30</span>
+    <span>🧊 0.00</span><span>🔸 0.99</span><span>🔥 1.30</span>
   </div>
 
   <div style="display:flex; gap:10px; justify-content:flex-end;">

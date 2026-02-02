@@ -550,6 +550,20 @@ mark.focused-mark {
   #temperatureSlider {
     accent-color: #c88c2b; /* dourado-alaranjado folha 🍂 */
   }
+  #placaTemperatura .toolbar-button {
+    min-width: auto;
+    padding: 0.45rem 0.6rem;       /* respiro simétrico */
+    font-size: 0.75rem;
+    text-transform: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;       /* 🔥 CENTRALIZA DE VERDADE */
+
+    white-space: nowrap;
+}
+
+
 
 /* ========================================================= */
 /* --- MEDIA QUERY PARA CELULARES (TELA PEQUENA) --- */
@@ -564,7 +578,7 @@ mark.focused-mark {
 	
 	    h1 {
     margin-top: 0.5rem; /* Ajusta a margem superior do h1 para 0.5rem */
-    margin-bottom: 0.4rem; /* Mantém a margem inferior para espaçamento */
+    margin-bottom: 0.64rem; /* Mantém a margem inferior para espaçamento */
     font-size: 2.0rem; /* Opcional: diminui o tamanho da fonte para mobile */
 }
 
@@ -574,6 +588,7 @@ mark.focused-mark {
     flex-wrap: wrap;
     justify-content: flex-start; /* <<< ALINHA À ESQUERDA */
     gap: 0.25rem;
+	margin-bottom:0.99rem; /* Espaço entre barrra de tarefas e quadro principal */
 }
 
    .toolbar-button {
