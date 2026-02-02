@@ -579,7 +579,7 @@ mark.focused-mark {
 	    h1 {
     margin-top: 0.5rem; /* Ajusta a margem superior do h1 para 0.5rem */
     margin-bottom: 0.64rem; /* Mantém a margem inferior para espaçamento */
-    font-size: 2.0rem; /* Opcional: diminui o tamanho da fonte para mobile */
+    font-size: 1.7rem; /* Opcional: diminui o tamanho da fonte para mobile */
 }
 
     /* Ajustes na barra de ferramentas para melhor uso do espaço */
