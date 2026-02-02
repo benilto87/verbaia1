@@ -158,14 +158,22 @@ function atualizarCorContador(total) {
     const contador = document.getElementById("contador-palavras");
     if (!contador) return;
 
-    if (total > 700) {
+    // detecta versão mobile
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    // limites por contexto
+    const limiteLaranja = isMobile ? 400 : 500;
+    const limiteVermelho = isMobile ? 500 : 700;
+
+    if (total >= limiteVermelho) {
         contador.style.color = "red";
-    } else if (total >= 550) {
-        contador.style.color = "#cc6a00";
+    } else if (total >= limiteLaranja) {
+        contador.style.color = "#cc6a00"; // laranja escuro
     } else {
         contador.style.color = "";
     }
 }
+
 
 // INSERIR E REMOVER MARCAÇÕES ❌ *****************************************************************************************************************************
 
