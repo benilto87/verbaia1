@@ -1,6 +1,6 @@
 // FUNÇÕES ORDINÁRIAS ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// ABAS NA LOUSA 📋 *************************************************************************************************
+// ABAS  *************************************************************************************************
  
 let lousas = {};
 let lousaAtual = null;
@@ -636,7 +636,7 @@ function copyText() {
     document.execCommand("copy");
     const btn = document.getElementById("copyButton");
     if (btn) {
-      btn.textContent = "📋 Copiado!";
+      btn.textContent = "Copiado!";
       setTimeout(() => (btn.textContent = "📋"), 1000);
     }
   } catch (err) {
@@ -707,9 +707,19 @@ function numberSentences() {
 
     // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
     let htmlContent = tempDiv.innerHTML;
-    // O regex abaixo encontra '...' em qualquer contexto, incluindo dentro de tags
+
+    // 🔧 normaliza espaços especiais
+    htmlContent = htmlContent
+      .replace(/&nbsp;|\u00A0|\u2003/g, ' ')
+      .replace(/\s+/g, ' ');
+
+    // 🔧 protege reticências
     const tempEllipsisMarker = '__ELLIPSIS__';
     htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
+
+    // 🔧 normaliza quebras de linha:
+    // só mantém ENTER quando há pontuação antes
+    htmlContent = htmlContent.replace(/([^\.\!\?])\s*\n\s*/g, '$1 ');
 
     let sentences = [];
     let currentSentence = '';
@@ -762,11 +772,14 @@ function numberSentences() {
         // Adiciona os elementos ao grupo
         group.appendChild(numberSpan);
         group.appendChild(textSpan);
-        
         editor.appendChild(group);
     });
-}
 
+    // 🎬 CHAMADA AUTOMÁTICA DAS CENAS
+    setTimeout(() => {
+        executarMarcadorDeCenas();
+    }, 0);
+}
 
    // NUMBERSENTENCES 2 ***************************************************************************************************
 // NUMBERSENTENCES 2 ***************************************************************************************************
@@ -791,8 +804,19 @@ function numberSentencesBy2() {
 
     // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
     let htmlContent = tempDiv.innerHTML;
+
+    // 🔧 normaliza espaços especiais
+    htmlContent = htmlContent
+      .replace(/&nbsp;|\u00A0|\u2003/g, ' ')
+      .replace(/\s+/g, ' ');
+
+    // 🔧 protege reticências
     const tempEllipsisMarker = '__ELLIPSIS__';
     htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
+
+    // 🔧 normaliza quebras de linha:
+    // só mantém ENTER quando há pontuação antes
+    htmlContent = htmlContent.replace(/([^\.\!\?])\s*\n\s*/g, '$1 ');
 
     let sentences = [];
     let currentSentence = '';
@@ -844,8 +868,8 @@ function numberSentencesBy2() {
     }
 }
 
-   // NUMBERSENTENCES 2 ***************************************************************************************************
-// NUMBERSENTENCES 2 ***************************************************************************************************
+   // NUMBERSENTENCES 3 ***************************************************************************************************
+// NUMBERSENTENCES 3 ***************************************************************************************************
 function numberSentencesBy3() {
     const editor = document.getElementById("editor");
     
@@ -867,8 +891,19 @@ function numberSentencesBy3() {
 
     // 3. Pega o HTML limpo e substitui reticências por um marcador temporário
     let htmlContent = tempDiv.innerHTML;
+
+    // 🔧 normaliza espaços especiais
+    htmlContent = htmlContent
+      .replace(/&nbsp;|\u00A0|\u2003/g, ' ')
+      .replace(/\s+/g, ' ');
+
+    // 🔧 protege reticências
     const tempEllipsisMarker = '__ELLIPSIS__';
     htmlContent = htmlContent.replace(/\.\.\./g, tempEllipsisMarker);
+
+    // 🔧 normaliza quebras de linha:
+    // só mantém ENTER quando há pontuação antes
+    htmlContent = htmlContent.replace(/([^\.\!\?])\s*\n\s*/g, '$1 ');
 
     let sentences = [];
     let currentSentence = '';

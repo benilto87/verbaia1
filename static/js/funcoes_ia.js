@@ -117,7 +117,7 @@ function analyzeWithAI() {
     });
 }
 
-// INSPIRE 👁‍🗨 ***************************************************************************************************************
+
 // INSPIRE 👁‍🗨 ***************************************************************************************************************
 function inspirarComFlavia() {
   const editor = document.getElementById("editor");
@@ -202,6 +202,7 @@ function inspirarComFlavia2() {
     alert("Erro na IA: " + err);
   });
 }
+
 
 // INSPIRE 3 👁‍🗨‍👁‍🗨‍‍👁‍🗨 *************************************************************************************************************
 function inspirarComFlavia3() { 
@@ -1065,9 +1066,9 @@ function executarMarcadorDeCenas() {
       document.querySelectorAll(".scene-marker").forEach(el => el.remove());
 
       linhas.forEach((linha, i) => {
-        const match = linha.match(/\{🎬 #\d+ (.*?)\} \/ (\d+)/);
+        const match = linha.match(/\🎬 \d+# (.*?)\ \/ (\d+)/);
         if (match) {
-          const titulo = match[0];
+          const titulo = match[0].split(' / ')[0]; // 👈 esconde o / 2
           const blocoNum = parseInt(match[2]);
           const idCena = `cena-${Date.now() + i}`;
 

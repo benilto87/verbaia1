@@ -243,13 +243,26 @@ h1 {
 
 .scene-marker {
     color: var(--accent);
-    background: #eef6fb;
-	position: relative;
-    display: block;              /* ocupa linha inteira */
-    border-left: 3px solid var(--accent);
-    font-weight: bold;
+    background: linear-gradient(90deg, #eef6fb, #f9fcff);
+    
+    position: relative;
+    display: block;
+    
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
+
+    font-weight: 600;
     font-size: 0.95rem;
+    letter-spacing: 0.3px;
+
+    box-shadow: 
+        inset 0 0 0 1px rgba(0,0,0,0.03),
+        0 1px 3px rgba(0,0,0,0.06);
 }
+
 
 .processed-symbol {
   color: var(--error-color);	

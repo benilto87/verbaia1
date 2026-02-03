@@ -1,4 +1,4 @@
-// 💬 CHATFLÁVIA EDTORIAL 💬 *****************************************************************************************************
+// 💬 CHAT Jane EDTORIAL 💬 *****************************************************************************************************
 function enviarMensagemFlavia() {
   const input = document.getElementById("chat-input");
   const log = document.getElementById("chat-log");
@@ -31,14 +31,14 @@ function enviarMensagemFlavia() {
       .replace(/\n/g, "<br>");                          // quebra de linha
 
     const flaviaMsg = document.createElement("p");
-    flaviaMsg.innerHTML = `<strong>Flávia:</strong> ${respostaConvertida}`;
+    flaviaMsg.innerHTML = `<strong>Jane:</strong> ${respostaConvertida}`;
     log.appendChild(flaviaMsg);
     log.scrollTop = log.scrollHeight;
   })
   .catch(err => {
     console.error("Erro no fetch:", err); // 👀 log no console para depurar
     const erroMsg = document.createElement("p");
-    erroMsg.innerHTML = `<strong>Flávia:</strong> (Erro ao responder 😢)`;
+    erroMsg.innerHTML = `<strong>Jane:</strong> (Erro ao responder 😢)`;
     log.appendChild(erroMsg);
   });
 }

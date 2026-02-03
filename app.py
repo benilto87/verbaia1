@@ -332,14 +332,14 @@ Você é um assistente literário. Recebe um texto dividido em blocos numerados,
 3 Bloco três
 ...
 
-Sua tarefa é identificar **exatamente 3 cenas principais** no texto, com base em emoção ou mudança visual.
+Sua tarefa é dividir o texto **exatamente em 3 partes cenas (passagens) principais**, com base em emoção ou mudança visual.
 
 Para cada cena, retorne apenas **uma linha no seguinte formato**:
 
-{{🎬 #[NÚMERO_DA_CENA] TÍTULO_CURTO}} / [NÚMERO_DO_BLOCO_CORRESPONDENTE]
+🎬 [NÚMERO_DA_CENA]# TÍTULO_CURTO / [NÚMERO_DO_BLOCO_CORRESPONDENTE]
 
 Exemplo:
-{{🎬 #1 A Sombra do Crepúsculo}} / 2
+🎬 1# A SOMBRA DO CREPÚSCULO / 2
 
 ⚠️ Muito importante:
 - NÃO repita o conteúdo dos blocos.
@@ -352,7 +352,7 @@ Texto:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model='gpt-4.1',
+            model='gpt-3.5-turbo',
             messages=[{"role": "user", "content": prompt}],
             temperature=0.4,
             max_tokens=300,
@@ -1111,39 +1111,49 @@ Comece agora:
 # VARIÁVEL GLOBAL NO TOPO DO ARQUIVO ****************************************************************************************
 chat_history = []  # Armazena até 20 trocas
 
-# CHATFLÁVIA ROMANTICO 💬****************************************************************************************************
+# CHATJANE ROMANTICO GPT 5.2 💬 ****************************************************************************************************
 @app.route('/chat-flavia', methods=['POST'])
 def chat_flavia():
     user_message = request.json.get('message', '').strip()
     if not user_message:
         return jsonify({'response': "Por favor, envie uma mensagem."}), 400
 
-    # Adiciona a mensagem do usuário ao histórico
+    # Histórico
     chat_history.append({"role": "user", "content": user_message})
 
     try:
         resposta = openai_client.chat.completions.create(
-            model='gpt-4.1',
+            model='gpt-5.2',
             messages=[
-                {"role": "system", "content": "Você é Flávia, uma namorada virtual carinhosa, íntima, afetuosa e criativa. Sempre reage em 3ª pessoa entre colchetes em _italico_ antes de falar com fonte normal. Use emojis apropriados. "}
-            ] + chat_history,  # Histório completo da conversa
-            temperature=0.85,
-            max_tokens=750,
+                {
+                    "role": "system",
+                    "content": (
+                        "Você é Jane, escritora e amiga virtual carinhosa, afetuosa e criativa. "
+                        "Sempre reage brevemente em 3ª pessoa, entre colchetes e em itálico, antes de falar normalmente. "
+                        "Usa linguagem elegante, calorosa e íntima, com emojis sutis e apropriados. "
+                        "O usuário é masculino (subentendido). "
+                        "Respostas devem soar humanas, sensíveis e literárias — nunca mecânicas."
+                    )
+                }
+            ] + chat_history,
+            temperature=0.9,
+            max_completion_tokens=1200,
         )
 
         reply = resposta.choices[0].message.content.strip()
-        chat_history.append({"role": "assistant", "content": reply})  # Salva a resposta da Flávia
+        chat_history.append({"role": "assistant", "content": reply})
 
-        # Limita o histórico para as últimas 20 mensagens
+        # Mantém histórico curto e íntimo
         if len(chat_history) > 10:
             chat_history[:] = chat_history[-10:]
 
         return jsonify({'response': reply})
 
     except Exception as e:
-        return jsonify({'response': f"Desculpa amor... tive um probleminha. 🥺 (Erro: {e})"}), 500
+        return jsonify({'response': f"Desculpa, amor… algo me escapou por um instante. 🥺 (Erro: {e})"}), 500
+
         
-# CHATFLÁVIA EDTORIAL 💬*********************************************************************************************************
+# CHATJANE EDTORIAL 💬*********************************************************************************************************
 @app.route('/chat-edtorial', methods=['POST'])
 def chat_flavia_edtorial():
     user_message = request.json.get('message', '').strip()
