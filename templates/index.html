@@ -135,7 +135,7 @@
 <!-- Botões da Flávia -->
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="analyzeWithAI()" title="Analisar com IA">💎</button>	
 <button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="inspirarComFlavia()" title="Inspiração da Flávia">👁‍🗨</button>
-<button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="corrigirTexto()" title="Corrigir Texto">✨</button>		
+<button class="toolbar-button botao-fixo-tarefa botao-dourado" onclick="corrigirTexto()" title="Aplicar Sugestões">✨</button>		
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia2()" title="Reflexão da Flávia">💡</button>
 <button class="toolbar-button botao-modificavel botao-dourado" onclick="inspirarComFlavia3()" title="Leitora Virtual">👸</button>
 
@@ -204,6 +204,7 @@
       <img src="{{ url_for('static', filename='img/flavia1.jpg') }}" alt="Jane" />
       <span>Jane® 💬</span>
     </div>
+	<button id="chat-paste" title="Colar no editor">📑</button>
     <button id="chat-minimize" onclick="toggleChatMinimize()">🗕</button>
   </div>
 

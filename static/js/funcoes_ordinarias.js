@@ -647,7 +647,7 @@ function copyText() {
   selection.removeAllRanges();
 }
 
-// COLAR 📋 *****************************************************************************************************
+// COLAR 📑 *****************************************************************************************************
 async function pasteText() {
   const editor = document.getElementById("editor");
 
@@ -683,6 +683,22 @@ document.addEventListener("visibilitychange", () => {
     salvarConteudoAtual();
   }
 });
+
+async function pasteIntoChatInput() {
+  const input = document.getElementById("chat-input");
+  if (!input) return;
+
+  try {
+    const text = await navigator.clipboard.readText();
+    input.value += text;
+    input.focus();
+  } catch (err) {
+    console.error("Erro ao colar no chat:", err);
+  }
+}
+
+document.getElementById("chat-paste")?.addEventListener("click", pasteIntoChatInput);
+
 
     // NUMBERSENTENCES 1 ***************************************************************************************************
 // NUMBERSENTENCES 1 ***************************************************************************************************
