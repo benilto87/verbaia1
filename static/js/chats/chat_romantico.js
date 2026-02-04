@@ -11,6 +11,7 @@ function enviarMensagemFlavia() {
   const userMsg = document.createElement("p");
   userMsg.innerHTML = `<strong>Você:</strong> ${mensagem}`;
   log.appendChild(userMsg);
+  log.scrollTop = log.scrollHeight;
 
   // Limpa o campo
   input.value = "";
@@ -32,10 +33,22 @@ function enviarMensagemFlavia() {
       .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
       .replace(/\n/g, "<br>");                          // quebra de linha
 
-    const flaviaMsg = document.createElement("p");
-    flaviaMsg.innerHTML = `<strong>Jane:</strong> ${respostaConvertida}`;
-    log.appendChild(flaviaMsg);
-    log.scrollTop = log.scrollHeight;
+    const flaviaMsg = document.createElement("div");
+flaviaMsg.className = "chat-message ia";
+
+flaviaMsg.innerHTML = `
+  <div class="chat-bubble ia">
+    <div class="chat-message-content">
+      <strong>Jane:</strong><br>
+      ${respostaConvertida}
+    </div>
+    <button class="copy-btn" title="Copiar resposta">📑</button>
+  </div>
+`;
+
+log.appendChild(flaviaMsg);
+log.scrollTop = log.scrollHeight;
+
   })
   .catch(err => {
     console.error("Erro no fetch:", err); // 👀 log no console para depurar
@@ -45,33 +58,75 @@ function enviarMensagemFlavia() {
   });
 }
 
-// 1. Função de minimizar (você já tinha)
+// 1. Função de minimizar
 function toggleChatMinimize() {
   const panel = document.getElementById("chat-panel");
+  if (!panel) return;
   panel.classList.toggle("minimized");
 }
 
-// Clique fora do painel → minimiza
+// 2. Botão minimizar (controle direto)
+document.getElementById("chat-minimize")?.addEventListener("click", function (e) {
+  e.stopPropagation(); // 🔥 impede conflito com clique global
+  toggleChatMinimize();
+});
+
+// 3. Clique fora do painel → minimiza
 document.addEventListener("click", function (event) {
   const panel = document.getElementById("chat-panel");
   if (!panel) return;
 
   const isClickInside = panel.contains(event.target);
 
-  // Se clicou fora e o painel não está minimizado, então minimiza
   if (!isClickInside && !panel.classList.contains("minimized")) {
     toggleChatMinimize();
   }
 });
 
-// Clique dentro do painel → expande se minimizado
+// 4. Clique dentro do painel → expande se estiver minimizado
 document.getElementById("chat-panel")?.addEventListener("click", function (event) {
   const isMinimizeButton = event.target.closest("#chat-minimize");
-  if (isMinimizeButton) return; // impede conflito
+  if (isMinimizeButton) return; // não interfere no botão
 
   if (this.classList.contains("minimized")) {
     this.classList.remove("minimized");
   }
+});
+
+document.getElementById("chat-opinion")?.addEventListener("click", function () {
+  const editor = document.getElementById("editor");
+  const chatInput = document.getElementById("chat-input");
+
+  if (!editor || !chatInput) return;
+
+  const texto = editor.innerText.trim();
+  if (!texto) return;
+
+  const prompt = "Fale sobre este texto, por favor:\n\n";
+
+  // 1️⃣ Cola com contexto semântico
+  chatInput.value = prompt + texto;
+
+  // 2️⃣ Dispara o envio oficial
+  enviarMensagemFlavia();
+});
+
+document.getElementById("chat-reescrita")?.addEventListener("click", function () {
+  const editor = document.getElementById("editor");
+  const chatInput = document.getElementById("chat-input");
+
+  if (!editor || !chatInput) return;
+
+  const texto = editor.innerText.trim();
+  if (!texto) return;
+
+  const prompt = "1. Reescreva e deixe este texto mais madudo, 2. Sublinhe as mudanças em negrito no corpo do texto, 3 descreva de forma geral as alterações. Eis o texto:\n\n";
+
+  // 1️⃣ Cola com contexto semântico
+  chatInput.value = prompt + texto;
+
+  // 2️⃣ Dispara o envio oficial
+  enviarMensagemFlavia();
 });
 
 // 🎑 TROCAR FOTOS 🎑 ***********************************************************************************************
@@ -143,3 +198,30 @@ document.getElementById('chat-input').addEventListener('keydown', function (e) {
     enviarMensagemFlavia(); // Chama a função de envio
   }
 });
+
+document.addEventListener("click", function (event) {
+  const botao = event.target.closest(".copy-btn");
+  if (!botao) return;
+
+  event.stopPropagation();
+
+  const mensagem = botao.closest(".chat-message");
+  const conteudo = mensagem.querySelector(".chat-message-content");
+  if (!conteudo) return;
+
+  const html = conteudo.innerHTML;
+  const texto = conteudo.innerText;
+
+  const item = new ClipboardItem({
+    "text/html": new Blob([html], { type: "text/html" }),
+    "text/plain": new Blob([texto], { type: "text/plain" })
+  });
+
+  navigator.clipboard.write([item]).then(() => {
+    botao.textContent = "✔";
+    setTimeout(() => (botao.textContent = "📑"), 1000);
+  });
+});
+
+
+

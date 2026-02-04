@@ -72,6 +72,24 @@ document.getElementById("chat-panel")?.addEventListener("click", function (event
   }
 });
 
+document.getElementById("chat-reescrita")?.addEventListener("click", function () {
+  const editor = document.getElementById("editor");
+  const chatInput = document.getElementById("chat-input");
+
+  if (!editor || !chatInput) return;
+
+  // Pega só o texto (sem tags)
+  const texto = editor.innerText.trim();
+
+  if (!texto) return;
+
+  chatInput.value = texto;
+  chatInput.focus();
+});
+
+
+
+
 // ✨ Autoexpandir altura do campo symbolInput enquanto digita
 window.addEventListener('DOMContentLoaded', () => {
   const chatPanel = document.getElementById('chat-panel');
