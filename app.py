@@ -467,8 +467,7 @@ Com foco na beleza estética comece sua análise:
         return jsonify({'result': resposta})
 
     except Exception as e:
-        return jsonify({'result': f"Erro ao processar: {e}"})
-        
+        return jsonify({'result': f"Erro ao processar: {e}"})    
         
  # 📝 RASCUNHO 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
 @app.route('/rascunho', methods=["POST"])
@@ -476,8 +475,8 @@ def criar_rascunho():
     from flask import request, jsonify
     dados = request.get_json(force=True) or {}
     texto_bruto = (dados.get("texto") or "").strip()
-    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
-    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
+    temperatura = float(dados.get("temperature", 0.85))
+    temperatura = max(0.0, min(2.0, temperatura))
 
     print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
 
@@ -514,17 +513,19 @@ Agora processe o bloco abaixo:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
+            model="gpt-5.2",
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=2000
+            max_completion_tokens=2000
         )
+
         texto_final = resposta.choices[0].message.content.strip()
         return jsonify({"rascunho": texto_final}), 200
+
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
- 
-  # 📝 CORREÇÃO GRAMATICAL ⚠️⚠️DESATIVADO⚠️⚠️ 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
+
+   # 📝 CORREÇÃO GRAMATICAL ⚠️⚠️DESATIVADO⚠️⚠️ 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
 @app.route('/rascunho4', methods=["POST"])
 def criar_rascunho4():
     from flask import request, jsonify

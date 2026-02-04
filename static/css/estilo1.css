@@ -594,10 +594,10 @@ mark.focused-mark {
         padding: 0;
     }
 	
-	    h1 {
+	    h1 {            /* 768px */
     margin-top: 0.5rem; /* Ajusta a margem superior do h1 para 0.5rem */
     margin-bottom: 0.64rem; /* Mantém a margem inferior para espaçamento */
-    font-size: 1.6rem; /* Opcional: diminui o tamanho da fonte para mobile */
+    font-size: 1.6rem;  /* Opcional: diminui o tamanho da fonte para mobile */
 }
 
 .titulo-principal {
@@ -619,8 +619,8 @@ mark.focused-mark {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start; /* <<< ALINHA À ESQUERDA */
-    gap: 0.25rem;
-	margin-bottom:0.99rem; /* Espaço entre barrra de tarefas e quadro principal */
+    gap: 0.22rem; /* Espaço entre botões 768px*/
+	margin-bottom:0.99rem; /* Espaço entre barrra de tarefas e quadro principal 768px*/
 }
 
    .toolbar-button {
@@ -630,7 +630,7 @@ mark.focused-mark {
     padding: 0.4rem;
 }
 
-    /* Otimizando o contêiner do editor para celulares */
+    /* Otimizando o contêiner do editor para celulares 768px*/
     .editor-container {
         max-height: 40vh;
         min-height: 440px;
