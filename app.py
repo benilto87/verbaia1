@@ -332,7 +332,7 @@ Você é um assistente literário. Recebe um texto dividido em blocos numerados,
 3 Bloco três
 ...
 
-Sua tarefa é dividir o texto **exatamente em 3 partes cenas (passagens) principais**, com base em emoção ou mudança visual.
+Sua tarefa é dividir o texto **exatamente em 3 partes cenas (passagens) principais**, com base em emoção, ações dos personagens ou mudança visual.
 
 Para cada cena, retorne apenas **uma linha no seguinte formato**:
 
@@ -354,7 +354,7 @@ Texto:
         resposta = openai_client.chat.completions.create(
             model='gpt-3.5-turbo',
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.4,
+            temperature=0.5,
             max_tokens=300,
         )
 
@@ -408,10 +408,10 @@ Analise com sensibilidade editorial e inicie agora:
 
         # use um modelo compatível com chat.completions
         completion = openai_client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-5.2",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.52,
-            max_tokens=900
+            temperature=0.62,
+            max_completion_tokens=900
         )
         resposta = (completion.choices[0].message.content or "").strip()
         return jsonify({'result': resposta}), 200
@@ -459,7 +459,7 @@ Com foco na beleza estética comece sua análise:
         completion = openai_client.chat.completions.create(
             model='gpt-4.1', # gpt-4o / gpt-4.1
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.52,
+            temperature=0.70,
             max_tokens=900,
         )
 
@@ -467,16 +467,17 @@ Com foco na beleza estética comece sua análise:
         return jsonify({'result': resposta})
 
     except Exception as e:
-        return jsonify({'result': f"Erro ao processar: {e}"})    
+        return jsonify({'result': f"Erro ao processar: {e}"})
         
- # 📝 RASCUNHO 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
+        
+ # 📜 RASCUNHO 📜 ******************************************************************************************************** (retirei sem dizer coisa alguma)
 @app.route('/rascunho', methods=["POST"])
 def criar_rascunho():
     from flask import request, jsonify
     dados = request.get_json(force=True) or {}
     texto_bruto = (dados.get("texto") or "").strip()
-    temperatura = float(dados.get("temperature", 0.85))
-    temperatura = max(0.0, min(2.0, temperatura))
+    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
+    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
 
     print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
 
@@ -502,7 +503,7 @@ O dia amanheceu **vestindo o mundo de cinza**.
 **Ela permanecia imóvel, olhando pela janela sem dizer nada.**  
 Um pássaro pousou **suave como um presságio sobre o** parapeito.  
 
-📝🌾 **Lista de Mudanças:**
+📜 **Lista de Mudanças:**
 1. Enriqueci a metáfora inicial com _vestindo o mundo de cinza_.
 2. Transformei a frase da personagem em uma construção mais poética e cadenciada em _Ela permanecia imóvel, olhando pela janela sem dizer nada_.
 3. Tornei o pouso do pássaro mais sugestivo com _suave como um presságio_.
@@ -513,19 +514,17 @@ Agora processe o bloco abaixo:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-5.2",
+            model="gpt-5.2",  # troque para "gpt-5.2"
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
             max_completion_tokens=2000
         )
-
         texto_final = resposta.choices[0].message.content.strip()
         return jsonify({"rascunho": texto_final}), 200
-
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
-
-   # 📝 CORREÇÃO GRAMATICAL ⚠️⚠️DESATIVADO⚠️⚠️ 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
+ 
+  #⚠️⚠️DESATIVADO⚠️⚠️ 📝 CORREÇÃO GRAMATICAL ⚠️⚠️DESATIVADO⚠️⚠️ 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
 @app.route('/rascunho4', methods=["POST"])
 def criar_rascunho4():
     from flask import request, jsonify
@@ -639,7 +638,7 @@ Agora processe o bloco abaixo:
         
         
  
- # ✅ CORRETOR DE TEXTO ✅ ***************************************************************************************************
+ # ✅™ CORRETOR DE TEXTO FLUIDEZ ✅™ ***************************************************************************************************
 @app.route('/corrigir-fluidez', methods=["POST"])
 def corrigir_fluidez():
     dados = request.get_json()
@@ -691,7 +690,7 @@ Justificativa: Escolha verbal mais natural e elegante no encadeamento da frase.
         return jsonify({"erro": str(e)})
  
  
-# ✅ CORRETOR DE TEXTO ✅ ***************************************************************************************************
+# ✨ APLICAR SUGESTÕES ✨ ***************************************************************************************************
 @app.route('/corrigir', methods=["POST"])
 def corrigir_texto():
     dados = request.get_json()
@@ -704,18 +703,15 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
 1. Substituir os trechos conforme as dicas fornecidas;
 2. **Remover a numeração dos blocos** (ex: "1", "2"...);
 3. Unificar o texto em parágrafos contínuos e coesos;
-4. Preservar o estilo original do autor;
+4. (Se não houver sugestões) reescreva um texto maduro preservando o estilo original do autor;
 5. Marcar com **negrito** todas as palavras ou trechos que foram modificados;
 6. Adicione comentário da abordagem usada exemplo: 
 
-🌿 Comentários:
-- Acidionei as sugestões 5 e 6 (para ampliar o conflito interno, simbolismo do ambiente, etc.) de forma orgânica no texto original.
-- Ajustei pequenas transições para garantir fluidez e evitar repetições.
-- Não utilizei sugestões que soassem forçadas, excessivas, ou destoassem do tom do autor.
-- Mantive o estilo original, ampliando a densidade psicológica e simbólica da cena.
-
-
-
+✨ Comentários:
+→ Acidionei as sugestões 5 e 6 (para ampliar o conflito interno, simbolismo do ambiente, etc.) de forma orgânica no texto original.
+→ Ajustei pequenas transições para garantir fluidez e evitar repetições.
+→ Não utilizei sugestões que soassem forçadas, excessivas, ou destoassem do tom do autor.
+→ Mantive o estilo original, ampliando a densidade psicológica e simbólica da cena.
 
 ---
 
@@ -760,7 +756,6 @@ def corrigir_texto2():
 2. Mantenha tom literário, mas acrescentando precisão e ritmo.
 3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
-5. Use ~~riscado~~ para apresentar as palavras substituidas.
 
 Exemplo de entrada:
 
@@ -774,7 +769,7 @@ Exemplo de saída esperado:
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
 No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
 
-🌓🌿 **Lista de Mudanças:**
+🌓® **Lista de Mudanças:**
 
 1. ~~Muito cinza mesmo, Parecia como um mundo sem cor~~ [~~riscado~~]
 ➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
@@ -791,10 +786,10 @@ Texto do usuário:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
+            model="gpt-5.2",  # troque para "gpt-4.1" para "gpt-5.2"
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=2000
+            max_completion_tokens=2000   # troque para "max_tokens" para "max_completion_tokens"
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido}), 200
@@ -802,8 +797,8 @@ Texto do usuário:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
- # 🌿® CORRETOR LITERÁRIO 🌿® ***************************************************************************************************
-# 🌿® CORRETOR LITERÁRIO 🌿® ***************************************************************************************************
+ # 🌿® REESCRITOR 🌿® ***************************************************************************************************
+# 🌿® REESCRITOR 🌿® ***************************************************************************************************
 @app.route('/corrigir2b', methods=["POST"])
 def corrigir_texto2b():
     from flask import request, jsonify
@@ -857,10 +852,10 @@ Texto do usuário:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4.1",  # troque para "gpt-4o" se ainda não tiver acesso ao 5
+            model="gpt-5.2",  # troque para "gpt-4.1" para "gpt-5.2"
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=2000
+            max_completion_tokens=2000 # troque para "max_tokens" para "max_completion_tokens"
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido}), 200
@@ -1000,7 +995,7 @@ Comece aqui:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
-# 🌔 CORRETOR LITERÁRIO 4 🌔 ***************************************************************************************************
+# 🌔 INTENSIFICADOR 🌔 ***************************************************************************************************
 @app.route('/rascunho3', methods=["POST"])
 def criar_rascunho3():
     from flask import request, jsonify
@@ -1042,7 +1037,7 @@ Antes de entrar, correu até a ameixeira junto à cerca — _a árvore parecia g
 Quando entregou as ameixas a Fernando, ele notou entre os frutos, pequenas flores _quase secretas_; colheu-as e, com um riso, devolveu-as a ela.  
 
 
-🌙🌾 **Lista de Mudanças:**
+🌔 **Lista de Mudanças:**
 1. **Aprofundamento do conflito de Flávia:** Profundizei o recuo de Flávia como conflito interno e memória afetiva, reforçando o impacto emocional do beijo.
 2. **Contraste das roupas:** Acrescentei contraste nas roupas para sugerir ironia ou leveza diante da gravidade do momento.
 3. **Metáfora da ameixeira:** A ameixeira virou metáfora de passagem e limiar, reforçando simbolismo. 
@@ -1056,10 +1051,10 @@ Comece aqui:
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
+            model="gpt-5.2",  # troque para "gpt-4o" se o 5 não estiver habilitado
             messages=[{"role": "user", "content": prompt}],
             temperature=temperatura,
-            max_tokens=2000
+            max_completion_tokens=2000
         )
         texto_final = resposta.choices[0].message.content.strip()
         return jsonify({"rascunho": texto_final}), 200
