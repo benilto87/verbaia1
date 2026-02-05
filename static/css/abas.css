@@ -27,11 +27,32 @@
 
 #abas-container {
   display: flex;
-  gap: 2px;
+  gap: 4px;
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
-  scroll-behavior: smooth; /* 👈 animação suave */
+
+  padding-bottom: 4px; /* 👈 respiro entre abas e scrollbar */
 }
+
+#abas-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+#abas-container::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+
+#abas-container::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.35);
+  border-radius: 10px;
+}
+
+#abas-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.55);
+}
+
 #abas-container button:last-child {
   background-color: #f0f0f0;
   color: #444;
