@@ -24,6 +24,14 @@
 }
 
 /* ➕ ESTILO DO BOTÃO DE NOVA ABA */
+
+#abas-container {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth; /* 👈 animação suave */
+}
 #abas-container button:last-child {
   background-color: #f0f0f0;
   color: #444;
@@ -34,6 +42,8 @@
   background-color: #d0f0d0;
   border-color: #66cc66;
 }
+
+
 
 /* ❌ ESTILO X DA ABA */
 

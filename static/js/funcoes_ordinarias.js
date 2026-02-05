@@ -13,6 +13,7 @@ function criarNovaAba() {
 
   atualizarAbas();
   carregarConteudoAtual();
+  scrollAbasParaOFim(); // 🔥 AQUI
 }
 
 function atualizarAbas() {
@@ -49,6 +50,9 @@ function atualizarAbas() {
   botaoNova.innerHTML = "➕";
   botaoNova.onclick = criarNovaAba;
   abasContainer.appendChild(botaoNova);
+
+  // 👇 força scroll quando renderiza
+  scrollAbasParaOFim();
 }
 
 // ❌ DELETAR ABAS NA LOUSA 📋 ********************************************************
@@ -102,6 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+function scrollAbasParaOFim() {
+  const abasContainer = document.getElementById("abas-container");
+  if (!abasContainer) return;
+
+  abasContainer.scrollLeft = abasContainer.scrollWidth;
+}
 
 /* CONTADOR DE PALAVRAS */
 document.addEventListener("DOMContentLoaded", () => {
