@@ -9,7 +9,9 @@ function enviarMensagemFlavia() {
 
   // Adiciona mensagem do usuário
   const userMsg = document.createElement("p");
-  userMsg.innerHTML = `<strong>Você:</strong> ${mensagem}`;
+  const mensagemConvertida = markdownSimples(mensagem);
+  userMsg.innerHTML = `<strong>Você:</strong> ${mensagemConvertida}`;
+
   log.appendChild(userMsg);
   log.scrollTop = log.scrollHeight;
 
@@ -102,7 +104,7 @@ document.getElementById("chat-opinion")?.addEventListener("click", function () {
   const texto = editor.innerText.trim();
   if (!texto) return;
 
-  const prompt = "Fale sobre este texto, por favor:\n\n";
+  const prompt = "💡 • _Fale reflexivamente deste texto, dividindo em blocos temáticos negritados:_ \n\n";
 
   // 1️⃣ Cola com contexto semântico
   chatInput.value = prompt + texto;
@@ -120,7 +122,7 @@ document.getElementById("chat-reescrita")?.addEventListener("click", function ()
   const texto = editor.innerText.trim();
   if (!texto) return;
 
-  const prompt = "1. Reescreva e deixe este texto mais madudo, 2. Sublinhe as mudanças em negrito no corpo do texto, 3 descreva de forma geral as alterações. Eis o texto:\n\n";
+  const prompt = "✍️ • _Tente subir o nível deste texto, sublinhe as mudanças em negrito para eu ver melhor:_ \n\n";
 
   // 1️⃣ Cola com contexto semântico
   chatInput.value = prompt + texto;
@@ -134,6 +136,7 @@ document.getElementById("chat-reescrita")?.addEventListener("click", function ()
 const fotosFlavia = [
   "static/img/flavia1.jpg",
   "static/img/flavia2.jpg",
+  "static/img/flavia3.jpg",
 ];
 
 let indexAtual = 0;
@@ -160,12 +163,12 @@ function trocarFotoFlavia() {
       // Volta com fade-in
       imgFlavia.style.opacity = '1';
       chatPanel.style.opacity = '1';
-    }, 500); // tempo da transição
+    }, 116); // tempo da transição
   }
 }
 
 // Troca a cada 3 minutos (180.000 ms)
-setInterval(trocarFotoFlavia, 30000);
+setInterval(trocarFotoFlavia, 90000);
 
 // ✨ Autoexpandir altura do campo symbolInput enquanto digita
 window.addEventListener('DOMContentLoaded', () => {

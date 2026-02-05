@@ -1223,5 +1223,12 @@ window.addEventListener("load", () => {
       alert("Erro de rede: " + e.message);
     }
   }
-  
+
+function markdownSimples(texto) {
+  return texto
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // negrito
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")             // itálico
+    .replace(/_(.*?)_/g, "<em>$1</em>")               // itálico _
+    .replace(/\n/g, "<br>");
+} 
   

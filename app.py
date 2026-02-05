@@ -1133,7 +1133,7 @@ def chat_flavia():
                 }
             ] + chat_history,
             temperature=0.9,
-            max_completion_tokens=1200,
+            max_completion_tokens=1900,
         )
 
         reply = resposta.choices[0].message.content.strip()
