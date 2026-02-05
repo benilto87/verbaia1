@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jane escritora</title>
 
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/janecirc.png') }}">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo1.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/abas.css') }}">
@@ -48,32 +48,18 @@
   font-size: 0.95rem;
   line-height: 1.5;
 ">
-    <button onclick="fecharInspiracao()" style="
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  " title="Fechar">✖</button>
+<div class="inspiracao-header">
+  <strong>👁‍🗨 Olhar da Jane</strong>
 
-  <button onclick="minimizarInspiracao()" style="
-    position: absolute;
-    top: 6px;
-    right: 32px;
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  " title="Minimizar">➖</button>
-  
-  <strong>👁‍🗨 Olhar da Jane:</strong>
-  
+  <div class="inspiracao-acoes">
+    <button onclick="copiarInspiracao()" title="Copiar">📋</button>
+    <button onclick="minimizarInspiracao()" title="Minimizar">➖</button>
+    <button onclick="fecharInspiracao()" title="Fechar">✖</button>
+  </div>
+</div>
+
+<div id="inspiracao-texto" class="inspiracao-conteudo"></div>
+   
   <div id="inspiracao-texto" style="
     margin-top: 6px;
     max-height: 500px;

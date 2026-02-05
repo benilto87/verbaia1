@@ -703,7 +703,7 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
 1. Substituir os trechos conforme as dicas fornecidas;
 2. **Remover a numeração dos blocos** (ex: "1", "2"...);
 3. Unificar o texto em parágrafos contínuos e coesos;
-4. (Se não houver sugestões) reescreva um texto maduro preservando o estilo original do autor;
+4. (Se não houver sugestões) eleve o nível do texto preservando o estilo original do autor;
 5. Marcar com **negrito** todas as palavras ou trechos que foram modificados;
 6. Adicione comentário da abordagem usada exemplo: 
 

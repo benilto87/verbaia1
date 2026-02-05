@@ -362,6 +362,18 @@ h1 {
   touch-action: none; /* Impede interferência de gestos nativos do navegador */
 }
 
+#inspiracao-lousa {
+  border: 1.5px solid #d1d5db !important;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+#inspiracao-lousa:hover {
+  border-color: #9ca3af !important;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
+}
+
 #inspiracao-lousa.minimizado {
   width: auto;
   height: auto;
@@ -375,6 +387,40 @@ h1 {
   background-color: white;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+}
+
+.inspiracao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.inspiracao-acoes {
+  display: flex;
+  gap: 6px;
+}
+
+.inspiracao-acoes button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.inspiracao-acoes button:hover {
+  color: #000;
+}
+
+.inspiracao-conteudo {
+  max-height: 440px;
+  overflow-y: auto;
+  padding-right: 4px;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 /* STATUS CARREGAMENTO ****************************************************************************************** */

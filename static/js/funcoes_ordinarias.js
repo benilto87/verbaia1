@@ -1231,4 +1231,31 @@ function markdownSimples(texto) {
     .replace(/_(.*?)_/g, "<em>$1</em>")               // itálico _
     .replace(/\n/g, "<br>");
 } 
-  
+
+async function copiarInspiracao() {
+  const elemento = document.getElementById("inspiracao-texto");
+  if (!elemento) return;
+
+  const html = elemento.innerHTML;
+  const texto = elemento.innerText;
+
+  try {
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        "text/html": new Blob([html], { type: "text/html" }),
+        "text/plain": new Blob([texto], { type: "text/plain" })
+      })
+    ]);
+  } catch (err) {
+    // fallback antigo
+    const range = document.createRange();
+    range.selectNodeContents(elemento);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    document.execCommand("copy");
+    selection.removeAllRanges();
+  }
+}

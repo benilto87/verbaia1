@@ -44,7 +44,7 @@ flaviaMsg.innerHTML = `
       <strong>Jane:</strong><br>
       ${respostaConvertida}
     </div>
-    <button class="copy-btn" title="Copiar resposta">📑</button>
+    <button class="copy-btn" title="Copiar resposta">📋</button>
   </div>
 `;
 
@@ -222,7 +222,7 @@ document.addEventListener("click", function (event) {
 
   navigator.clipboard.write([item]).then(() => {
     botao.textContent = "✔";
-    setTimeout(() => (botao.textContent = "📑"), 1000);
+    setTimeout(() => (botao.textContent = "📋"), 1000);
   });
 });
 

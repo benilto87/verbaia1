@@ -478,7 +478,7 @@ async function gerarRascunho4(temperaturaEscolhida){
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho4 = function(temp){ gerarRascunho4(temp); };
   
-// ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
+// ✨ APLICADOR DE SUGESTÕES ✨ ************************************************************************************************************
 async function corrigirTexto() {
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
@@ -511,7 +511,7 @@ async function corrigirTexto() {
 
     const textoCorrigido = dados.corrigido.trim();
 
-    // ✅ CONVERSÃO DE **markdown** PARA HTML
+    // ✨ CONVERSÃO DE **markdown** PARA HTML
     const htmlCorrigido = textoCorrigido
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
       .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
@@ -521,12 +521,12 @@ async function corrigirTexto() {
 
     editor.innerHTML = `
       <div class="sentence-group">
-        <span class="number-marker">✅</span>
+        <span class="number-marker">✨</span>
         <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
       </div>
     `;
 
-    // ✅ Limpa o feedback após aplicar correção
+    // ✨ Limpa o feedback após aplicar correção
     if (feedbackDiv) {
       feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
       setTimeout(() => {
