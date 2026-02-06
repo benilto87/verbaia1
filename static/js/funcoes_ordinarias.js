@@ -1041,7 +1041,7 @@ function removerFormatacaoSelecao() {
   }
 }
 
-// FECHAR E MINIMIZAR TABELA INSPIRAÇÃO 🌺********************************************************************************************
+// TABELA INSPIRAÇÃO 🌺********************************************************************************************
 
 function fecharInspiracao() {
   document.getElementById("inspiracao-lousa").style.display = "none";
@@ -1056,15 +1056,14 @@ function minimizarInspiracao() {
 
   if (estaMinimizado) {
     conteudo.style.display = "block";
-    titulo.innerHTML = "🌺 Inspiração da Flávia:";
+    titulo.innerHTML = "JANE®";
     lousa.classList.remove("minimizado");
   } else {
     conteudo.style.display = "none";
-    titulo.innerHTML = "🌺 (minimizado)";
+    titulo.innerHTML = "JANE®(minimizado)       /";
     lousa.classList.add("minimizado");
   }
 }
-
 
 function permitirArrastarInspiracao() {
   const lousa = document.getElementById("inspiracao-lousa");
@@ -1114,8 +1113,64 @@ function permitirArrastarInspiracao() {
 
 document.addEventListener("DOMContentLoaded", permitirArrastarInspiracao);
 
+async function copiarInspiracao(botao) {
+  const elemento = document.getElementById("inspiracao-texto");
+  if (!elemento || !botao) return;
 
-// CHAT ALTERNADO **********************************************************************************************************
+  const html = elemento.innerHTML;
+  const texto = elemento.innerText;
+
+  try {
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        "text/html": new Blob([html], { type: "text/html" }),
+        "text/plain": new Blob([texto], { type: "text/plain" })
+      })
+    ]);
+
+    feedbackCopiado(botao);
+
+  } catch (err) {
+    // fallback antigo
+    const range = document.createRange();
+    range.selectNodeContents(elemento);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    document.execCommand("copy");
+    selection.removeAllRanges();
+
+    feedbackCopiado(botao);
+  }
+}
+
+function feedbackCopiado(botao) {
+  const original = botao.innerHTML;
+
+  botao.innerHTML = "✔";
+  botao.classList.add("copiado");
+
+  setTimeout(() => {
+    botao.innerHTML = original;
+    botao.classList.remove("copiado");
+  }, 1200);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CHAT ALTERNADOR **********************************************************************************************************
 function trocarModoChat(modo) {
   // Remove estilos e scripts antigos
   const head = document.head;
@@ -1232,30 +1287,4 @@ function markdownSimples(texto) {
     .replace(/\n/g, "<br>");
 } 
 
-async function copiarInspiracao() {
-  const elemento = document.getElementById("inspiracao-texto");
-  if (!elemento) return;
 
-  const html = elemento.innerHTML;
-  const texto = elemento.innerText;
-
-  try {
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        "text/html": new Blob([html], { type: "text/html" }),
-        "text/plain": new Blob([texto], { type: "text/plain" })
-      })
-    ]);
-  } catch (err) {
-    // fallback antigo
-    const range = document.createRange();
-    range.selectNodeContents(elemento);
-
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    document.execCommand("copy");
-    selection.removeAllRanges();
-  }
-}

@@ -84,7 +84,7 @@ function analyzeWithAI() {
       const texto = document.getElementById("inspiracao-texto");
 
       lousa.style.display = "block";
-      titulo.innerText = "• MARCAÇÕES ESPECIAIS 💎®";
+      titulo.innerText = "MARCAÇÕES DA JANE 💎®";
       texto.innerText = "👁 Gerando leitura da Flávia...";
       let textoFinal = ""; // <-- declaração correta antes de usar
 
@@ -132,7 +132,7 @@ function inspirarComFlavia() {
   const lousa = document.getElementById("inspiracao-lousa");
   const texto = document.getElementById("inspiracao-texto");
   lousa.style.display = "block";
-  texto.innerText = "🌺 Estou analisando com cuidado... ✍";
+  texto.innerText = "Estou analisando com cuidado... ✍";
 
   fetch('/inspire', {
     method: 'POST',
