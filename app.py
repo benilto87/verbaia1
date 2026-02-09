@@ -376,22 +376,22 @@ def analisar_fluidez():
         prompt = f"""
 Você é uma IA literária. Analise o texto numerado abaixo e aplique marcações de fluidez, ritmo e estilo.  Use:
 
-**🚨 {{🧱}}** / CONSTRUÇÃO TRUNCADA /  
-**🚨 {{🌿}}** / DESCREVA MAIS /  
-**🚨 {{🏁}}** / ACELERE MAIS /  
-**🚨 {{🤫*}}** / MOSTRE MAIS FALE MESNOS /
+**🚨 {{🧱}}** / _CONSTRUÇÃO TRUNCADA_ /  
+**🚨 {{🌿}}** / _DESCREVA_ /  
+**🚨 {{🏁}}** / _ENXUGUE_ /  
+**🚨 {{🤫*}}** / _MOSTRE, NÃO FALE!_ /
 
 Siga o formato:  
-**🚨> [símbolo]** / DESCRIÇÃO BREVE / **📌 Dica:** [sugestão clara] n° [número do bloco]
+**🚨> [símbolo]** / _DESCRIÇÃO BREVE_ / 📌 _Sugestões_  n° [número do bloco]
 
 Exemplo Prático:
-**🚨 {{🧱}}** / CONSTRUÇÃO TRUNCADA / **📌 Dica:** _**Ao invés de:**_ “A luz espalha sombra nele.” _**reescreva com mais ritmo:**_ → _“A luz se espalhava, projetando sua sombra sobre ele.”_ n° 5
+**🚨 {{🧱}}** / _CONSTRUÇÃO TRUNCADA_ / “**A luz espalha sombra nele.**” 📌 _Reecreva para maior ritmo:_ _“**A luz se espalhava, projetando sua sombra sobre ele.**”_ n° 5
 
-**🚨 {{🌿}}** / DESCREVA MAIS / **📌 Dica:** _**Ao invés de:**_ “Ele entrou na sala”, _**acrescente sensações ou objetos:**_ → _“Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.”_ n° 2
+**🚨 {{🌿}}** / _DESCREVA_ /“**Ele entrou na sala**” 📌 _Acrescente sensações ou objetos:_ _“**Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.**”_ n° 2
 
-**🚨 {{🏁}}** / ACELERE MAIS / **📌 Dica:** _**Ao invés de:**_ "Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio." _**substitua por uma imagem mais enxuta e direta:**_ → _"Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio."_ 
+**🚨 {{🏁}}** / _ENXUGUE_ /"**Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.**" 📌 _Substitua por uma imagem mais enxuta e literária:_ _"**Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.**"_ 
 
-**🚨 {{🤫*}}** / MOSTRE MAIS FALE MESNOS / **📌 Dica:** _**Ao invés de:**_ “Ele estava triste”, _**mostre com ação:**_ → _“Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.”_ n° 7
+**🚨 {{🤫*}}** / _MOSTRE, NÃO FALE!_ / “**Ele estava triste**” 📌 _Mostre com ação:_ _“**Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.**”_ n° 7
 
 
 **APLICAÇÃO NÃO DEVE SER FIXA: ALGUMAS MARCAÇÕES PODEM SER REPETIDAS E OUTRAS OMITIDAS CONFORME A NECESSIDADE DO TEXTO**
@@ -457,10 +457,10 @@ Com foco na beleza estética comece sua análise:
 
     try:
         completion = openai_client.chat.completions.create(
-            model='gpt-4.1', # gpt-4o / gpt-4.1
+            model='gpt-5.2', # gpt-4o / gpt-4.1
             messages=[{"role": "user", "content": prompt}],
             temperature=0.70,
-            max_tokens=900,
+            max_completion_tokens=900,
         )
 
         resposta = completion.choices[0].message.content.strip()
@@ -771,13 +771,13 @@ No instante em que abriu o bico, não veio som **— apenas a certeza fria e afi
 
 🌓® **Lista de Mudanças:**
 
-1. ~~Muito cinza mesmo, Parecia como um mundo sem cor~~ [~~riscado~~]
+1. _Muito cinza mesmo, Parecia como um mundo sem cor_ 
 ➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
 
-2. ~~Suas asas fizeram um barulho feio, como um arranhar~~
+2. _Suas asas fizeram um barulho feio, como um arranhar_ 
 ➝ Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “**o som das asas arranhou o silêncio**”.
 
-3. ~~E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou~~
+3. _E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou_
 ➝ Condensei o final repetitivo em uma frase de impacto mais seca e literária “**apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**”
 
 Texto do usuário:
