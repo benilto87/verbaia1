@@ -720,7 +720,7 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-5.2",
+            model="gpt-4.1",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.64
         )
@@ -729,7 +729,7 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
     except Exception as e:
         return jsonify({"erro": str(e)})
 
- # 🌓® CORRETOR LITERÁRIO 🌓® **************************************************************************************************
+ # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 @app.route('/corrigir2a', methods=["POST"])
 def corrigir_texto2():
