@@ -486,7 +486,7 @@ async function corrigirTexto() {
   // ✨ Mostra carregamento visual com azul marinho
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Corrigindo erros... </span>';
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">✨ Aplicando sugestões... </span>';
   }
 
   if (!textoOriginal) {
