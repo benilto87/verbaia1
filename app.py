@@ -377,8 +377,8 @@ def analisar_fluidez():
 Você é uma IA literária. Analise o texto numerado abaixo e aplique marcações de fluidez, ritmo e estilo.  Use:
 
 **🚨 {{🧱}}** / _CONSTRUÇÃO TRUNCADA_ /  
-**🚨 {{🌿}}** / _DESCREVA_ /  
-**🚨 {{🏁}}** / _ENXUGUE_ /  
+**🚨 {{🌿}}** / _DESCREVA MAIS_ /  
+**🚨 {{🧽}}** / _ENXUGUE_ /  
 **🚨 {{🤫*}}** / _MOSTRE, NÃO FALE!_ /
 
 Siga o formato:  
@@ -386,16 +386,11 @@ Siga o formato:
 
 Exemplo Prático:
 **🚨 {{🧱}}** / _CONSTRUÇÃO TRUNCADA_ / “**A luz espalha sombra nele.**” 📌 _Reecreva para maior ritmo:_ _“**A luz se espalhava, projetando sua sombra sobre ele.**”_ n° 5
-
-**🚨 {{🌿}}** / _DESCREVA_ /“**Ele entrou na sala**” 📌 _Acrescente sensações ou objetos:_ _“**Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.**”_ n° 2
-
-**🚨 {{🏁}}** / _ENXUGUE_ /"**Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.**" 📌 _Substitua por uma imagem mais enxuta e literária:_ _"**Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.**"_ 
-
+**🚨 {{🌿}}** / _DESCREVA MAIS_ /“**Ele entrou na sala**” 📌 _Acrescente sensações ou objetos:_ _“**Ele entrou na sala, abafada pelo cheiro de tabaco e lembranças antigas.**”_ n° 2
+**🚨 {{🧽}}** / _ENXUGUE_ /"**Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.**" 📌 _Substitua por uma imagem mais enxuta e literária:_ _"**Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.**"_ 
 **🚨 {{🤫*}}** / _MOSTRE, NÃO FALE!_ / “**Ele estava triste**” 📌 _Mostre com ação:_ _“**Ele dobrou o bilhete com dedos trêmulos e desviou o olhar.**”_ n° 7
 
-
 **APLICAÇÃO NÃO DEVE SER FIXA: ALGUMAS MARCAÇÕES PODEM SER REPETIDAS E OUTRAS OMITIDAS CONFORME A NECESSIDADE DO TEXTO**
-
 
 Corrija no máximo **1/5 de todos os blocos**.  
 **Apenas blocos com sugestão devem aparecer na resposta.**  
@@ -725,7 +720,7 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
 
     try:
         resposta = openai_client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-5.2",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.64
         )
