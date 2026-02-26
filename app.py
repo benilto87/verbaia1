@@ -722,7 +722,7 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
         resposta = openai_client.chat.completions.create(
             model="gpt-5.2",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.64
+            temperature=0.64,
             max_completion_tokens=2000
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
