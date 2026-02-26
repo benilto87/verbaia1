@@ -685,7 +685,7 @@ Justificativa: Escolha verbal mais natural e elegante no encadeamento da frase.
         return jsonify({"erro": str(e)})
  
  
-# ✨ APLICAR SUGESTÕES ✨ ***************************************************************************************************
+# ✨ APLICAR SUGESTÕES ✨ ****************************************************************************************************
 @app.route('/corrigir', methods=["POST"])
 def corrigir_texto():
     dados = request.get_json()
@@ -729,8 +729,8 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
     except Exception as e:
         return jsonify({"erro": str(e)})
 
- # 🌓® CORRETOR LITERÁRIO 🌓® **************************************************************************************************
-# 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
+ # 🌓® CORRETOR LITERÁRIO 🌓® ****************************************************************************************************
+# 🌓® CORRETOR LITERÁRIO 🌓® ****************************************************************************************************
 @app.route('/corrigir2a', methods=["POST"])
 def corrigir_texto2():
     from flask import request, jsonify
