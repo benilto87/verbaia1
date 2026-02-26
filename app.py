@@ -729,7 +729,7 @@ Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada b
     except Exception as e:
         return jsonify({"erro": str(e)})
 
- # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
+ # 🌓® CORRETOR LITERÁRIO 🌓® **************************************************************************************************
 # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 @app.route('/corrigir2a', methods=["POST"])
 def corrigir_texto2():
