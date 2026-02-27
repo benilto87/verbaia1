@@ -693,20 +693,23 @@ def corrigir_texto():
     print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
 
     prompt = f"""
-Reescreva o texto abaixo aplicando as sugestões de melhoria indicadas em cada bloco. Seu objetivo é:
+No texto abaixo aplique as sugestões de melhoria indicadas em cada bloco. Seu objetivo é:
 
 1. Substituir os trechos conforme as dicas fornecidas;
 2. **Remover a numeração dos blocos** (ex: "1", "2"...);
 3. Unificar o texto em parágrafos contínuos e coesos;
-4. (Se não houver sugestões) eleve o nível do texto preservando o estilo original do autor;
-5. Marcar com **negrito** todas as palavras ou trechos que foram modificados;
-6. Adicione comentário da abordagem usada exemplo: 
+4. Marcar com **negrito** as sugestões aplicadas;
+5. Adicione comentário da abordagem usada exemplo:  
+
+(SE NÃO HOUVER SUGESTÕES SINTA-SE LIVRE PARA MELHORAR O TEXTO; JUSTIFICANDO ISSO NOS COMENTÁRIOS: → Como não haviam sugestões, busquei elevar o patamar do texto...)
+
 
 ✨ Comentários:
 → Acidionei as sugestões 5 e 6 (para ampliar o conflito interno, simbolismo do ambiente, etc.) de forma orgânica no texto original.
-→ Ajustei pequenas transições para garantir fluidez e evitar repetições.
+→ Removi a numeração e os títulos dos blocos.
+→ Fiz ajustes mínimos de pontuação e transição para garantir coesão, sem acrescentar elementos novos.
 → Não utilizei sugestões que soassem forçadas, excessivas, ou destoassem do tom do autor.
-→ Mantive o estilo original, ampliando a densidade psicológica e simbólica da cena.
+
 
 ---
 
@@ -746,24 +749,23 @@ def corrigir_texto2():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário. Faça um trabalho de cirurgião plástico realçando a beleza e a potência que já existem no texto.
+📝 Reescreva o texto abaixo elevando o nível literário, mantendo o sentido original e a atmosfera espiritual.
 
-1. Preserve trechos que já estejam bons, alterando apenas o necessário.
-2. Mantenha tom literário, mas acrescentando precisão e ritmo.
-3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
+– – Corrija problemas gramaticais, de fluidez e progressão narrativa.
+– Elimine repetições desnecessárias e trechos confusos.
+– Intensifique a tensão emocional e a coerência interna das imagens.
+– Torne as metáforas mais precisas e menos vagas.
+- Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 
 Exemplo de entrada:
 
 > A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
-Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
-No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou, pra sempre.
+O corvo parou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
 
 Exemplo de saída esperado:
 
-> A manhã estava cinza **— não de chuva, mas de ausência,** como um mundo sem cor. 
+> A manhã estava vestida de cinza **— não de chuva, mas de ausência**. 
 Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
-No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
 
 🌓® **Lista de Mudanças:**
 
@@ -771,10 +773,7 @@ No instante em que abriu o bico, não veio som **— apenas a certeza fria e afi
 ➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
 
 2. _Suas asas fizeram um barulho feio, como um arranhar_ 
-➝ Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “**o som das asas arranhou o silêncio**”.
-
-3. _E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou_
-➝ Condensei o final repetitivo em uma frase de impacto mais seca e literária “**apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**”
+➝ Ajustei a contrução e substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “**o som das asas arranhou o silêncio**”.
 
 Texto do usuário:
 {texto_original}
