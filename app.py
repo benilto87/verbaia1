@@ -733,8 +733,8 @@ No texto abaixo aplique as sugestões de melhoria indicadas em cada bloco. Seu o
     except Exception as e:
         return jsonify({"erro": str(e)})
 
- # 🌓® CORRETOR LITERÁRIO 🌓® ****************************************************************************************************
-# 🌓® CORRETOR LITERÁRIO 🌓® ****************************************************************************************************
+ # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
+# 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 @app.route('/corrigir2a', methods=["POST"])
 def corrigir_texto2():
     from flask import request, jsonify
@@ -751,7 +751,7 @@ def corrigir_texto2():
     prompt = f"""
 📝 Reescreva o texto abaixo elevando o nível literário, mantendo o sentido original e a atmosfera espiritual.
 
-– – Corrija problemas gramaticais, de fluidez e progressão narrativa.
+– Corrija problemas gramaticais, de fluidez e progressão narrativa.
 – Elimine repetições desnecessárias e trechos confusos.
 – Intensifique a tensão emocional e a coerência interna das imagens.
 – Torne as metáforas mais precisas e menos vagas.
