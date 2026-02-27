@@ -552,7 +552,7 @@ async function corrigirGramatica() {
   // ✨ Mostra carregamento visual com azul marinho
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Corrigindo erros... </span>';
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">✅ Corrigindo erros... </span>';
   }
 
   if (!textoOriginal) {
@@ -610,7 +610,7 @@ async function corrigirGramatica() {
   }
 }
 
-// ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
+// ✅™ CORRETOR DE TEXTO ✅™ ************************************************************************************************************
 async function corrigirFluidez() {
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
@@ -618,7 +618,7 @@ async function corrigirFluidez() {
   // ✨ Mostra carregamento visual com azul marinho
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#001f3f;">⏳ Corrigindo erros... </span>';
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">✅™ Corrigindo fluidez... </span>';
   }
 
   if (!textoOriginal) {
