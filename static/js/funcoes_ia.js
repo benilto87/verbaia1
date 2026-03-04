@@ -787,7 +787,7 @@ async function corrigirTexto2b(temperaturaEscolhida){
 window.corrigirTexto2 = corrigirTexto2b;
 
 
-// 🌒® CORRETOR DE TEXTO 3 🌒® ************************************************************************************************************
+// 🌒® CORRETOR DE TEXTO 3 🌒® ***********************************************************************************************************
 // ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====
 async function corrigirTexto3(temperaturaEscolhida){
   const editor = document.getElementById("editor");
