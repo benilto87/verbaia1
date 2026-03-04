@@ -797,7 +797,7 @@ async function corrigirTexto3(temperaturaEscolhida){
   const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.99;
 
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌒 Enxugando seu texto... </span>';
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌒 Ajustando seu texto... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");

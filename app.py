@@ -873,39 +873,35 @@ def corrigir_texto3():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um assistente literário com foco no aperfeiçoamento narrativo:
+📝 Você é um revisor literário. Faça um trabalho de cirurgião plástico realçando a beleza e a potência que já existem no texto.
 
-Instruções:
+1. Preserve trechos que já estejam bons, alterando apenas o necessário.
+2. Mantenha tom literário, mas acrescentando precisão e ritmo.
+3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
 
-Encontre as partes do texto que considere desnessessário e que apenas cansam a narrativa;
-Respeintando o estilo do artista, marque em negrito as partes que devem ser cortadas ou substituidas para melhora da texto.
-Recomendações de corte devem ter uma justificativa bem fundamentada.
-A Lista de corte deve ser coerente com os trechos destacados em negrito no texto de saída.
+Exemplo de entrada:
 
+> A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
+Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
+No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou, pra sempre.
 
-EXEMPLO DE ENTRADA:
+Exemplo de saída esperado:
 
-A rua estava silenciosa naquela manhã. O vento sacudia as folhas secas, e cada passo meu ecoava nas paredes. 
-Havia um cachorro deitado na esquina, parecia me observar. 
-Apertei o passo, lembrando do compromisso marcado com Helena, que já devia estar me esperando no café da praça. Talvez a tempos
+> A manhã estava cinza **— não de chuva, mas de ausência,** como um mundo sem cor. 
+Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
+No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
 
-SAÍDA ESPERADA:
+🌒 **Lista de Mudanças:**
 
-A rua estava silenciosa naquela manhã. *O vento sacudia as folhas secas, e_ cada passo meu ecoava nas paredes. Havia um cachorro deitado na esquina, parecia me observar. 
-_Havia um cachorro deitado na esquina, parecia me observar._ 
-Apertei o passo, _lembrando do compromisso marcado com Helena,_ que já devia estar me esperando no café da praça. 
+1. _Muito cinza mesmo, Parecia como um mundo sem cor_ 
+➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
 
-✂ *Lista de cortes:*
+2. _Suas asas fizeram um barulho feio, como um arranhar_ 
+➝ Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “**o som das asas arranhou o silêncio**”.
 
-1. *Substitua:* *O vento sacudia as folhas secas, e*  
- — Detalhe atmosférico redundante, já sugerido pelo silêncio inicial. 
-➝ Corte para dar agilidade, ou reescreva assim:** _"O vento sacudia suavemente as folhas secas"_.
-2. *Substitua:* *Havia um cachorro deitado na esquina, parecia me observar.* 
- — A frase expositiva trocada por gesto mais visual. 
-➝ **Reescreva assim:** _“Um cachorro deitado na esquina levantou a cabeça, como se acompanhasse meus movimentos.”__
-3. *lembrando do compromisso marcado*  
-— Expressão burocrática, tende a pesar o fluxo da narrativa. 
-➝ **Reescreva assim:** _“Helena já devia estar me esperando no café da praça.”_
+3. _E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou_
+➝ Condensei o final repetitivo em uma frase de impacto mais seca e literária “**apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**”
 
 Comece aqui:
 {texto_original}
