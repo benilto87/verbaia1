@@ -755,25 +755,29 @@ def corrigir_texto2():
 – Elimine repetições desnecessárias e trechos confusos.
 – Intensifique a tensão emocional e a coerência interna das imagens.
 – Torne as metáforas mais precisas e menos vagas.
-- Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+- Marque em italico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 
 Exemplo de entrada:
 
-> A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
-O corvo parou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
+> Agora, quando o culto começa, ainda sente-se essa barreira — esse frio que paralisa a vontade e dissolve o desejo de adoração — 
+mas, só até o instante em que os jovens entram em cena e começam a louvar. 
+Então parece que o céu se abre outra vez, como se alguém destrancasse o ar.
 
 Exemplo de saída esperado:
 
-> A manhã estava vestida de cinza **— não de chuva, mas de ausência**. 
-Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
+> Agora, quando o culto começa, ainda se sente essa barreira — esse frio que paralisa a vontade e dissolve o desejo de adoração —, 
+_mas apenas até o instante em que os jovens entram e começam a louvar._
+Então, parece que o céu se abre outra vez, _como se alguém destrancasse o próprio ar._
+
 
 🌓® **Lista de Mudanças:**
 
-1. _Muito cinza mesmo, Parecia como um mundo sem cor_ 
-➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
+1.*mas, só até o instante em que os jovens entram em cena e começam a louvar*
+➝ Simplifiquei para “_mas apenas até o instante em que os jovens entram e começam a louvar_”, removendo “em cena” e ajustando o ritmo.
 
-2. _Suas asas fizeram um barulho feio, como um arranhar_ 
-➝ Ajustei a contrução e substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “**o som das asas arranhou o silêncio**”.
+2.*como se alguém destrancasse o ar*
+➝ Ajustei para “_como se alguém destrancasse o próprio ar_”, reforçando a imagem simbólica.
+
 
 Texto do usuário:
 {texto_original}
