@@ -253,7 +253,7 @@ function inspirarComFlavia3() {
   });
 }
 
-// 📝 GERAR RASCUNHO — garante que envia temperature e chama a rota certa
+// 📜 GERAR RASCUNHO — garante que envia temperature e chama a rota certa
 async function gerarRascunho(temperaturaEscolhida){
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
@@ -309,7 +309,7 @@ async function gerarRascunho(temperaturaEscolhida){
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho = function(temp){ gerarRascunho(temp); };
 
-// 📝 GERAR RASCUNHO — garante que envia temperature e chama a rota certa
+// ❌ CORTES — garante que envia temperature e chama a rota certa
 async function gerarRascunho2(temperaturaEscolhida){
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
@@ -477,7 +477,8 @@ async function gerarRascunho4(temperaturaEscolhida){
 
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho4 = function(temp){ gerarRascunho4(temp); };
-  
+ 
+ // ✨ APLICADOR DE SUGESTÕES ✨ ************************************************************************************************************  
 // ✨ APLICADOR DE SUGESTÕES ✨ ************************************************************************************************************
 async function corrigirTexto() {
   const editor = document.getElementById("editor");
@@ -544,6 +545,7 @@ async function corrigirTexto() {
   }
 }
 
+ // ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
 // ✅ CORRETOR DE TEXTO ✅ ************************************************************************************************************
 async function corrigirGramatica() {
   const editor = document.getElementById("editor");
@@ -731,60 +733,9 @@ async function corrigirTexto2a(temperaturaEscolhida){
 }
 window.corrigirTexto2 = corrigirTexto2a;
 
-// 🌿® CORRETOR DE TEXTO 2 🌿® ************************************************************************************************************
-// ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====
-async function corrigirTexto2b(temperaturaEscolhida){
-  const editor = document.getElementById("editor");
-  const textoOriginal = editor.innerText.trim();
 
-  // usa a temp que veio da plaquinha; se não vier, fallback 0.99
-  const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.99;
-
-  const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌿 Reescrevendo seu texto... </span>';
-
-  if (!textoOriginal) {
-    alert("⚠️ O editor está vazio.");
-    return;
-  }
-
-  try {
-    const resposta = await fetch("/corrigir2b", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ texto: textoOriginal, temperature: temperatura })
-    });
-
-    const dados = await resposta.json();
-    if (dados.erro) throw new Error(dados.erro);
-
-    const textoCorrigido = (dados.corrigido || "").trim();
-
-    const htmlCorrigido = textoCorrigido
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/_(.*?)_/g, "<em>$1</em>")
-      .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
-      .replace(/\n/g, "<br>");
-
-    editor.innerHTML = `
-      <div class="sentence-group">
-        <span class="number-marker">🌿®</span>
-        <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
-      </div>
-    `;
-
-    if (feedbackDiv) {
-      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
-      setTimeout(() => feedbackDiv.innerHTML = '', 2000);
-    }
-  } catch (erro) {
-    console.error("Erro ao corrigir texto:", erro);
-    alert("Erro ao corrigir texto.");
-    if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
-  }
-}
-window.corrigirTexto2 = corrigirTexto2b;
+// **************************************************************************************************************
+// **************************************************************************************************************
 
 
 // 🌒® CORRETOR DE TEXTO 3 🌒® **********************************************************************************************************
@@ -844,6 +795,143 @@ window.corrigirTexto3 = corrigirTexto3;
 
 // **************************************************************************************************************
 // **************************************************************************************************************
+
+ // 🌿® REESCRITOR 2 🌿® ************************************************************************************************************
+// 🌿® REESCRITOR 2 🌿® ************************************************************************************************************
+async function reescritorTexto() {
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  // 🌿 Mostra carregamento visual com azul marinho
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) {
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌿 Reescrevendo seu texto... </span>';
+  }
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/reescritor", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ texto: textoOriginal })
+    });
+
+    const dados = await resposta.json();
+
+    if (dados.erro) {
+      throw new Error(dados.erro);
+    }
+
+    const textoCorrigido = dados.corrigido.trim();
+
+    // 🌿 CONVERSÃO DE **markdown** PARA HTML
+    const htmlCorrigido = textoCorrigido
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
+      .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
+	  .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");                          // quebra de linha
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">🌿</span>
+        <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
+      </div>
+    `;
+
+    // 🌿 Limpa o feedback após aplicar correção
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
+      setTimeout(() => {
+        feedbackDiv.innerHTML = '';
+      }, 2000); // ⏱️ Limpa após 2 segundos
+    }
+
+  } catch (erro) {
+    console.error("Erro ao corrigir texto:", erro);
+    alert("Erro ao corrigir texto.");
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
+    }
+  }
+}
+
+ // 📜 RASCUNHO 📜 ******************************************************************************************************** (retirei sem dizer coisa alguma)
+// 📜 RASCUNHO 📜 ******************************************************************************************************** 
+async function rascunhoTexto() {
+  const editor = document.getElementById("editor");
+  const textoOriginal = editor.innerText.trim();
+
+  // 📜 Mostra carregamento visual com azul marinho
+  const feedbackDiv = document.getElementById("simbol-feedback");
+  if (feedbackDiv) {
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">📜 Gerando rascunho... </span>';
+  }
+
+  if (!textoOriginal) {
+    alert("⚠️ O editor está vazio.");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/rascunho", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ texto: textoOriginal })
+    });
+
+    const dados = await resposta.json();
+
+    if (dados.erro) {
+      throw new Error(dados.erro);
+    }
+
+    const textoCorrigido = dados.corrigido.trim();
+
+    // 📜 CONVERSÃO DE **markdown** PARA HTML
+    const htmlCorrigido = textoCorrigido
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // **negrito**
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")             // *itálico*
+      .replace(/_(.*?)_/g, "<em>$1</em>")               // _itálico_
+	  .replace(/~~(.*?)~~/g, "<s>$1</s>")             // riscado
+      .replace(/\n/g, "<br>");                          // quebra de linha
+
+    editor.innerHTML = `
+      <div class="sentence-group">
+        <span class="number-marker">📜</span>
+        <span class="text-group" contenteditable="true">${htmlCorrigido}</span>
+      </div>
+    `;
+
+    // 📜 Limpa o feedback após aplicar correção
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:green;">✔️ Texto corrigido!</span>';
+      setTimeout(() => {
+        feedbackDiv.innerHTML = '';
+      }, 2000); // ⏱️ Limpa após 2 segundos
+    }
+
+  } catch (erro) {
+    console.error("Erro ao corrigir texto:", erro);
+    alert("Erro ao corrigir texto.");
+
+    if (feedbackDiv) {
+      feedbackDiv.innerHTML = '<span style="color:red;">❌ Erro ao corrigir texto.</span>';
+    }
+  }
+}
+
+// ****************************************************************************************************************************************************
+
 
 // ALTERNADOR 3.5 PARA 4.0
 

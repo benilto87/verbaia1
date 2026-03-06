@@ -464,60 +464,7 @@ Com foco na beleza estética comece sua análise:
     except Exception as e:
         return jsonify({'result': f"Erro ao processar: {e}"})
         
-        
- # 📜 RASCUNHO 📜 ******************************************************************************************************** (retirei sem dizer coisa alguma)
-@app.route('/rascunho', methods=["POST"])
-def criar_rascunho():
-    from flask import request, jsonify
-    dados = request.get_json(force=True) or {}
-    texto_bruto = (dados.get("texto") or "").strip()
-    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
-    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
-
-    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
-
-    if not texto_bruto:
-        return jsonify({"erro": "Texto vazio."}), 400
-
-    prompt = f"""
-✍️ Você é uma inteligência literária que transforma **fragmentos esboçados** em um **rascunho textual fluido, coerente e estilisticamente refinado**.
-
-Instruções:
-1. Unir os fragmentos respeitando a voz implícita do autor. 
-2. Criar transições naturais, ritmo e atmosfera entre as partes. Aproveitando oportunidades de elevar o texto.
-3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes. 
-4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
-
-Exemplo de entrada:
-O dia amanhecia cinzento.
-Ela olhava pela janela sem falar.
-Um pássaro pousou no parapeito.
-
-Exemplo de saída esperado:
-O dia amanheceu **vestindo o mundo de cinza**. 
-**Ela permanecia imóvel, olhando pela janela sem dizer nada.**  
-Um pássaro pousou **suave como um presságio sobre o** parapeito.  
-
-📜 **Lista de Mudanças:**
-1. Enriqueci a metáfora inicial com _vestindo o mundo de cinza_.
-2. Transformei a frase da personagem em uma construção mais poética e cadenciada em _Ela permanecia imóvel, olhando pela janela sem dizer nada_.
-3. Tornei o pouso do pássaro mais sugestivo com _suave como um presságio_.
-
-Agora processe o bloco abaixo:
-{texto_bruto}
-""".strip()
-
-    try:
-        resposta = openai_client.chat.completions.create(
-            model="gpt-5.2",  # troque para "gpt-5.2"
-            messages=[{"role": "user", "content": prompt}],
-            temperature=temperatura,
-            max_completion_tokens=2000
-        )
-        texto_final = resposta.choices[0].message.content.strip()
-        return jsonify({"rascunho": texto_final}), 200
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 500
+ # *****************************************************************************************************************************************************************************  
  
   #⚠️⚠️DESATIVADO⚠️⚠️ 📝 CORREÇÃO GRAMATICAL ⚠️⚠️DESATIVADO⚠️⚠️ 📝 ******************************************************************************************************** (retirei sem dizer coisa alguma)
 @app.route('/rascunho4', methods=["POST"])
@@ -576,7 +523,10 @@ Agora processe o bloco abaixo:
         return jsonify({"rascunho": texto_final}), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
-        
+ 
+  #⚠️⚠️DESATIVADO⚠️⚠️ 📝 CORREÇÃO GRAMATICAL ⚠️⚠️DESATIVADO⚠️⚠️
+
+ 
  # ✅ CORRETOR DE TEXTO ✅ ***************************************************************************************************
 @app.route('/corrigir-gramatica', methods=["POST"])
 def corrigir_gramatica():
@@ -684,54 +634,8 @@ Justificativa: Escolha verbal mais natural e elegante no encadeamento da frase.
     except Exception as e:
         return jsonify({"erro": str(e)})
  
- 
-# ✨ APLICAR SUGESTÕES ✨ ****************************************************************************************************
-@app.route('/corrigir', methods=["POST"])
-def corrigir_texto():
-    dados = request.get_json()
-    texto_original = dados.get("texto", "").strip()
-    print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
-
-    prompt = f"""
-No texto abaixo aplique as sugestões de melhoria indicadas em cada bloco. Seu objetivo é:
-
-1. Substituir os trechos conforme as dicas fornecidas;
-2. **Remover a numeração dos blocos** (ex: "1", "2"...);
-3. Unificar o texto em parágrafos contínuos e coesos;
-4. Marcar com **negrito** as sugestões aplicadas;
-5. Adicione comentário da abordagem usada exemplo:  
-
-(SE NÃO HOUVER SUGESTÕES SINTA-SE LIVRE PARA MELHORAR O TEXTO; JUSTIFICANDO ISSO NOS COMENTÁRIOS: → Como não haviam sugestões, busquei elevar o patamar do texto...)
-
-
-✨ Comentários:
-→ Acidionei as sugestões 5 e 6 (para ampliar o conflito interno, simbolismo do ambiente, etc.) de forma orgânica no texto original.
-→ Removi a numeração e os títulos dos blocos.
-→ Fiz ajustes mínimos de pontuação e transição para garantir coesão, sem acrescentar elementos novos.
-→ Não utilizei sugestões que soassem forçadas, excessivas, ou destoassem do tom do autor.
-
-
----
-
-📜 Texto original:
-{texto_original}
-
----
-
-✅ TEXTO CORRIGIDO COM MUDANÇAS EM NEGRITO:
-"""
-
-    try:
-        resposta = openai_client.chat.completions.create(
-            model="gpt-5.2",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.64,
-            max_completion_tokens=2000
-        )
-        texto_corrigido = resposta.choices[0].message.content.strip()
-        return jsonify({"corrigido": texto_corrigido})
-    except Exception as e:
-        return jsonify({"erro": str(e)})
+    
+        
 
  # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
 # 🌓® CORRETOR LITERÁRIO 🌓® ***************************************************************************************************
@@ -796,72 +700,8 @@ Texto do usuário:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
- # 🌿® REESCRITOR 🌿® ***************************************************************************************************
-# 🌿® REESCRITOR 🌿® ***************************************************************************************************
-@app.route('/corrigir2b', methods=["POST"])
-def corrigir_texto2b():
-    from flask import request, jsonify
 
-    dados = request.get_json(force=True) or {}
-    texto_original = (dados.get("texto") or "").strip()
-    # temperatura enviada pelo frontend (padrão 0.99), com clamp para segurança
-    temperatura = float(dados.get("temperature", 0.99))
-    temperatura = max(0.10, min(1.50, temperatura))
-
-    if not texto_original:
-        return jsonify({"erro": "Texto vazio."}), 400
-
-    prompt = f"""
-📝 PROMPT PARA REVISÃO E REWRITE DE TEXTO LITERÁRIO
-Instruções para o Assistente:
-Atue como um editor literário e revisor especializado em narrativa introspectiva e prosa poética. Sua tarefa é, a partir do texto fornecido, realizar uma análise técnica e, em seguida, entregar uma versão reescrita e aprimorada do mesmo, aplicando as soluções editoriais identificadas.
-
-Siga a estrutura de resposta abaixo rigorosamente.
-
-(Dê uma Nota Textual de 1.0 à 5 de 5.) Ex:
-**Nota:** 4.2/5 🔰
-
-**Diagnóstico e Análise Técnica:**
-(Identifique sucintamente os 2-3 problemas centrais do texto.)
-1➝ [Ex: Prolixidade e excesso de explicação]
-2➝ [Ex: Estrutura narrativa desorganizada]
-3➝ [Ex: Linguagem clichê ou pouco evocativa]
-
-**Abordagem de Reescrita:**
-Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma poética subjacente."_
-Se Raso: _"Fiz  um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
-Se Estruturalmente Frágil: _"Faça  um trabalho de arquiteto, reorganizando a estrutura para criar uma jornada narrativa clara e impactante."_
-Se Já Bom [nota 4.0 à 5]: _"Fiz  um trabalho de cirurgião plástico, realizando ajustes mínimos e precisos para realçar a beleza e a potência que já existem no texto."_
-
-🌿® **Versão Refinada:**
-Aqui, entregue o texto completo reescrito. Esta não é uma sugestão, mas a versão final, aplicando todos os princípios discutidos. O texto deve ser uma melhoria clara do original, mantendo a voz do autor, mas elevando seu padrão literário.)
-Sublinhe em negrito as principais mudanças; o trecho sublinhado deve estar em coerencia com a lista de mudanças.
-(O TEXTO REWRITADO DEVE SER INSERIDO AQUI)
-
-📌 **Lista de Mudanças:**
-(Liste de forma breve e direta as intervenções mais importantes que você realizou no texto. Isso serve como um "making of" didático para o usuário.)
-
-[Ex: Condensei os três primeiros parágrafos em um único bloco narrativo, transformando explicações em ação.]
-[Ex: Substituí adjetivos genéricos ("triste", "bonito") por imagens concretas e metáforas ("um vazio que pesava como chumbo", "um sorriso que era uma fenda de luz").]
-[Ex: Reestruturei a cena do clímax para criar um suspense crescente, antecipando e depois retardando o momento do encontro.]
-
-Texto do usuário:
-{texto_original}
-""".strip()
-
-    try:
-        resposta = openai_client.chat.completions.create(
-            model="gpt-5.2",  # troque para "gpt-4.1" para "gpt-5.2"
-            messages=[{"role": "user", "content": prompt}],
-            temperature=temperatura,
-            max_completion_tokens=2000 # troque para "max_tokens" para "max_completion_tokens"
-        )
-        texto_corrigido = resposta.choices[0].message.content.strip()
-        return jsonify({"corrigido": texto_corrigido}), 200
-
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 500
-
+ # 🌒 CORRETOR LITERÁRIO (ENXUGA-TEXTO) 2 🌒 ***************************************************************************************************
 # 🌒 CORRETOR LITERÁRIO (ENXUGA-TEXTO) 2 🌒 ***************************************************************************************************
 @app.route('/corrigir3', methods=["POST"])
 def corrigir_texto3():
@@ -924,72 +764,7 @@ Comece aqui:
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
-# 🌔✂ CORRETOR LITERÁRIO 3 ✂🌔 ***************************************************************************************************
-@app.route('/rascunho2', methods=["POST"])
-def criar_rascunho2():
-    from flask import request, jsonify
-    dados = request.get_json(force=True) or {}
-    texto_bruto = (dados.get("texto") or "").strip()
-    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
-    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
-
-    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
-
-    if not texto_bruto:
-        return jsonify({"erro": "Texto vazio."}), 400
-
-    prompt = f"""
-📝 Você é um assistente literário com foco no aperfeiçoamento narrativo:
-
-Instruções:
-
-Encontre as partes do texto que considere desnessessário e que apenas cansam a narrativa;
-Respeintando o estilo do artista, marque em negrito as partes que devem ser cortadas ou substituidas para melhora da texto.
-Recomendações de corte devem ter uma justificativa bem fundamentada.
-A Lista de corte deve ser coerente com os trechos destacados em negrito no texto de saída.
-
-
-EXEMPLO DE ENTRADA:
-
-A rua estava silenciosa naquela manhã. O vento sacudia as folhas secas, e cada passo meu ecoava nas paredes. 
-Havia um cachorro deitado na esquina, parecia me observar. 
-Apertei o passo, lembrando do compromisso marcado com Helena, que já devia estar me esperando no café da praça. Talvez a tempos
-
-SAÍDA ESPERADA:
-
-A rua estava silenciosa naquela manhã. *O vento sacudia as folhas secas, e_ cada passo meu ecoava nas paredes. Havia um cachorro deitado na esquina, parecia me observar. 
-_Havia um cachorro deitado na esquina, parecia me observar._ 
-Apertei o passo, _lembrando do compromisso marcado com Helena,_ que já devia estar me esperando no café da praça. 
-
-✂🌾 *Lista de cortes:*
-
-1. *Substitua:* *O vento sacudia as folhas secas, e*  
- — Detalhe atmosférico redundante, já sugerido pelo silêncio inicial. 
-➝ Corte para dar agilidade, ou reescreva assim:** _"O vento sacudia suavemente as folhas secas"_.
-2. *Substitua:* *Havia um cachorro deitado na esquina, parecia me observar.* 
- — A frase expositiva trocada por gesto mais visual. 
-➝ **Reescreva assim:** _“Um cachorro deitado na esquina levantou a cabeça, como se acompanhasse meus movimentos.”__
-3. *lembrando do compromisso marcado*  
-— Expressão burocrática, tende a pesar o fluxo da narrativa. 
-➝ **Reescreva assim:** _“Helena já devia estar me esperando no café da praça.”_
-
-Comece aqui:
-
-{texto_bruto}
-""".strip()
-
-    try:
-        resposta = openai_client.chat.completions.create(
-            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
-            messages=[{"role": "user", "content": prompt}],
-            temperature=temperatura,
-            max_tokens=1500
-        )
-        texto_final = resposta.choices[0].message.content.strip()
-        return jsonify({"rascunho": texto_final}), 200
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 500
-
+ # 🌔 INTENSIFICADOR 🌔 ***************************************************************************************************
 # 🌔 INTENSIFICADOR 🌔 ***************************************************************************************************
 @app.route('/rascunho3', methods=["POST"])
 def criar_rascunho3():
@@ -1055,6 +830,243 @@ Comece aqui:
         return jsonify({"rascunho": texto_final}), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
+        
+    
+ # 🌿® REESCRITOR 🌿® ***************************************************************************************************
+# 🌿® REESCRITOR 🌿® ***************************************************************************************************
+@app.route('/reescritor', methods=["POST"])
+def reescritor_texto():
+    dados = request.get_json()
+    texto_original = dados.get("texto", "").strip()
+    print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
+
+    prompt = f"""
+📝 PROMPT PARA REVISÃO E REWRITE DE TEXTO LITERÁRIO
+Instruções para o Assistente:
+Atue como um editor literário e revisor especializado em narrativa introspectiva e prosa poética. Sua tarefa é, a partir do texto fornecido, realizar uma análise técnica e, em seguida, entregar uma versão reescrita e aprimorada do mesmo, aplicando as soluções editoriais identificadas.
+
+Siga a estrutura de resposta abaixo rigorosamente.
+
+(Dê uma Nota Textual de 1.0 à 5 de 5.) Ex:
+**Nota:** 4.2/5 🔰
+
+**Diagnóstico e Análise Técnica:**
+(Identifique sucintamente os 2-3 problemas centrais do texto.)
+1➝ [Ex: Prolixidade e excesso de explicação]
+2➝ [Ex: Estrutura narrativa desorganizada]
+3➝ [Ex: Linguagem clichê ou pouco evocativa]
+
+**Abordagem de Reescrita:**
+Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma poética subjacente."_
+Se Raso: _"Fiz  um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
+Se Estruturalmente Frágil: _"Faça  um trabalho de arquiteto, reorganizando a estrutura para criar uma jornada narrativa clara e impactante."_
+Se Já Bom [nota 4.0 à 5]: _"Fiz  um trabalho de cirurgião plástico, realizando ajustes mínimos e precisos para realçar a beleza e a potência que já existem no texto."_
+
+🌿® **Versão Refinada:**
+Aqui, entregue o texto completo reescrito. Esta não é uma sugestão, mas a versão final, aplicando todos os princípios discutidos. O texto deve ser uma melhoria clara do original, mantendo a voz do autor, mas elevando seu padrão literário.)
+Sublinhe em negrito as principais mudanças; o trecho sublinhado deve estar em coerencia com a lista de mudanças.
+(O TEXTO REWRITADO DEVE SER INSERIDO AQUI)
+
+📌 **Lista de Mudanças:**
+(Liste de forma breve e direta as intervenções mais importantes que você realizou no texto. Isso serve como um "making of" didático para o usuário.)
+
+[Ex: Condensei os três primeiros parágrafos em um único bloco narrativo, transformando explicações em ação.]
+[Ex: Substituí adjetivos genéricos ("triste", "bonito") por imagens concretas e metáforas ("um vazio que pesava como chumbo", "um sorriso que era uma fenda de luz").]
+[Ex: Reestruturei a cena do clímax para criar um suspense crescente, antecipando e depois retardando o momento do encontro.]
+
+Texto do usuário:
+{texto_original}
+
+---
+
+✅ TEXTO CORRIGIDO COM MUDANÇAS EM NEGRITO:
+"""
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-5.2",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=1.16,
+            max_completion_tokens=2000
+        )
+        texto_corrigido = resposta.choices[0].message.content.strip()
+        return jsonify({"corrigido": texto_corrigido})
+    except Exception as e:
+        return jsonify({"erro": str(e)})
+
+ # 📜 RASCUNHO 📜 ******************************************************************************************************** (retirei sem dizer coisa alguma)
+# 📜 RASCUNHO 📜 ******************************************************************************************************** 
+@app.route('/rascunho', methods=["POST"])
+def rascunho_texto():
+    dados = request.get_json()
+    texto_original = dados.get("texto", "").strip()
+    print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
+
+    prompt = f"""
+✍️ Você é uma inteligência literária que transforma **fragmentos esboçados** em um **rascunho textual fluido, coerente e estilisticamente refinado**.
+
+Instruções:
+1. Unir os fragmentos respeitando a voz implícita do autor. 
+2. Criar transições naturais, ritmo e atmosfera entre as partes. Aproveitando oportunidades de elevar o texto.
+3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes. 
+4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
+
+Exemplo de entrada:
+O dia amanhecia cinzento.
+Ela olhava pela janela sem falar.
+Um pássaro pousou no parapeito.
+
+Exemplo de saída esperado:
+O dia amanheceu **vestindo o mundo de cinza**. 
+**Ela permanecia imóvel, olhando pela janela sem dizer nada.**  
+Um pássaro pousou **suave como um presságio sobre o** parapeito.  
+
+📜 **Lista de Mudanças:**
+1. Enriqueci a metáfora inicial com _vestindo o mundo de cinza_.
+2. Transformei a frase da personagem em uma construção mais poética e cadenciada em _Ela permanecia imóvel, olhando pela janela sem dizer nada_.
+3. Tornei o pouso do pássaro mais sugestivo com _suave como um presságio_.
+
+Agora processe o bloco abaixo:
+{texto_original}
+
+---
+
+✅ TEXTO CORRIGIDO COM MUDANÇAS EM NEGRITO:
+"""
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-5.2",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=1.16,
+            max_completion_tokens=2000
+        )
+        texto_corrigido = resposta.choices[0].message.content.strip()
+        return jsonify({"corrigido": texto_corrigido})
+    except Exception as e:
+        return jsonify({"erro": str(e)})
+        
+        
+ # ✨ APLICAR SUGESTÕES ✨ ****************************************************************************************************
+# ✨ APLICAR SUGESTÕES ✨ ****************************************************************************************************
+@app.route('/corrigir', methods=["POST"])
+def corrigir_texto():
+    dados = request.get_json()
+    texto_original = dados.get("texto", "").strip()
+    print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
+
+    prompt = f"""
+No texto abaixo aplique as sugestões de melhoria indicadas em cada bloco. Seu objetivo é:
+
+1. Substituir os trechos conforme as dicas fornecidas;
+2. **Remover a numeração dos blocos** (ex: "1", "2"...);
+3. Unificar o texto em parágrafos contínuos e coesos;
+4. Marcar com **negrito** as sugestões aplicadas;
+5. Adicione comentário da abordagem usada exemplo:  
+
+(SE NÃO HOUVER SUGESTÕES SINTA-SE LIVRE PARA MELHORAR O TEXTO; JUSTIFICANDO ISSO NOS COMENTÁRIOS: → Como não haviam sugestões, busquei elevar o patamar do texto...)
+
+
+✨ Comentários:
+→ Acidionei as sugestões 5 e 6 (para ampliar o conflito interno, simbolismo do ambiente, etc.) de forma orgânica no texto original.
+→ Removi a numeração e os títulos dos blocos.
+→ Fiz ajustes mínimos de pontuação e transição para garantir coesão, sem acrescentar elementos novos.
+→ Não utilizei sugestões que soassem forçadas, excessivas, ou destoassem do tom do autor.
+
+
+---
+
+📜 Texto original:
+{texto_original}
+
+---
+
+✅ TEXTO CORRIGIDO COM MUDANÇAS EM NEGRITO:
+"""
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-5.2",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.64,
+            max_completion_tokens=2000
+        )
+        texto_corrigido = resposta.choices[0].message.content.strip()
+        return jsonify({"corrigido": texto_corrigido})
+    except Exception as e:
+        return jsonify({"erro": str(e)})        
+        
+        
+    
+                
+        # 🌔✂ CORRETOR LITERÁRIO 3 ✂🌔 ***************************************************************************************************
+@app.route('/rascunho2', methods=["POST"])
+def criar_rascunho2():
+    from flask import request, jsonify
+    dados = request.get_json(force=True) or {}
+    texto_bruto = (dados.get("texto") or "").strip()
+    temperatura = float(dados.get("temperature", 0.85))  # 🎯 padrão criativo 0.85
+    temperatura = max(0.0, min(2.0, temperatura))        # clamp seguro
+
+    print(f"🧪 TEXTO RECEBIDO PARA RASCUNHO: {texto_bruto[:200]}{'...' if len(texto_bruto)>200 else ''}")
+
+    if not texto_bruto:
+        return jsonify({"erro": "Texto vazio."}), 400
+
+    prompt = f"""
+📝 Você é um assistente literário com foco no aperfeiçoamento narrativo:
+
+Instruções:
+
+Encontre as partes do texto que considere desnessessário e que apenas cansam a narrativa;
+Respeintando o estilo do artista, marque em negrito as partes que devem ser cortadas ou substituidas para melhora da texto.
+Recomendações de corte devem ter uma justificativa bem fundamentada.
+A Lista de corte deve ser coerente com os trechos destacados em negrito no texto de saída.
+
+
+EXEMPLO DE ENTRADA:
+
+A rua estava silenciosa naquela manhã. O vento sacudia as folhas secas, e cada passo meu ecoava nas paredes. 
+Havia um cachorro deitado na esquina, parecia me observar. 
+Apertei o passo, lembrando do compromisso marcado com Helena, que já devia estar me esperando no café da praça. Talvez a tempos
+
+SAÍDA ESPERADA:
+
+A rua estava silenciosa naquela manhã. *O vento sacudia as folhas secas, e_ cada passo meu ecoava nas paredes. Havia um cachorro deitado na esquina, parecia me observar. 
+_Havia um cachorro deitado na esquina, parecia me observar._ 
+Apertei o passo, _lembrando do compromisso marcado com Helena,_ que já devia estar me esperando no café da praça. 
+
+✂🌾 *Lista de cortes:*
+
+1. *Substitua:* *O vento sacudia as folhas secas, e*  
+ — Detalhe atmosférico redundante, já sugerido pelo silêncio inicial. 
+➝ Corte para dar agilidade, ou reescreva assim:** _"O vento sacudia suavemente as folhas secas"_.
+2. *Substitua:* *Havia um cachorro deitado na esquina, parecia me observar.* 
+ — A frase expositiva trocada por gesto mais visual. 
+➝ **Reescreva assim:** _“Um cachorro deitado na esquina levantou a cabeça, como se acompanhasse meus movimentos.”__
+3. *lembrando do compromisso marcado*  
+— Expressão burocrática, tende a pesar o fluxo da narrativa. 
+➝ **Reescreva assim:** _“Helena já devia estar me esperando no café da praça.”_
+
+Comece aqui:
+
+{texto_bruto}
+""".strip()
+
+    try:
+        resposta = openai_client.chat.completions.create(
+            model="gpt-4.1",  # troque para "gpt-4o" se o 5 não estiver habilitado
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperatura,
+            max_tokens=1500
+        )
+        texto_final = resposta.choices[0].message.content.strip()
+        return jsonify({"rascunho": texto_final}), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+
+
 
 # ✅ TAREFA LIVRE ✅ ***************************************************************************************************
 @app.route('/tarefa', methods=["POST"])

@@ -76,9 +76,9 @@
 </div>
 
 
-
 <button class="toolbar-button botao-fixo-tarefa" onclick="corrigirGramatica()" title="Corrigir Texto">✅</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="corrigirFluidez()" title="Corrigir Texto">✅™</button>
+<button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="pasteText()" title="Colar Texto">📑</button> 
 <button class="toolbar-button botao-modificavel botao-turquesa" onclick="aplicarNegrito()" title="Negrito (Ctrl+B)">𝗡</button>
 <button class="toolbar-button botao-modificavel botao-turquesa" onclick="aplicarItalico()" title="Itálico (Ctrl+I)">𝑰</button>
 <button class="toolbar-button botao-modificavel botao-turquesa" onclick="alinharEsquerda()" title="Alinhar à Esquerda">⇤</button>
@@ -100,8 +100,8 @@
 
 
 <button class="toolbar-button botao-modificavel botao-marcas" onclick="executarSimbolProcess()" title="Análise de Fluidez">🌾</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, enviarRascunho, 1.16)" title="Tom Intimista">📜®</button>
-<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="abrirPlacaTemperatura(this, corrigirTexto2b, 1.16)" title="Tom Direto">🌿®</button>
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="rascunhoTexto()" title="Aplicar Sugestões">📜®</button>
+<button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="reescritorTexto()" title="Aplicar Sugestões">🌿®</button>
 <button class="toolbar-button botao-fixo-tarefa botao-turquesa" onclick="corrigirTexto()" title="Aplicar Sugestões">✨</button>	
 
 <!-- <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="abrirPlacaTemperatura(this, enviarRascunho2, 0.16)" title="Analisar com IA">❌</button>	-->
@@ -113,7 +113,6 @@
 
 <button class="toolbar-button botao-fixo-tarefa" onclick="numberSentences()" title="Numerar Frases">#</button>
 <button class="toolbar-button botao-fixo-tarefa" onclick="removeNumbering()" title="Remover Numeração">⌫#</button>
-<button id="copyButton" class="toolbar-button botao-fixo-tarefa" onclick="pasteText()" title="Colar Texto">📑</button> 
 <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analisarDicasIA()" title="Análise de Fluidez">🍂</button>
 <button class="toolbar-button botao-fixo-tarefa botao-marcas" onclick="analyzeFluidezIA()" title="Análise de Fluidez">🚨</button>
 
