@@ -365,13 +365,13 @@ async function gerarRascunho2(temperaturaEscolhida){
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho2 = function(temp){ gerarRascunho2(temp); };
 
-// 📝 GERAR RASCUNHO — garante que envia temperature e chama a rota certa
+// 🌔 GERADOR DE ACRECIMOS — garante que envia temperature e chama a rota certa
 async function gerarRascunho3(temperaturaEscolhida){
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
 
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌔 Gerando Acrescimo... </span>';
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌔 Gerando Acrescimos... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");
