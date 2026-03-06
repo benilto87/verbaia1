@@ -864,7 +864,7 @@ async function reescritorTexto() {
 }
 
  // 📜 RASCUNHO 📜 ******************************************************************************************************** (retirei sem dizer coisa alguma)
-// 📜 RASCUNHO 📜 ******************************************************************************************************** 
+// 📜 RASCUNHO 📜 ******************************************************************************************************* 
 async function rascunhoTexto() {
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
