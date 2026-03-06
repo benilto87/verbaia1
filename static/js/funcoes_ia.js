@@ -863,7 +863,7 @@ async function reescritorTexto() {
   }
 }
 
- // 📜 RASCUNHO 📜 ******************************************************************************************************** (retirei sem dizer coisa alguma)
+ // 📜 RASCUNHO 📜 ******************************************************************************************************* (retirei sem dizer coisa alguma)
 // 📜 RASCUNHO 📜 ******************************************************************************************************* 
 async function rascunhoTexto() {
   const editor = document.getElementById("editor");
