@@ -780,13 +780,13 @@ def criar_rascunho3():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário especializado em aprofundamento de enredo e transições.  
+📝 Você é um revisor literário especializado em aprofundamento de enredo e transições. 
 
 Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
 2. Mantenha tom literário, mas acrescente intensidade emocional, ritmo narrativo e simbolismo sutil.
-3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída, explicando por que cada alteração reforça o enredo ou os símbolos.
+3. Marque em negrito e italico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
+4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída neste formato: nº. DESCRIÇÃO DA ALTERAÇÃO: Adicionei "_**...**_" para...**  
 
 
 Exemplo de entrada:
@@ -800,19 +800,19 @@ Ali, colheu e ofereceu a Fernando. Ele notou curioso, que a sua também trazia p
 
 Exemplo de saída esperado:
 
-> Fernando beijou delicadamente o rosto de Flávia, mas ela recuou, _não por frieza, mas como se algo a puxasse para dentro de si, para um silêncio onde lembranças e temores disputavam espaço._  
+> Fernando beijou delicadamente o rosto de Flávia, mas ela recuou, **_não por frieza, mas como se algo a puxasse para dentro de si, para um silêncio onde lembranças e temores disputavam espaço._**  
 E, no entanto, um instante depois decidiu ir com eles.  
-Agora vestida com roupas verde e amarelo, _um contraste inesperado destoava da tensão do momento._  
-Antes de entrar, correu até a ameixeira junto à cerca — _a árvore parecia guardar segredos de um lugar incerto._ _Ali perto, uma cobra coral passa despercebida pelo observador._  
-Quando entregou as ameixas a Fernando, ele notou entre os frutos, pequenas flores _quase secretas_; colheu-as e, com um riso, devolveu-as a ela.  
+Agora vestida com roupas verde e amarelo, _**um contraste inesperado destoava da tensão do momento._**  
+Antes de entrar, correu até a ameixeira junto à cerca — **_a árvore parecia guardar segredos de um lugar incerto._** **_Ali perto, uma cobra coral passa despercebida pelo observador._**  
+Quando entregou as ameixas a Fernando, ele notou entre os frutos, pequenas flores **_quase secretas_**; colheu-as e, com um riso, devolveu-as a ela.  
 
 
 🌔 **Lista de Mudanças:**
-1. **Aprofundamento do conflito de Flávia:** Profundizei o recuo de Flávia como conflito interno e memória afetiva, reforçando o impacto emocional do beijo.
-2. **Contraste das roupas:** Acrescentei contraste nas roupas para sugerir ironia ou leveza diante da gravidade do momento.
-3. **Metáfora da ameixeira:** A ameixeira virou metáfora de passagem e limiar, reforçando simbolismo. 
-4. **Cobra coral:** Acrescentei o detalhe da cobra para efeito de tensão narrativa.
-5. **Frores secretas:** Destacei as flores como revelação quase secreta, ampliando a beleza e sutileza da narrativa.
+1. APROFUNDAMENTO DO CONFLITO DE FLÁVIA: Com "_**não por frieza, mas como se algo a puxasse...**_" profundizei o recuo de Flávia como conflito interno.
+2. CONTRASTE DAS ROUPAS: Acrescentei "_**um contraste inesperado destoava da tensão do momento.**_" para sugerir ironia ou leveza.
+3. METÁFORA DA AMEIXEIRA: Com "_**a árvore parecia guardar segredos de um lugar incerto.**_" A ameixeira virou metáfora de limiar. 
+4. COBRA CORAL: Inclui "_**Ali perto, uma cobra coral passa...**_" para ampliar a tensão narrativa.
+5. FLORES SECRETAS: Destacei as flores como revelação "_quase secretas_"; ampliando a beleza e sutileza da narrativa.
 
 Comece aqui:
 
