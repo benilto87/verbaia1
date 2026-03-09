@@ -140,7 +140,7 @@ document.getElementById("chat-leitura")?.addEventListener("click", function () {
   const texto = editor.innerText.trim();
   if (!texto) return;
 
-  const prompt = "👸 • _Faça uma exposição emocional e vivaz dizendo oque você sentiu durante a passagem. O fechamento deve ser poético-reflexivo..._ \n\n";
+  const prompt = "👩‍🦰 • _Faça uma exposição emocional e vivaz dizendo oque você sentiu durante a passagem. O fechamento deve ser poético-reflexivo..._ \n\n";
 
   // 1️⃣ Cola com contexto semântico
   chatInput.value = prompt + texto;
