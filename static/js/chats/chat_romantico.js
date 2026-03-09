@@ -131,6 +131,24 @@ document.getElementById("chat-reescrita")?.addEventListener("click", function ()
   enviarMensagemFlavia();
 });
 
+document.getElementById("chat-leitura")?.addEventListener("click", function () {
+  const editor = document.getElementById("editor");
+  const chatInput = document.getElementById("chat-input");
+
+  if (!editor || !chatInput) return;
+
+  const texto = editor.innerText.trim();
+  if (!texto) return;
+
+  const prompt = "👸 • _Faça uma exposição emocional e vivaz dizendo oque você sentiu durante a passagem. O fechamento deve ser poético-reflexivo..._ \n\n";
+
+  // 1️⃣ Cola com contexto semântico
+  chatInput.value = prompt + texto;
+
+  // 2️⃣ Dispara o envio oficial
+  enviarMensagemFlavia();
+});
+
 // 🎑 TROCAR FOTOS 🎑 ***********************************************************************************************
   
 const fotosFlavia = [

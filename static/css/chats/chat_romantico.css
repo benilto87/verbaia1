@@ -3,8 +3,8 @@
 #chat-panel {
   position: fixed;
   bottom: 52px;
-  right: 52px;
-  width: 452px;
+  right: 132px;
+  width: 522px;
   max-height: 640px;
 
   background: 
@@ -24,8 +24,10 @@
 }
 
 #chat-panel.minimized {
+  right: 52px;
   height: 64px;
   max-height: 64px;
+  max-width: 452px;
   overflow: hidden;
 }
 
@@ -79,16 +81,15 @@
   margin-bottom: 12px;
   padding: 12px 16px;
   border-radius: 14px;
-  background-color: rgba(155, 120, 120, 0.6); /* ESCURO com transparência real */
-  color: #F5F5F5;
-  font-weight: 500;
-  font-size: 14.5px;
+  background-color: rgba(255, 255, 255, 0.6); /* ESCURO com transparência real */
+  color: #111111; /* COR DAS LETRAS */
+  font-weight: 400;
+  font-size: 14px;
   line-height: 1.4;
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
   border: 1px solid rgba(155, 125, 125, 0.08);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
+ }
 
 #chat-log strong { /* NOME ANTES DA RESPOSTA NO LOG DE MENSAGENS */
   color: #111;
@@ -214,6 +215,23 @@
   transform: scale(1.05);
 }
 
+#chat-leitura {
+  margin-right: 8px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+#chat-leitura:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.05);
+}
+
 #chat-minimize {
   margin-right: 8px;
   padding: 6px 10px;
@@ -235,14 +253,14 @@
   position: relative;
   padding: 14px 16px 36px 16px; /* espaço embaixo pro botão */
   border-radius: 18px;
-  background: rgba(155, 120, 120, 0.42);
+  background: rgba(255, 255, 255, 0.74);
   backdrop-filter: blur(6px);
   margin-bottom: 14px;
 }
 
 .chat-message-content {
-  color: #f5f5f5;
-  font-size: 14.5px;
+  color: #111111; /* COR DAS LETRAS */
+  font-size: 14px;
   line-height: 1.45;
 }
 

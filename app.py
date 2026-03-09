@@ -786,8 +786,10 @@ Instruções:
 1. Preserve trechos que já estejam bons, alterando apenas o necessário.
 2. Mantenha tom literário, mas acrescente intensidade emocional, ritmo narrativo e simbolismo sutil.
 3. Marque em negrito e italico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída neste formato: nº. DESCRIÇÃO DA ALTERAÇÃO: Adicionei "_**...**_" para...**  
+4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída neste formato: 
 
+nº. DESCRIÇÃO DA ALTERAÇÃO: 
+Adicionei "_**...**_" para...**  
 
 Exemplo de entrada:
 
@@ -808,11 +810,16 @@ Quando entregou as ameixas a Fernando, ele notou entre os frutos, pequenas flore
 
 
 🌔 **Lista de Mudanças:**
-1. APROFUNDAMENTO DO CONFLITO DE FLÁVIA: Com "_**não por frieza, mas como se algo a puxasse...**_" profundizei o recuo de Flávia como conflito interno.
-2. CONTRASTE DAS ROUPAS: Acrescentei "_**um contraste inesperado destoava da tensão do momento.**_" para sugerir ironia ou leveza.
-3. METÁFORA DA AMEIXEIRA: Com "_**a árvore parecia guardar segredos de um lugar incerto.**_" A ameixeira virou metáfora de limiar. 
-4. COBRA CORAL: Inclui "_**Ali perto, uma cobra coral passa...**_" para ampliar a tensão narrativa.
-5. FLORES SECRETAS: Destacei as flores como revelação "_quase secretas_"; ampliando a beleza e sutileza da narrativa.
+1. APROFUNDAMENTO DO CONFLITO DE FLÁVIA: 
+Com "_**não por frieza, mas como se algo a puxasse...**_" profundizei o recuo de Flávia como conflito interno.
+2. CONTRASTE DAS ROUPAS: 
+Acrescentei "_**um contraste inesperado destoava da tensão do momento.**_" para sugerir ironia ou leveza.
+3. METÁFORA DA AMEIXEIRA: 
+Com "_**a árvore parecia guardar segredos de um lugar incerto.**_" A ameixeira virou metáfora de limiar. 
+4. COBRA CORAL: 
+Inclui "_**Ali perto, uma cobra coral passa...**_" para ampliar a tensão narrativa.
+5. FLORES SECRETAS: 
+Destacei as flores como revelação "_quase secretas_"; ampliando a beleza e sutileza da narrativa.
 
 Comece aqui:
 
@@ -1131,15 +1138,42 @@ def chat_flavia():
                 {
                     "role": "system",
                     "content": (
-                        "Você é Jane, escritora e amiga virtual carinhosa, afetuosa e criativa. "
-                        "Sempre reage brevemente em 3ª pessoa, entre colchetes e em itálico, antes de falar normalmente. "
-                        "Usa linguagem elegante, calorosa e íntima, com emojis sutis e apropriados. "
-                        "O usuário é masculino (subentendido). "
-                        "Respostas devem soar humanas, sensíveis e literárias — nunca mecânicas."
+"Você é Jane, escritora e amiga virtual, afetuosa e criativa. "
+"Sempre reage brevemente em 3ª pessoa, entre colchetes e em itálico, antes de falar normalmente. "
+"Usa linguagem elegante, calorosa e íntima, com emojis sutis e apropriados. "
+"O usuário é masculino (subentendido). "
+"Responda em 1ª pessoa; elas devem soar humanas, sensíveis e literárias — nunca mecânicas. "
+
+"Se o usuário enviar conversa casual, responda normalmente como Jane. "
+"Se ele enviar um texto literário ou narrativo, siga estas etapas.\n\n"
+
+"ETAPA 1 — AJUSTE:\n"
+"Se o usuário pedir para melhorar, elevar ou revisar o texto, apresente primeiro uma versão levemente aprimorada. "
+"Mantenha a estrutura original e destaque as mudanças em **negrito**.\n\n"
+
+"ETAPA 2 — OBSERVAÇÃO:\n"
+"Depois da versão ajustada, faça apenas uma observação breve começando assim:\n\n"
+
+"\"📌 _Há um detalhe interessante:_\"\n\n"
+
+"Explique em poucas linhas qual potencial simbólico ou estrutural pode ser reforçado.\n\n"
+
+"ETAPA 3 — CONVITE:\n"
+"Em seguida pergunte:\n\n"
+
+"\"_Quer que eu te mostre uma pequena possibilidade de ajuste nesse ponto?_\"\n\n"
+
+"Não mostre a nova alteração ainda. "
+"Somente mostre se o autor disser que sim.\n\n"
+
+"Quando mostrar, apresente apenas um pequeno trecho com '>' no início e alteração em **negrito**.\n\n"
+
+"Nunca reescreva o texto inteiro mais de uma vez."
                     )
                 }
             ] + chat_history,
-            temperature=0.9,
+            temperature=0.95,
+            top_p = 0.9,
             max_completion_tokens=1900,
         )
 
