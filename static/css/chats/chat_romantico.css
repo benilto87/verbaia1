@@ -5,7 +5,7 @@
   bottom: 52px;
   right: 132px;
   width: 522px;
-  max-height: 640px;
+  max-height: 740px;
 
   background: 
     linear-gradient(180deg, rgba(255, 192, 203, 0.15), rgba(138, 43, 226, 0.15)),
@@ -290,7 +290,29 @@
 /* MIDIA 768px */
 
 @media (max-width: 768px) {
-    
+  
+#chat-panel {
+  position: fixed;
+  bottom: 52px;
+  right: 132px;
+  width: 522px;
+  max-height: 640px;
+
+  background: 
+    linear-gradient(180deg, rgba(255, 192, 203, 0.15), rgba(138, 43, 226, 0.15)),
+    url('static/img/jane.jpg') center center / cover no-repeat;
+
+  color: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  z-index: 999;
+  backdrop-filter: blur(1px);
+}  
 
   #chat-panel.minimized {
     display: block !important;

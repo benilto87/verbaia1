@@ -255,7 +255,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-//CHAT = ENTER *********************************************************************************************************
+//CHAT = ENTER **********************************************************************************************************
 document.getElementById('chat-input').addEventListener('keydown', function (e) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault(); // Impede quebra de linha
