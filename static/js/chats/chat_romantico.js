@@ -106,13 +106,23 @@ const GerenciadorPosicaoChat = {
 
 // 1. Função de minimizar
 // 1. Função de minimizar (VERSÃO SIMPLIFICADA)
+// 1. Função de minimizar (VERSÃO CORRIGIDA)
 function toggleChatMinimize() {
   const panel = document.getElementById("chat-panel");
   if (!panel) return;
 
   if (!panel.classList.contains("minimized")) {
-    // Vai minimizar: salva posição
-    GerenciadorPosicaoChat.salvarPosicao(panel);
+    // 🟢 VAI MINIMIZAR: salva posição atual
+    const left = panel.style.left;
+    const top = panel.style.top;
+    
+    // Só salva se realmente existir uma posição inline definida
+    if (left && top && left !== '' && top !== '') {
+      ultimaPosicaoAntesMinimizar = { left, top };
+      console.log("Posição salva:", ultimaPosicaoAntesMinimizar); // debug
+    } else {
+      ultimaPosicaoAntesMinimizar = null;
+    }
     
     // Remove left/top inline para o CSS da classe .minimized funcionar
     panel.style.left = '';
@@ -120,9 +130,19 @@ function toggleChatMinimize() {
     panel.classList.add("minimized");
     
   } else {
-    // Vai expandir: restaura posição
+    // 🔵 VAI EXPANDIR: restaura posição anterior
     panel.classList.remove("minimized");
-    GerenciadorPosicaoChat.restaurarPosicao(panel);
+    
+    if (ultimaPosicaoAntesMinimizar) {
+      // Restaura a posição que estava antes de minimizar
+      panel.style.left = ultimaPosicaoAntesMinimizar.left;
+      panel.style.top = ultimaPosicaoAntesMinimizar.top;
+      console.log("Posição restaurada:", ultimaPosicaoAntesMinimizar); // debug
+    } else {
+      // Se não tinha posição salva, volta ao padrão do CSS
+      panel.style.left = '';
+      panel.style.top = '';
+    }
   }
 }
 

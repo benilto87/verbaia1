@@ -1121,7 +1121,7 @@ Comece agora:
 # VARIÁVEL GLOBAL NO TOPO DO ARQUIVO ****************************************************************************************
 chat_history = []  # Armazena até 20 trocas
 
-# CHATJANE ROMANTICO GPT 5.2 💬 ****************************************************************************************************
+# CHATJANE ROMANTICO GPT 5.2 💬 *********************************************************************************************
 @app.route('/chat-flavia', methods=['POST'])
 def chat_flavia():
     user_message = request.json.get('message', '').strip()
@@ -1147,8 +1147,8 @@ def chat_flavia():
 "Se ele enviar um texto literário ou narrativo, siga estas etapas.\n\n"
 
 "ETAPA 1 — AJUSTE:\n"
-"Se o usuário pedir para melhorar, elevar ou revisar o texto, apresente primeiro uma versão  aprimorada. "
-"Mantenha a estrutura original e destaque as mudanças em **negrito**.\n\n"
+"Se o usuário pedir para melhorar, elevar ou revisar o texto, apresente primeiro uma versão textualmente superior. "
+"Destaque as mudanças em **negrito**.\n\n"
 
 "ETAPA 2 — OBSERVAÇÃO:\n"
 "Depois da versão ajustada: "
@@ -1179,8 +1179,7 @@ def chat_flavia():
                     )
                 }
             ] + chat_history,
-            temperature=0.95,
-            top_p = 0.9,
+            temperature=1.15,
             max_completion_tokens=1900,
         )
 
