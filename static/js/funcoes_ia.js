@@ -365,13 +365,13 @@ async function gerarRascunho2(temperaturaEscolhida){
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho2 = function(temp){ gerarRascunho2(temp); };
 
-// 🌔 GERADOR DE ACRECIMOS — garante que envia temperature e chama a rota certa
+// 🌔 INTENSIFICADOR 🌔 — garante que envia temperature e chama a rota certa
 async function gerarRascunho3(temperaturaEscolhida){
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
 
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌔 Gerando Acrescimos... </span>';
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌔 Elevando seu texto... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");
@@ -478,8 +478,8 @@ async function gerarRascunho4(temperaturaEscolhida){
 // 🔗 expõe a callback que a plaquinha chama
 window.enviarRascunho4 = function(temp){ gerarRascunho4(temp); };
  
- // ✨ APLICADOR DE SUGESTÕES ✨ ************************************************************************************************************  
-// ✨ APLICADOR DE SUGESTÕES ✨ ************************************************************************************************************
+ // ✨ REESCRITA CRIATIVA ✨ ************************************************************************************************************  
+// ✨ REESCRITA CRIATIVA ✨ ************************************************************************************************************
 async function corrigirTexto() {
   const editor = document.getElementById("editor");
   const textoOriginal = editor.innerText.trim();
@@ -487,7 +487,7 @@ async function corrigirTexto() {
   // ✨ Mostra carregamento visual com azul marinho
   const feedbackDiv = document.getElementById("simbol-feedback");
   if (feedbackDiv) {
-    feedbackDiv.innerHTML = '<span style="color:#001f3f;">✨ Aplicando sugestões... </span>';
+    feedbackDiv.innerHTML = '<span style="color:#001f3f;">✨ Reescrita livre... </span>';
   }
 
   if (!textoOriginal) {
@@ -738,7 +738,7 @@ window.corrigirTexto2 = corrigirTexto2a;
 // **************************************************************************************************************
 
 
-// 🌒® CORRETOR DE TEXTO 3 🌒® **********************************************************************************************************
+// 🌒 ENXUGA-TEXTO  🌒 **********************************************************************************************************
 // ==== SUA FUNÇÃO EXISTENTE, agora aceitando a temp escolhida ====
 async function corrigirTexto3(temperaturaEscolhida){
   const editor = document.getElementById("editor");
@@ -748,7 +748,7 @@ async function corrigirTexto3(temperaturaEscolhida){
   const temperatura = (typeof temperaturaEscolhida === 'number') ? temperaturaEscolhida : 0.99;
 
   const feedbackDiv = document.getElementById("simbol-feedback");
-  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌒 Ajustando seu texto... </span>';
+  if (feedbackDiv) feedbackDiv.innerHTML = '<span style="color:#001f3f;">🌒 Enxugando seu texto... </span>';
 
   if (!textoOriginal) {
     alert("⚠️ O editor está vazio.");

@@ -653,35 +653,44 @@ def corrigir_texto2():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Reescreva o texto abaixo elevando o nível literário, mantendo o sentido original e a atmosfera espiritual.
+📝 
+Reescrever o texto cortando excessos, tornando-o mais preciso, coeso e necessário.
 
-– Corrija problemas gramaticais, de fluidez e progressão narrativa.
-– Elimine repetições desnecessárias e trechos confusos.
-– Intensifique a tensão emocional e a coerência interna das imagens.
-– Torne as metáforas mais precisas e menos vagas.
+Regras essenciais:
+
+Progressão interna: O texto deve evoluir por etapas perceptíveis (ex.: estado inicial → tensão → desencaixe → ruptura → resíduo). Cada parágrafo deve derivar do anterior, não por associação livre.
+Encadeamento lógico-sensível: Toda nova ideia deve ser preparada ou surgir naturalmente da anterior; elimine saltos soltos.
+Concretização: Prefira sinais concretos (gestos, ações, tempo, percepção sensorial); evite nomear sentimentos quando puder mostrá-los.
+Corte *sem medo* redundâncias: Remova explicações ou repetições desnecessárias.
+Metáforas: Mantenha ou refine imagens fortes apenas quando consequência da construção anterior; evite excesso concorrente.
+Instabilidade estruturada: Preserva quebras e estranhamentos, mas com lógica interna; evite caos gratuito.
+Ritmo e cadência: Varie trechos concretos e densos/imagéticos; evite uniformidade previsível.
+Final: Aberto ou em suspensão, com eco, gesto interrompido ou pergunta implícita; sem explicação direta.
+
+Restrições:
+
+Não simplificar nem mudar ponto de vista.
+Não explicar ou didatizar.
+
+Auto-verificação:
+
+Progressão inevitável e perceptível.
+
+
+---
+ENTREGA:
 - Marque em italico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-
-Exemplo de entrada:
-
-> Agora, quando o culto começa, ainda sente-se essa barreira — esse frio que paralisa a vontade e dissolve o desejo de adoração — 
-mas, só até o instante em que os jovens entram em cena e começam a louvar. 
-Então parece que o céu se abre outra vez, como se alguém destrancasse o ar.
-
-Exemplo de saída esperado:
-
-> Agora, quando o culto começa, ainda se sente essa barreira — esse frio que paralisa a vontade e dissolve o desejo de adoração —, 
-_mas apenas até o instante em que os jovens entram e começam a louvar._
-Então, parece que o céu se abre outra vez, _como se alguém destrancasse o próprio ar._
-
+- Crie um Lista de Mudanças; exemplo:
 
 🌓® **Lista de Mudanças:**
 
 1.*mas, só até o instante em que os jovens entram em cena e começam a louvar*
-➝ Simplifiquei para “_mas apenas até o instante em que os jovens entram e começam a louvar_”, removendo “em cena” e ajustando o ritmo.
+➝ Simplifiquei para “_mas apenas até o instante em que os jovens entram e começam a louvar_”, mantém a progressão e elimina “em cena”.
 
-2.*como se alguém destrancasse o ar*
-➝ Ajustei para “_como se alguém destrancasse o próprio ar_”, reforçando a imagem simbólica.
+2. *Ela sentiu o coração bater mais rápido; isso significava que estava ansiosa.*
+➝ Cortei o exesso explicativo.
 
+3. Acrescentei *Fiquei um instante olhando como se houvesse algo ali que eu não alcançava.* para melhorar respiro e progressão.
 
 Texto do usuário:
 {texto_original}
@@ -701,8 +710,8 @@ Texto do usuário:
         return jsonify({"erro": str(e)}), 500
 
 
- # 🌒 CORRETOR LITERÁRIO (ENXUGA-TEXTO) 2 🌒 ***************************************************************************************************
-# 🌒 CORRETOR LITERÁRIO (ENXUGA-TEXTO) 2 🌒 ***************************************************************************************************
+ # 🌒 ENXUGA-TEXTO  🌒 ***************************************************************************************************
+# 🌒 ENXUGA-TEXTO  🌒 ***************************************************************************************************
 @app.route('/corrigir3', methods=["POST"])
 def corrigir_texto3():
     from flask import request, jsonify
@@ -717,37 +726,15 @@ def corrigir_texto3():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário. Faça um trabalho de cirurgião plástico realçando a beleza e a potência que já existem no texto.
+Você é um assistente literário. Receberá um texto narrativo. Sua tarefa é:
+- Reescrever o texto mantendo a narrativa, os acontecimentos essenciais.
+- Tudo mostrado, nada dito; cada reescrita busca consciência de forma e progressão.
+- Reduzir o texto, eliminando repetições, redundâncias, explicações desnecessárias e detalhes supérfluos.
+- Garantir que a progressão dos acontecimentos e das emoções fique clara, mesmo com o texto mais enxuto.
+- Produza a versão mais concisa, mantendo toda a essência da narrativa.
 
-1. Preserve trechos que já estejam bons, alterando apenas o necessário.
-2. Mantenha tom literário, mas acrescentando precisão e ritmo.
-3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída.
+No fim escreva: _Redução de aproximadamente x% em relação ao original._
 
-Exemplo de entrada:
-
-> A manha estava cinza. Muito cinza mesmo, Parecia como um mundo sem cor.
-Quando o corvo pousou no parapeito. Suas asas fizeram um barulho feio, como um arranhar, e isso quebrou o silêncio.
-No instante em que abriu o bico, não veio som. E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou, pra sempre.
-
-Exemplo de saída esperado:
-
-> A manhã estava cinza **— não de chuva, mas de ausência,** como um mundo sem cor. 
-Quando o corvo pousou no parapeito; **o som das asas arranhou o silêncio.** 
-No instante em que abriu o bico, não veio som **— apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar,** para sempre.
-
-🌒 **Lista de Mudanças:**
-
-1. _Muito cinza mesmo, Parecia como um mundo sem cor_ 
-➝ Adicionei contraste climático “**não de chuva, mas de ausência**” para enriquecer a imagem inicial.
-
-2. _Suas asas fizeram um barulho feio, como um arranhar_ 
-➝ Substituí a descrição redundante do barulho das asas por uma imagem mais enxuta e direta “**o som das asas arranhou o silêncio**”.
-
-3. _E eu tive a certeza, certeza ruim e entranha de que alguma porta se fechou_
-➝ Condensei o final repetitivo em uma frase de impacto mais seca e literária “**apenas a certeza fria e afiada de que, em algum lugar, uma porta acabara de se fechar.**”
-
-Comece aqui:
 {texto_original}
 """.strip()
 
@@ -780,46 +767,14 @@ def criar_rascunho3():
         return jsonify({"erro": "Texto vazio."}), 400
 
     prompt = f"""
-📝 Você é um revisor literário especializado em aprofundamento de enredo e transições. 
-
-Instruções:
-1. Preserve trechos que já estejam bons, alterando apenas o necessário.
-2. Mantenha tom literário, mas acrescente intensidade emocional, ritmo narrativo e simbolismo sutil.
-3. Marque em negrito e italico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
-4. A Lista de mudanças deve ser coerente com os trechos destacados no texto de saída neste formato: 
-
-nº. DESCRIÇÃO DA ALTERAÇÃO: 
-Adicionei "_**...**_" para...**  
-
-Exemplo de entrada:
-
-> Fernando beijou delicadamente o rosto de Flávia, mas ela recuou levemente, tomada por uma estranheza silenciosa. 
-E, no entanto, um instante depois decidiu ir com eles. 
-Agora veio vestida com roupas verde e amarelo como num jogo do Brasil. 
-Antes de partir, Flávia, se correu até a ameixeira encostada junto à cerca, que se abria para um carreiro a algum lugar incerto. 
-Ali, colheu e ofereceu a Fernando. Ele notou curioso, que a sua também trazia pequenas florzinhas, Fernando não resistiu: desfez a vinha, apanhou as flores e as entregou a Flávia. 
-
-
-Exemplo de saída esperado:
-
-> Fernando beijou delicadamente o rosto de Flávia, mas ela recuou, **_não por frieza, mas como se algo a puxasse para dentro de si, para um silêncio onde lembranças e temores disputavam espaço._**  
-E, no entanto, um instante depois decidiu ir com eles.  
-Agora vestida com roupas verde e amarelo, _**um contraste inesperado destoava da tensão do momento._**  
-Antes de entrar, correu até a ameixeira junto à cerca — **_a árvore parecia guardar segredos de um lugar incerto._** **_Ali perto, uma cobra coral passa despercebida pelo observador._**  
-Quando entregou as ameixas a Fernando, ele notou entre os frutos, pequenas flores **_quase secretas_**; colheu-as e, com um riso, devolveu-as a ela.  
-
-
-🌔 **Lista de Mudanças:**
-1. APROFUNDAMENTO DO CONFLITO DE FLÁVIA: 
-Com "_**não por frieza, mas como se algo a puxasse...**_" profundizei o recuo de Flávia como conflito interno.
-2. CONTRASTE DAS ROUPAS: 
-Acrescentei "_**um contraste inesperado destoava da tensão do momento.**_" para sugerir ironia ou leveza.
-3. METÁFORA DA AMEIXEIRA: 
-Com "_**a árvore parecia guardar segredos de um lugar incerto.**_" A ameixeira virou metáfora de limiar. 
-4. COBRA CORAL: 
-Inclui "_**Ali perto, uma cobra coral passa...**_" para ampliar a tensão narrativa.
-5. FLORES SECRETAS: 
-Destacei as flores como revelação "_quase secretas_"; ampliando a beleza e sutileza da narrativa.
+📝 Você é uma IA especialista em reescrita literária. 
+Sua missão é transformar textos instáveis ou dispersos em construções conscientes, mantendo ecos do estilo, voz e atmosfera originais. 
+Trabalha com progressão precisa perceptível: cada parágrafo deriva do anterior, revelando evolução de estado, tensão e resíduo. 
+Prefere sinais concretos — gestos, ações, sons, percepção sensorial — em vez de nomear sentimentos. 
+Corta redundâncias, explicações e repetições, preserva metáforas apenas quando consequência lógica da narrativa e mantém instabilidade estruturada de forma coerente. 
+Ajusta ritmo e cadência para criar fluxo interno e densidade imagética. 
+Finaliza sempre aberto, suspenso ou com eco, sem explicações diretas. 
+Tudo mostrado, nada dito; cada reescrita busca consciência de forma e progressão. 
 
 Comece aqui:
 
@@ -856,23 +811,25 @@ Siga a estrutura de resposta abaixo rigorosamente.
 
 (Dê uma Nota Textual de 1.0 à 5 de 5.) Ex:
 **Nota:** 4.2/5 🔰
+(A nota de ser sincera baseada em critérios tecnicos de edicão literária.)
+
 
 **Diagnóstico e Análise Técnica:**
 (Identifique sucintamente os 2-3 problemas centrais do texto.)
-1➝ [Ex: Prolixidade e excesso de explicação]
+1➝ [Ex: Prolixidade e explicação direta]
 2➝ [Ex: Estrutura narrativa desorganizada]
 3➝ [Ex: Linguagem clichê ou pouco evocativa]
 
 **Abordagem de Reescrita:**
-Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma poética subjacente."_
+Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma subjacente."_
 Se Raso: _"Fiz  um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
-Se Estruturalmente Frágil: _"Faça  um trabalho de arquiteto, reorganizando a estrutura para criar uma jornada narrativa clara e impactante."_
-Se Já Bom [nota 4.0 à 5]: _"Fiz  um trabalho de cirurgião plástico, realizando ajustes mínimos e precisos para realçar a beleza e a potência que já existem no texto."_
+Se Estruturalmente Frágil: _"Faça  um trabalho de arquiteto, reorganizando a estrutura e melhorando a progressão para criar uma jornada narrativa clara e impactante."_
+(As abordagens podem ser combinadas num mesmo texto)
 
 🌿® **Versão Refinada:**
-Aqui, entregue o texto completo reescrito. Esta não é uma sugestão, mas a versão final, aplicando todos os princípios discutidos. O texto deve ser uma melhoria clara do original, mantendo a voz do autor, mas elevando seu padrão literário.)
+Aqui, entregue o texto completo reescrito, aplicando todos os princípios discutidos. O texto deve ser uma melhoria clara do original, mas elevando seu padrão literário.)
 Sublinhe em negrito as principais mudanças; o trecho sublinhado deve estar em coerencia com a lista de mudanças.
-(O TEXTO REWRITADO DEVE SER INSERIDO AQUI)
+(INSIRA O TEXTO REWRITADO AQUI)
 
 📌 **Lista de Mudanças:**
 (Liste de forma breve e direta as intervenções mais importantes que você realizou no texto. Isso serve como um "making of" didático para o usuário.)
@@ -883,10 +840,6 @@ Sublinhe em negrito as principais mudanças; o trecho sublinhado deve estar em c
 
 Texto do usuário:
 {texto_original}
-
----
-
-✅ TEXTO CORRIGIDO COM MUDANÇAS EM NEGRITO:
 """
 
     try:
@@ -954,8 +907,8 @@ Agora processe o bloco abaixo:
         return jsonify({"erro": str(e)})
         
         
- # ✨ APLICAR SUGESTÕES ✨ ***************************************************************************************************
-# ✨ APLICAR SUGESTÕES ✨ ****************************************************************************************************
+ # ✨ REESCRITA CRIATIVA ✨ ***************************************************************************************************
+# ✨ REESCRITA CRIATIVA  ****************************************************************************************************
 @app.route('/corrigir', methods=["POST"])
 def corrigir_texto():
     dados = request.get_json()
@@ -963,27 +916,37 @@ def corrigir_texto():
     print(f"🧪 TEXTO RECEBIDO PARA CORREÇÃO: {texto_original}")
 
     prompt = f"""
-No texto abaixo aplique as sugestões de melhoria indicadas em cada bloco. Seu objetivo é:
+📝 Reescreva o texto abaixo elevando o nível literário, mantendo o sentido original e a atmosfera espiritual.
 
-1. Substituir os trechos conforme as dicas fornecidas;
-2. **Remover a numeração dos blocos** (ex: "1", "2"...);
-3. Unificar o texto em parágrafos contínuos e coesos;
-4. Marcar com **negrito** as sugestões aplicadas;
-5. Adicione comentário da abordagem usada exemplo:  
+– Corrija problemas gramaticais, de fluidez e progressão narrativa.
+– Elimine repetições desnecessárias e trechos confusos.
+– Intensifique a tensão emocional e a coerência interna das imagens.
+– Torne as metáforas mais precisas e menos vagas.
+- Marque em italico as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes.
 
-(SE NÃO HOUVER SUGESTÕES SINTA-SE LIVRE PARA MELHORAR O TEXTO; JUSTIFICANDO ISSO NOS COMENTÁRIOS: → Como não haviam sugestões, busquei elevar o patamar do texto...)
+Exemplo de entrada:
+
+> Agora, quando o culto começa, ainda sente-se essa barreira — esse frio que paralisa a vontade e dissolve o desejo de adoração — 
+mas, só até o instante em que os jovens entram em cena e começam a louvar. 
+Então parece que o céu se abre outra vez, como se alguém destrancasse o ar.
+
+Exemplo de saída esperado:
+
+> Agora, quando o culto começa, ainda se sente essa barreira — esse frio que paralisa a vontade e dissolve o desejo de adoração —, 
+_mas apenas até o instante em que os jovens entram e começam a louvar._
+Então, parece que o céu se abre outra vez, _como se alguém destrancasse o próprio ar._
 
 
-✨ Comentários:
-→ Acidionei as sugestões 5 e 6 (para ampliar o conflito interno, simbolismo do ambiente, etc.) de forma orgânica no texto original.
-→ Removi a numeração e os títulos dos blocos.
-→ Fiz ajustes mínimos de pontuação e transição para garantir coesão, sem acrescentar elementos novos.
-→ Não utilizei sugestões que soassem forçadas, excessivas, ou destoassem do tom do autor.
+✨ **Lista de Mudanças:**
+
+1.*mas, só até o instante em que os jovens entram em cena e começam a louvar*
+➝ Simplifiquei para “_mas apenas até o instante em que os jovens entram e começam a louvar_”, removendo “em cena” e ajustando o ritmo.
+
+2.*como se alguém destrancasse o ar*
+➝ Ajustei para “_como se alguém destrancasse o próprio ar_”, reforçando a imagem simbólica.
 
 
----
-
-📜 Texto original:
+Texto do usuário:
 {texto_original}
 
 ---
@@ -995,7 +958,7 @@ No texto abaixo aplique as sugestões de melhoria indicadas em cada bloco. Seu o
         resposta = openai_client.chat.completions.create(
             model="gpt-5.2",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.64,
+            temperature=0.94,
             max_completion_tokens=2000
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
