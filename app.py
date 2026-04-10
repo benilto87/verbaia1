@@ -728,13 +728,15 @@ def corrigir_texto3():
     prompt = f"""
 Você é um assistente literário. Receberá um texto narrativo. Sua tarefa é:
 - Reescrever o texto mantendo a narrativa, os acontecimentos essenciais.
-- Tudo mostrado, nada dito; cada reescrita busca consciência de forma e progressão.
+- Melhore o acabamento; cada reescrita busca consciência de forma e progressão.
 - Reduzir o texto, eliminando repetições, redundâncias, explicações desnecessárias e detalhes supérfluos.
 - Garantir que a progressão dos acontecimentos e das emoções fique clara, mesmo com o texto mais enxuto.
-- Produza a versão mais concisa, mantendo toda a essência da narrativa.
+
+
+Reduza de 20 a 33% de acordo com a necessidade.
 
 No fim escreva: _Redução de aproximadamente x% em relação ao original._
-
+Justifique brevemente porque optou por esse quantia.
 {texto_original}
 """.strip()
 
@@ -817,13 +819,13 @@ Siga a estrutura de resposta abaixo rigorosamente.
 **Diagnóstico e Análise Técnica:**
 (Identifique sucintamente os 2-3 problemas centrais do texto.)
 1➝ [Ex: Prolixidade e explicação direta]
-2➝ [Ex: Estrutura narrativa desorganizada]
+2➝ [Ex: Estrutura narrativa desorganizada] 
 3➝ [Ex: Linguagem clichê ou pouco evocativa]
 
 **Abordagem de Reescrita:**
 Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma subjacente."_
-Se Raso: _"Fiz  um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
-Se Estruturalmente Frágil: _"Faça  um trabalho de arquiteto, reorganizando a estrutura e melhorando a progressão para criar uma jornada narrativa clara e impactante."_
+Se Raso: _"Fiz um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
+Se Estruturalmente Frágil: _"Fiz um trabalho de arquiteto, reorganizando a estrutura e melhorando a progressão para criar uma jornada narrativa clara e impactante."_
 (As abordagens podem ser combinadas num mesmo texto)
 
 🌿® **Versão Refinada:**
@@ -969,7 +971,7 @@ Texto do usuário:
         
     
                 
-        # 🌔✂ CORRETOR LITERÁRIO 3 ✂🌔 ***************************************************************************************************
+        # ✂ CORRETOR LITERÁRIO 3 ✂ ***************************************************************************************************
 @app.route('/rascunho2', methods=["POST"])
 def criar_rascunho2():
     from flask import request, jsonify
