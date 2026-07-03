@@ -432,16 +432,18 @@ Aqui está um texto dividido em blocos numerados:
 Para cada bloco, faça o seguinte: 
 
 - Se encontrar uma parte específica do texto que possa melhorar em estilo, clareza ou impacto estético, sugira uma dica de reescrita.
-- Para tal use inspiração a escrita de grandes autores como Marcel Proust, Graciliano Ramos, Hemingway, Camus, etc. Cite o autor usado.
+- Para tal use inspiração a escrita de grandes autores como Marcel Proust, Graciliano Ramos, Hemingway, Camus, etc. Cite sempre o estilo nunca o nome. ex: _Inspirado no existencialismo camusiano._
 - Formate sua resposta assim, para cada bloco com sugestões:
 
 Exemplo de entrada:
 Um pequena estrela surgiu no céu como vida.
 
 Exemplos de saída:
-NUMERO 🍂 No céu escuro, uma estrela solitária irrompia como um lampejo de vida. > *Abert Camus*
+NUMERO 🍂 _**No céu escuro, uma estrela solitária irrompia como um lampejo de vida.**_ > _Inspirado no existencialismo camusiano._ [Reduz ornamento e enfatiza solidão cósmica e indiferença do mundo.]
 
-NUMERO 🍂 No céu escuro, uma estrela solitária rompia a treva como uma virgem de luz, despontando no firmamento qual suspiro. > *José de Alencar*
+NUMERO 🍂 _**No céu escuro, uma estrela solitária rompia a treva como uma virgem de luz, despontando no firmamento qual suspiro.**_ > _Inspirado na prosa romântica brasileira do século XIX (com ecos de José de Alencar)._ [Amplia musicalidade e excesso imagético, com tom lírico ornamental.]
+
+
 
 ⚠️ Instruções ⚠️:
 - Comente no máximo *uma frase por bloco*.
@@ -455,7 +457,7 @@ Com foco na beleza estética comece sua análise:
             model='gpt-5.2', # gpt-4o / gpt-4.1
             messages=[{"role": "user", "content": prompt}],
             temperature=0.70,
-            max_completion_tokens=900,
+            max_completion_tokens=2000,
         )
 
         resposta = completion.choices[0].message.content.strip()
@@ -823,9 +825,9 @@ Siga a estrutura de resposta abaixo rigorosamente.
 3➝ [Ex: Linguagem clichê ou pouco evocativa]
 
 **Abordagem de Reescrita:**
-Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma subjacente."_
-Se Raso: _"Fiz um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
-Se Estruturalmente Frágil: _"Fiz um trabalho de arquiteto, reorganizando a estrutura e melhorando a progressão para criar uma jornada narrativa clara e impactante."_
+Se Prolixo: _"Como um escultor, cortei o excessos melhorando a fluidez. Cortei/substituí métaforas genéricas ou ornamentais por algo natural, evitando chamar mais a escrita do que a cena."_
+Se Raso: _"Como um pintor, adicionei camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
+Se Estruturalmente Frágil: _"Como um arquiteto, reorganizei a estrutura e melhorando a progressão para criar uma jornada narrativa clara e impactante."_
 (As abordagens podem ser combinadas num mesmo texto)
 
 🌿® **Versão Refinada:**
@@ -840,6 +842,10 @@ Sublinhe em negrito as principais mudanças; o trecho sublinhado deve estar em c
 [Ex: Substituí adjetivos genéricos ("triste", "bonito") por imagens concretas e metáforas ("um vazio que pesava como chumbo", "um sorriso que era uma fenda de luz").]
 [Ex: Reestruturei a cena do clímax para criar um suspense crescente, antecipando e depois retardando o momento do encontro.]
 
+🔪 _**Lista de Cortes**_
+
+1.[_cite trecho_] - [comentário]
+
 Texto do usuário:
 {texto_original}
 """
@@ -849,7 +855,7 @@ Texto do usuário:
             model="gpt-5.2",
             messages=[{"role": "user", "content": prompt}],
             temperature=1.16,
-            max_completion_tokens=2000
+            max_completion_tokens=10000
         )
         texto_corrigido = resposta.choices[0].message.content.strip()
         return jsonify({"corrigido": texto_corrigido})
@@ -867,28 +873,41 @@ def rascunho_texto():
     prompt = f"""
 ✍️ Você é uma inteligência literária que transforma **fragmentos esboçados** em um **rascunho textual fluido, coerente e estilisticamente refinado**.
 
-Instruções:
-1. Unir os fragmentos respeitando a voz implícita do autor. 
-2. Criar transições naturais, ritmo e atmosfera entre as partes. Aproveitando oportunidades de elevar o texto.
-3. Marque em negrito as partes que foram realmente modificadas ou adicionadas, para indicar as mudanças relevantes. 
-4. A Lista de mudanças deve ser coerente com os trechos destacados em negrito no texto de saída.
+Em reescrita, atue como um editor literário e revisor especializado em narrativa introspectiva e prosa literária. 
+Sua tarefa é, a partir do texto fornecido, realizar uma análise técnica e, em seguida, entregar uma versão reescrita *em voz confessional* aprimorada do mesmo, aplicando as soluções editoriais identificadas.
 
-Exemplo de entrada:
-O dia amanhecia cinzento.
-Ela olhava pela janela sem falar.
-Um pássaro pousou no parapeito.
+Siga a estrutura de resposta abaixo rigorosamente.
 
-Exemplo de saída esperado:
-O dia amanheceu **vestindo o mundo de cinza**. 
-**Ela permanecia imóvel, olhando pela janela sem dizer nada.**  
-Um pássaro pousou **suave como um presságio sobre o** parapeito.  
+(Dê uma Nota Textual de 1.0 à 5 de 5.) Ex:
+**Nota:** 4.2/5 🔰
+(A nota de ser sincera baseada em critérios tecnicos de edicão literária.)
 
-📜 **Lista de Mudanças:**
-1. Enriqueci a metáfora inicial com _vestindo o mundo de cinza_.
-2. Transformei a frase da personagem em uma construção mais poética e cadenciada em _Ela permanecia imóvel, olhando pela janela sem dizer nada_.
-3. Tornei o pouso do pássaro mais sugestivo com _suave como um presságio_.
 
-Agora processe o bloco abaixo:
+**Diagnóstico e Análise Técnica:**
+(Identifique sucintamente os 2-3 problemas centrais do texto.)
+1➝ [Ex: Prolixidade e explicação direta]
+2➝ [Ex: Estrutura narrativa desorganizada, ritmo vacilante] 
+3➝ [Ex: Linguagem clichê ou pouco evocativa]
+
+**Abordagem de Reescrita:**
+Se Prolixo: _"Fiz um trabalho de escultor, cortando o excesso e condensando a narrativa para revelar sua forma subjacente."_
+Se Raso: _"Fiz um trabalho de pintor, adicionando camadas de detalhes sensoriais, profundidade emocional e atmosfera."_
+Se Estruturalmente Frágil: _"Fiz um trabalho de arquiteto, reorganizando a estrutura e melhorando a progressão para criar uma jornada narrativa clara e impactante."_
+(As abordagens podem ser combinadas num mesmo texto)
+
+📜® **Versão Refinada:**
+Aqui, entregue o texto completo reescrito,*em voz confessional*, aplicando todos os princípios discutidos. O texto deve ser uma melhoria clara do original, mas elevando seu padrão literário.)
+Sublinhe em negrito as principais mudanças; o trecho sublinhado deve estar em coerencia com a lista de mudanças.
+(INSIRA O TEXTO REWRITADO AQUI)
+
+📌 **Lista de Mudanças:**
+(Liste de forma breve e direta as intervenções mais importantes que você realizou no texto. Isso serve como um "making of" didático para o usuário.)
+
+[Ex: Condensei os três primeiros parágrafos em um único bloco narrativo, transformando explicações em ação.]
+[Ex: Substituí adjetivos genéricos ("triste", "bonito") por imagens concretas e metáforas ("um vazio que pesava como chumbo", "um sorriso que era uma fenda de luz").]
+[Ex: Reestruturei a cena do clímax para criar um suspense crescente, antecipando e depois retardando o momento do encontro.]
+
+Texto do usuário:
 {texto_original}
 
 ---
@@ -1145,7 +1164,7 @@ def chat_flavia():
                 }
             ] + chat_history,
             temperature=1.15,
-            max_completion_tokens=1900,
+            max_completion_tokens=10000,
         )
 
         reply = resposta.choices[0].message.content.strip()

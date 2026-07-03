@@ -1342,7 +1342,7 @@ function analisarDicasIA() {
         const span = document.createElement("span");
         const sugestaoHTML = sugestao
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')   // **negrito**
-          .replace(/\*(.*?)\*/g, '<em>$1</em>')               // *itálico*
+          .replace(/\_(.*?)_/g, "<em>$1</em>")               // _itálico_
           .replace(/\n/g, '<br>');                            // quebra de linha
 
         span.innerHTML = `
